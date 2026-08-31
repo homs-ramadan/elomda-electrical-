@@ -1,6 +1,1444 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>إدارة المتجر - العمدة</title><style>body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#f4f5f7;color:#17202a}.wrap{max-width:900px;margin:auto;padding:20px}.box{background:#fff;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 3px 14px #0001}input,textarea,button{font:inherit}input,textarea{width:100%;padding:12px;border:1px solid #d8dde2;border-radius:10px;margin:7px 0 13px;box-sizing:border-box}button{border:0;border-radius:10px;padding:11px 15px;cursor:pointer}.primary{background:#17202a;color:#fff}.danger{background:#b3261e;color:#fff}.green{background:#168c48;color:#fff}.muted{color:#707982;font-size:13px}.hidden{display:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.product{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #eee}.thumb{width:65px;height:65px;background:#eee;border-radius:10px;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.actions{margin-right:auto;display:flex;gap:7px}@media(max-width:600px){.row{grid-template-columns:1fr}.product{align-items:flex-start}.actions{flex-direction:column}}</style></head><body><div class="wrap"><h1>لوحة تحكم العمدة</h1><div id="login" class="box"><h2>تسجيل الدخول</h2><input id="email" type="email" placeholder="البريد الإلكتروني"><input id="password" type="password" placeholder="كلمة المرور"><button class="primary" id="loginBtn">دخول</button><p id="loginMsg" class="muted"></p></div><div id="app" class="hidden"><div class="box"><h2>إعدادات المتجر</h2><div class="row"><div><label>اسم المحل</label><input id="shopName"></div><div><label>رقم واتساب</label><input id="wa"></div></div><label>رابط اللوجو (يمكن تغييره لاحقًا من هنا)</label><input id="logoUrl" placeholder="https://..."><button class="green" id="saveSettings">حفظ الإعدادات</button> <button id="logout">خروج</button></div><div class="box"><h2 id="formTitle">إضافة منتج</h2><input id="pName" placeholder="اسم المنتج"><input id="pPrice" type="number" step="0.01" placeholder="السعر"><textarea id="pDesc" rows="4" placeholder="وصف المنتج"></textarea><label>صور / فيديوهات المنتج</label><input id="files" type="file" accept="image/*,video/*" multiple><p class="muted">اختر أكثر من ملف. يتم رفعها إلى Storage.</p><button class="primary" id="saveProduct">حفظ المنتج</button> <button id="cancelEdit" class="hidden">إلغاء التعديل</button><p id="productMsg" class="muted"></p></div><div class="box"><h2>المنتجات</h2><div id="list"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-const URL='https://kiiumhhgncvondiemebj.supabase.co',KEY='sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7',db=supabase.createClient(URL,KEY);let editing=null,oldMedia=[];
-const $=id=>document.getElementById(id);async function boot(){let {data:{session}}=await db.auth.getSession();if(session)showApp();}function showApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');loadSettings();loadProducts()}$('loginBtn').onclick=async()=>{let {error}=await db.auth.signInWithPassword({email:$('email').value,password:$('password').value});$('loginMsg').textContent=error?error.message:'تم الدخول';if(!error)showApp()};$('logout').onclick=async()=>{await db.auth.signOut();location.reload()};async function loadSettings(){let {data}=await db.from('settings').select('*').eq('id',1).single();if(data){shopName.value=data.shop_name;wa.value=data.whatsapp;logoUrl.value=data.logo_url||''}}$('saveSettings').onclick=async()=>{let {error}=await db.from('settings').update({shop_name:shopName.value,whatsapp:wa.value,logo_url:logoUrl.value}).eq('id',1);alert(error?error.message:'تم حفظ الإعدادات')};
-async function loadProducts(){let {data,error}=await db.from('products').select('*').order('created_at',{ascending:false});if(error){list.innerHTML='<p>'+error.message+'</p>';return}list.innerHTML='';(data||[]).forEach(p=>{let arr=Array.isArray(p.media)?p.media:[],src=arr[0]?.url||arr[0]||'';let d=document.createElement('div');d.className='product';d.innerHTML='<div class="thumb">'+(src?'<img src="'+src+'">':'')+'</div><div><b>'+esc(p.name)+'</b><br><span class="muted">'+Number(p.price).toLocaleString('ar-EG')+' جنيه</span></div><div class="actions"><button onclick="editProduct(\''+p.id+'\')">تعديل</button><button class="danger" onclick="deleteProduct(\''+p.id+'\')">حذف</button></div>';list.appendChild(d)})}function esc(x){return String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-$('saveProduct').onclick=async()=>{let name=pName.value.trim(),price=Number(pPrice.value),description=pDesc.value.trim();if(!name||!Number.isFinite(price)){productMsg.textContent='اكتب اسم المنتج والسعر';return}productMsg.textContent='جاري الحفظ...';let media=editing?oldMedia.slice():[];for(const f of files.files){let safe=f.name.replace(/[^a-zA-Z0-9._-]/g,'_'),path=Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+safe;let up=await db.storage.from('product-media').upload(path,f,{upsert:false});if(up.error){productMsg.textContent=up.error.message;return}let pub=db.storage.from('product-media').getPublicUrl(path);media.push({type:f.type.startsWith('video/')?'video':'image',url:pub.data.publicUrl})}let res;if(editing)res=await db.from('products').update({name,price,description,media}).eq('id',editing);else res=await db.from('products').insert({name,price,description,media});if(res.error){productMsg.textContent=res.error.message;return}productMsg.textContent='تم الحفظ';resetForm();loadProducts()};window.editProduct=async id=>{let {data}=await db.from('products').select('*').eq('id',id).single();if(!data)return;editing=id;oldMedia=Array.isArray(data.media)?data.media:[];pName.value=data.name;pPrice.value=data.price;pDesc.value=data.description||'';formTitle.textContent='تعديل المنتج';cancelEdit.classList.remove('hidden');saveProduct.textContent='حفظ التعديل';window.scrollTo({top:0,behavior:'smooth'})};window.deleteProduct=async id=>{if(!confirm('حذف المنتج؟'))return;let {error}=await db.from('products').delete().eq('id',id);if(error)alert(error.message);else loadProducts()};cancelEdit.onclick=resetForm;function resetForm(){editing=null;oldMedia=[];pName.value='';pPrice.value='';pDesc.value='';files.value='';formTitle.textContent='إضافة منتج';cancelEdit.classList.add('hidden');saveProduct.textContent='حفظ المنتج'}boot();
-</script></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>إدارة المتجر - العمدة</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Tahoma,sans-serif;
+  background:#f4f5f7;
+  color:#17202a
+}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:20px
+}
+
+.box{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin:14px 0;
+  box-shadow:0 3px 14px #0001
+}
+
+h1{margin-top:5px}
+h2{margin-top:0}
+
+input,textarea,button{
+  font:inherit
+}
+
+input,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #d8dde2;
+  border-radius:10px;
+  margin:7px 0 13px;
+  outline:none
+}
+
+input:focus,textarea:focus{
+  border-color:#168c48
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed
+}
+
+.primary{
+  background:#17202a;
+  color:#fff
+}
+
+.danger{
+  background:#b3261e;
+  color:#fff
+}
+
+.green{
+  background:#168c48;
+  color:#fff
+}
+
+.muted{
+  color:#707982;
+  font-size:13px
+}
+
+.hidden{
+  display:none!important
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+
+.message{
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  display:none;
+  line-height:1.6
+}
+
+.message.success{
+  display:block;
+  background:#e8f7ee;
+  color:#126b38
+}
+
+.message.error{
+  display:block;
+  background:#fdeaea;
+  color:#a51f1f
+}
+
+.message.info{
+  display:block;
+  background:#eef4ff;
+  color:#2455a4
+}
+
+.product{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #eee
+}
+
+.thumb{
+  width:70px;
+  height:70px;
+  background:#eee;
+  border-radius:10px;
+  overflow:hidden;
+  flex-shrink:0
+}
+
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.actions{
+  margin-right:auto;
+  display:flex;
+  gap:7px
+}
+
+@media(max-width:600px){
+  .row{
+    grid-template-columns:1fr
+  }
+
+  .product{
+    align-items:flex-start
+  }
+
+  .actions{
+    flex-direction:column
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h1>لوحة تحكم العمدة</h1>
+
+<!-- تسجيل الدخول -->
+<div id="login" class="box">
+
+<h2>تسجيل الدخول</h2>
+
+<label>البريد الإلكتروني</label>
+<input
+  id="email"
+  type="email"
+  placeholder="اكتب البريد الإلكتروني"
+  autocomplete="email"
+>
+
+<label>كلمة المرور</label>
+<input
+  id="password"
+  type="password"
+  placeholder="اكتب كلمة المرور"
+  autocomplete="current-password"
+>
+
+<button class="primary" id="loginBtn">
+دخول
+</button>
+
+<div id="loginMsg" class="message"></div>
+
+</div>
+
+
+<!-- لوحة التحكم -->
+<div id="app" class="hidden">
+
+
+<!-- إعدادات المتجر -->
+<div class="box">
+
+<h2>إعدادات المتجر</h2>
+
+<div class="row">
+
+<div>
+<label>اسم المحل</label>
+<input id="shopName">
+</div>
+
+<div>
+<label>رقم واتساب</label>
+<input id="wa" placeholder="2010xxxxxxxx">
+</div>
+
+</div>
+
+<label>رابط اللوجو</label>
+
+<input
+  id="logoUrl"
+  placeholder="https://..."
+>
+
+<button
+  class="green"
+  id="saveSettings"
+>
+حفظ الإعدادات
+</button>
+
+<button id="logout">
+خروج
+</button>
+
+<div id="settingsMsg" class="message"></div>
+
+</div>
+
+
+<!-- إضافة وتعديل المنتجات -->
+<div class="box">
+
+<h2 id="formTitle">
+إضافة منتج
+</h2>
+
+<label>اسم المنتج</label>
+
+<input
+  id="pName"
+  placeholder="مثال: مفتاح كهرباء"
+>
+
+<label>السعر</label>
+
+<input
+  id="pPrice"
+  type="number"
+  step="0.01"
+  placeholder="مثال: 150"
+>
+
+<label>الوصف</label>
+
+<textarea
+  id="pDesc"
+  rows="5"
+  placeholder="اكتب وصف المنتج..."
+></textarea>
+
+<label>صور / فيديوهات المنتج</label>
+
+<input
+  id="files"
+  type="file"
+  accept="image/*,video/*"
+  multiple
+>
+
+<p class="muted">
+يمكنك اختيار أكثر من صورة أو فيديو في نفس الوقت.
+</p>
+
+<button
+  class="primary"
+  id="saveProduct"
+>
+حفظ المنتج
+</button>
+
+<button
+  id="cancelEdit"
+  class="hidden"
+>
+إلغاء التعديل
+</button>
+
+<div id="productMsg" class="message"></div>
+
+</div>
+
+
+<!-- المنتجات -->
+<div class="box">
+
+<h2>
+المنتجات
+</h2>
+
+<div id="list">
+جاري تحميل المنتجات...
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =========================
+   بيانات Supabase
+========================= */
+
+const SUPABASE_URL =
+'https://kiiumhhgncvondiemebj.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7';
+
+const db =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================
+   متغيرات
+========================= */
+
+let editing = null;
+let oldMedia = [];
+
+
+/* =========================
+   اختصار العناصر
+========================= */
+
+const $ = id =>
+document.getElementById(id);
+
+
+/* =========================
+   الرسائل
+========================= */
+
+function showMessage(element,type,text){
+
+  element.className =
+    'message ' + type;
+
+  element.textContent =
+    text;
+}
+
+
+function hideMessage(element){
+
+  element.className =
+    'message';
+
+  element.textContent =
+    '';
+}
+
+
+/* =========================
+   تشغيل لوحة التحكم
+========================= */
+
+async function boot(){
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await db.auth.getSession();
+
+    if(error){
+
+      showMessage(
+        $('loginMsg'),
+        'error',
+        'حدث خطأ أثناء التحقق من تسجيل الدخول: ' +
+        error.message
+      );
+
+      return;
+    }
+
+    if(data.session){
+
+      showApp();
+
+    }
+
+  }catch(error){
+
+    showMessage(
+      $('loginMsg'),
+      'error',
+      'حدث خطأ: ' + error.message
+    );
+
+  }
+
+}
+
+
+/* =========================
+   إظهار لوحة التحكم
+========================= */
+
+function showApp(){
+
+  $('login').classList.add('hidden');
+
+  $('app').classList.remove('hidden');
+
+  loadSettings();
+
+  loadProducts();
+
+}
+
+
+/* =========================
+   تسجيل الدخول
+========================= */
+
+$('loginBtn').addEventListener(
+'click',
+async function(){
+
+  const email =
+    $('email').value.trim();
+
+  const password =
+    $('password').value;
+
+  if(!email){
+
+    showMessage(
+      $('loginMsg'),
+      'error',
+      'من فضلك اكتب البريد الإلكتروني.'
+    );
+
+    return;
+  }
+
+  if(!password){
+
+    showMessage(
+      $('loginMsg'),
+      'error',
+      'من فضلك اكتب كلمة المرور.'
+    );
+
+    return;
+  }
+
+
+  const button =
+    $('loginBtn');
+
+  button.disabled = true;
+
+  button.textContent =
+    'جاري تسجيل الدخول...';
+
+  showMessage(
+    $('loginMsg'),
+    'info',
+    'جاري التحقق من بيانات الدخول...'
+  );
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await db.auth.signInWithPassword({
+      email:email,
+      password:password
+    });
+
+
+    if(error){
+
+      console.error(error);
+
+      showMessage(
+        $('loginMsg'),
+        'error',
+        'فشل تسجيل الدخول: ' +
+        error.message
+      );
+
+      return;
+    }
+
+
+    if(data && data.session){
+
+      showMessage(
+        $('loginMsg'),
+        'success',
+        'تم تسجيل الدخول بنجاح ✅'
+      );
+
+      setTimeout(
+        function(){
+          showApp();
+        },
+        500
+      );
+
+    }else{
+
+      showMessage(
+        $('loginMsg'),
+        'error',
+        'لم يتم إنشاء جلسة دخول. تأكد من بيانات الحساب.'
+      );
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      $('loginMsg'),
+      'error',
+      'حدث خطأ غير متوقع: ' +
+      error.message
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      'دخول';
+
+  }
+
+});
+
+
+/* =========================
+   زر Enter لتسجيل الدخول
+========================= */
+
+$('password').addEventListener(
+'keydown',
+function(event){
+
+  if(event.key === 'Enter'){
+
+    $('loginBtn').click();
+
+  }
+
+});
+
+
+/* =========================
+   تسجيل الخروج
+========================= */
+
+$('logout').addEventListener(
+'click',
+async function(){
+
+  const {
+    error
+  } =
+  await db.auth.signOut();
+
+  if(error){
+
+    alert(
+      'حدث خطأ أثناء تسجيل الخروج: ' +
+      error.message
+    );
+
+    return;
+  }
+
+  location.reload();
+
+});
+
+
+/* =========================
+   تحميل إعدادات المتجر
+========================= */
+
+async function loadSettings(){
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await db
+    .from('settings')
+    .select('*')
+    .eq('id',1)
+    .single();
+
+
+    if(error){
+
+      showMessage(
+        $('settingsMsg'),
+        'error',
+        'تعذر تحميل إعدادات المتجر: ' +
+        error.message
+      );
+
+      return;
+    }
+
+
+    if(data){
+
+      $('shopName').value =
+        data.shop_name || '';
+
+      $('wa').value =
+        data.whatsapp || '';
+
+      $('logoUrl').value =
+        data.logo_url || '';
+
+    }
+
+  }catch(error){
+
+    showMessage(
+      $('settingsMsg'),
+      'error',
+      'حدث خطأ: ' +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================
+   حفظ إعدادات المتجر
+========================= */
+
+$('saveSettings').addEventListener(
+'click',
+async function(){
+
+  const shop_name =
+    $('shopName').value.trim();
+
+  const whatsapp =
+    $('wa').value.trim();
+
+  const logo_url =
+    $('logoUrl').value.trim();
+
+
+  if(!shop_name){
+
+    showMessage(
+      $('settingsMsg'),
+      'error',
+      'اكتب اسم المحل.'
+    );
+
+    return;
+  }
+
+
+  if(!whatsapp){
+
+    showMessage(
+      $('settingsMsg'),
+      'error',
+      'اكتب رقم واتساب.'
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    $('settingsMsg'),
+    'info',
+    'جاري حفظ الإعدادات...'
+  );
+
+
+  const {
+    error
+  } =
+  await db
+  .from('settings')
+  .update({
+    shop_name,
+    whatsapp,
+    logo_url
+  })
+  .eq('id',1);
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      $('settingsMsg'),
+      'error',
+      'فشل حفظ الإعدادات: ' +
+      error.message
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    $('settingsMsg'),
+    'success',
+    'تم حفظ الإعدادات بنجاح ✅'
+  );
+
+});
+
+
+/* =========================
+   تحميل المنتجات
+========================= */
+
+async function loadProducts(){
+
+  $('list').innerHTML =
+    'جاري تحميل المنتجات...';
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await db
+    .from('products')
+    .select('*')
+    .order(
+      'created_at',
+      {
+        ascending:false
+      }
+    );
+
+
+    if(error){
+
+      console.error(error);
+
+      $('list').innerHTML =
+        '<div class="message error" style="display:block">' +
+        'تعذر تحميل المنتجات: ' +
+        escapeHtml(error.message) +
+        '</div>';
+
+      return;
+    }
+
+
+    if(!data || data.length === 0){
+
+      $('list').innerHTML =
+        '<p class="muted">لا توجد منتجات حتى الآن.</p>';
+
+      return;
+    }
+
+
+    $('list').innerHTML =
+      '';
+
+
+    data.forEach(
+      function(product){
+
+        const arr =
+          Array.isArray(product.media)
+          ? product.media
+          : [];
+
+
+        const src =
+          arr.length
+          ? (
+              arr[0].url ||
+              arr[0]
+            )
+          : '';
+
+
+        const div =
+        document.createElement('div');
+
+        div.className =
+          'product';
+
+
+        const thumb =
+          document.createElement('div');
+
+        thumb.className =
+          'thumb';
+
+
+        if(src){
+
+          const img =
+            document.createElement('img');
+
+          img.src =
+            src;
+
+          img.alt =
+            product.name || '';
+
+          thumb.appendChild(img);
+
+        }
+
+
+        const info =
+          document.createElement('div');
+
+
+        const name =
+          document.createElement('b');
+
+        name.textContent =
+          product.name || 'بدون اسم';
+
+
+        const br =
+          document.createElement('br');
+
+
+        const price =
+          document.createElement('span');
+
+        price.className =
+          'muted';
+
+        price.textContent =
+          Number(product.price || 0)
+          .toLocaleString('ar-EG') +
+          ' جنيه';
+
+
+        info.appendChild(name);
+
+        info.appendChild(br);
+
+        info.appendChild(price);
+
+
+        const actions =
+          document.createElement('div');
+
+        actions.className =
+          'actions';
+
+
+        const edit =
+          document.createElement('button');
+
+        edit.textContent =
+          'تعديل';
+
+        edit.onclick =
+          function(){
+
+            editProduct(
+              product.id
+            );
+
+          };
+
+
+        const del =
+          document.createElement('button');
+
+        del.textContent =
+          'حذف';
+
+        del.className =
+          'danger';
+
+        del.onclick =
+          function(){
+
+            deleteProduct(
+              product.id
+            );
+
+          };
+
+
+        actions.appendChild(edit);
+
+        actions.appendChild(del);
+
+
+        div.appendChild(thumb);
+
+        div.appendChild(info);
+
+        div.appendChild(actions);
+
+
+        $('list').appendChild(div);
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    $('list').innerHTML =
+      '<div class="message error" style="display:block">' +
+      escapeHtml(error.message) +
+      '</div>';
+
+  }
+
+}
+
+
+/* =========================
+   إضافة / تعديل منتج
+========================= */
+
+$('saveProduct').addEventListener(
+'click',
+async function(){
+
+  const name =
+    $('pName').value.trim();
+
+  const price =
+    Number($('pPrice').value);
+
+  const description =
+    $('pDesc').value.trim();
+
+
+  if(!name){
+
+    showMessage(
+      $('productMsg'),
+      'error',
+      'اكتب اسم المنتج.'
+    );
+
+    return;
+  }
+
+
+  if(!Number.isFinite(price)){
+
+    showMessage(
+      $('productMsg'),
+      'error',
+      'اكتب سعر المنتج.'
+    );
+
+    return;
+  }
+
+
+  const button =
+    $('saveProduct');
+
+  button.disabled = true;
+
+  button.textContent =
+    editing
+    ? 'جاري حفظ التعديل...'
+    : 'جاري حفظ المنتج...';
+
+
+  showMessage(
+    $('productMsg'),
+    'info',
+    'جاري تجهيز المنتج...'
+  );
+
+
+  try{
+
+    let media =
+      editing
+      ? oldMedia.slice()
+      : [];
+
+
+    const selectedFiles =
+      $('files').files;
+
+
+    /*
+      رفع الصور والفيديوهات
+    */
+
+    for(
+      const file of selectedFiles
+    ){
+
+      showMessage(
+        $('productMsg'),
+        'info',
+        'جاري رفع: ' +
+        file.name
+      );
+
+
+      const safeName =
+        file.name
+        .replace(
+          /[^a-zA-Z0-9._-]/g,
+          '_'
+        );
+
+
+      const path =
+        Date.now() +
+        '_' +
+        Math.random()
+        .toString(36)
+        .slice(2) +
+        '_' +
+        safeName;
+
+
+      const upload =
+        await db
+        .storage
+        .from('product-media')
+        .upload(
+          path,
+          file,
+          {
+            upsert:false
+          }
+        );
+
+
+      if(upload.error){
+
+        throw new Error(
+          'فشل رفع الملف "' +
+          file.name +
+          '": ' +
+          upload.error.message
+        );
+
+      }
+
+
+      const publicUrl =
+        db
+        .storage
+        .from('product-media')
+        .getPublicUrl(path);
+
+
+      media.push({
+
+        type:
+          file.type.startsWith('video/')
+          ? 'video'
+          : 'image',
+
+        url:
+          publicUrl.data.publicUrl
+
+      });
+
+    }
+
+
+    /*
+      حفظ المنتج
+    */
+
+    let result;
+
+
+    if(editing){
+
+      result =
+        await db
+        .from('products')
+        .update({
+
+          name,
+          price,
+          description,
+          media
+
+        })
+        .eq(
+          'id',
+          editing
+        );
+
+    }else{
+
+      result =
+        await db
+        .from('products')
+        .insert({
+
+          name,
+          price,
+          description,
+          media
+
+        });
+
+    }
+
+
+    if(result.error){
+
+      throw new Error(
+        result.error.message
+      );
+
+    }
+
+
+    showMessage(
+      $('productMsg'),
+      'success',
+      editing
+      ? 'تم تعديل المنتج بنجاح ✅'
+      : 'تم إضافة المنتج بنجاح ✅'
+    );
+
+
+    resetForm();
+
+    await loadProducts();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      $('productMsg'),
+      'error',
+      'فشل حفظ المنتج: ' +
+      error.message
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      editing
+      ? 'حفظ التعديل'
+      : 'حفظ المنتج';
+
+  }
+
+});
+
+
+/* =========================
+   تعديل منتج
+========================= */
+
+async function editProduct(id){
+
+  showMessage(
+    $('productMsg'),
+    'info',
+    'جاري تحميل بيانات المنتج...'
+  );
+
+
+  const {
+    data,
+    error
+  } =
+  await db
+  .from('products')
+  .select('*')
+  .eq('id',id)
+  .single();
+
+
+  if(error){
+
+    showMessage(
+      $('productMsg'),
+      'error',
+      'تعذر تحميل المنتج: ' +
+      error.message
+    );
+
+    return;
+  }
+
+
+  editing =
+    id;
+
+
+  oldMedia =
+    Array.isArray(data.media)
+    ? data.media
+    : [];
+
+
+  $('pName').value =
+    data.name || '';
+
+  $('pPrice').value =
+    data.price || '';
+
+  $('pDesc').value =
+    data.description || '';
+
+
+  $('formTitle').textContent =
+    'تعديل المنتج';
+
+
+  $('cancelEdit')
+    .classList
+    .remove('hidden');
+
+
+  $('saveProduct').textContent =
+    'حفظ التعديل';
+
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+
+  hideMessage(
+    $('productMsg')
+  );
+
+}
+
+
+/* =========================
+   حذف منتج
+========================= */
+
+async function deleteProduct(id){
+
+  if(
+    !confirm(
+      'هل أنت متأكد من حذف هذا المنتج؟'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+  await db
+  .from('products')
+  .delete()
+  .eq('id',id);
+
+
+  if(error){
+
+    alert(
+      'فشل حذف المنتج: ' +
+      error.message
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    $('productMsg'),
+    'success',
+    'تم حذف المنتج بنجاح ✅'
+  );
+
+
+  loadProducts();
+
+}
+
+
+/* =========================
+   إلغاء التعديل
+========================= */
+
+$('cancelEdit').addEventListener(
+'click',
+function(){
+
+  resetForm();
+
+});
+
+
+/* =========================
+   إعادة النموذج
+========================= */
+
+function resetForm(){
+
+  editing =
+    null;
+
+  oldMedia =
+    [];
+
+
+  $('pName').value =
+    '';
+
+  $('pPrice').value =
+    '';
+
+  $('pDesc').value =
+    '';
+
+  $('files').value =
+    '';
+
+
+  $('formTitle').textContent =
+    'إضافة منتج';
+
+
+  $('cancelEdit')
+    .classList
+    .add('hidden');
+
+
+  $('saveProduct').textContent =
+    'حفظ المنتج';
+
+}
+
+
+/* =========================
+   حماية النصوص
+========================= */
+
+function escapeHtml(value){
+
+  return String(value || '')
+  .replace(
+    /[&<>"']/g,
+    function(char){
+
+      return {
+
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#039;'
+
+      }[char];
+
+    }
+  );
+
+}
+
+
+/* =========================
+   تشغيل
+========================= */
+
+boot();
+
+</script>
+
+</body>
+  </html>

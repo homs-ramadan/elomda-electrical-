@@ -9,155 +9,165 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,Tahoma,sans-serif;
-  background:#f4f5f7;
-  color:#17202a
+margin:0;
+font-family:Arial,Tahoma,sans-serif;
+background:#f4f5f7;
+color:#17202a
 }
 
 .wrap{
-  max-width:900px;
-  margin:auto;
-  padding:20px
+max-width:900px;
+margin:auto;
+padding:20px
 }
 
 .box{
-  background:#fff;
-  border-radius:18px;
-  padding:20px;
-  margin:14px 0;
-  box-shadow:0 3px 14px #0001
+background:#fff;
+border-radius:18px;
+padding:20px;
+margin:14px 0;
+box-shadow:0 3px 14px #0001
 }
 
-h1{margin-top:5px}
-h2{margin-top:0}
-
 input,textarea,button{
-  font:inherit
+font:inherit
 }
 
 input,textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid #d8dde2;
-  border-radius:10px;
-  margin:7px 0 13px;
-  outline:none
-}
-
-input:focus,textarea:focus{
-  border-color:#168c48
+width:100%;
+padding:13px;
+border:1px solid #d8dde2;
+border-radius:10px;
+margin:7px 0 13px;
+outline:none
 }
 
 button{
-  border:0;
-  border-radius:10px;
-  padding:12px 16px;
-  cursor:pointer
+border:0;
+border-radius:10px;
+padding:12px 16px;
+cursor:pointer
 }
 
 button:disabled{
-  opacity:.6;
-  cursor:not-allowed
+opacity:.6;
+cursor:not-allowed
 }
 
 .primary{
-  background:#17202a;
-  color:#fff
-}
-
-.danger{
-  background:#b3261e;
-  color:#fff
+background:#17202a;
+color:#fff
 }
 
 .green{
-  background:#168c48;
-  color:#fff
+background:#168c48;
+color:#fff
+}
+
+.danger{
+background:#b3261e;
+color:#fff
 }
 
 .muted{
-  color:#707982;
-  font-size:13px
+color:#707982;
+font-size:13px
 }
 
 .hidden{
-  display:none!important
+display:none!important
 }
 
 .row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
 }
 
 .message{
-  padding:12px;
-  border-radius:10px;
-  margin-top:12px;
-  display:none;
-  line-height:1.6
+padding:12px;
+border-radius:10px;
+margin-top:12px;
+line-height:1.6;
+display:none
 }
 
 .message.success{
-  display:block;
-  background:#e8f7ee;
-  color:#126b38
+display:block;
+background:#e8f7ee;
+color:#126b38
 }
 
 .message.error{
-  display:block;
-  background:#fdeaea;
-  color:#a51f1f
+display:block;
+background:#fdeaea;
+color:#a51f1f
 }
 
 .message.info{
-  display:block;
-  background:#eef4ff;
-  color:#2455a4
+display:block;
+background:#eef4ff;
+color:#2455a4
 }
 
 .product{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid #eee
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px 0;
+border-bottom:1px solid #eee
 }
 
 .thumb{
-  width:70px;
-  height:70px;
-  background:#eee;
-  border-radius:10px;
-  overflow:hidden;
-  flex-shrink:0
+width:70px;
+height:70px;
+background:#eee;
+border-radius:10px;
+overflow:hidden;
+flex-shrink:0
 }
 
-.thumb img{
-  width:100%;
-  height:100%;
-  object-fit:cover
+.thumb img,
+.thumb video{
+width:100%;
+height:100%;
+object-fit:cover
 }
 
 .actions{
-  margin-right:auto;
-  display:flex;
-  gap:7px
+margin-right:auto;
+display:flex;
+gap:7px
+}
+
+.media-preview{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin:10px 0
+}
+
+.media-preview img,
+.media-preview video{
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:10px;
+background:#eee
 }
 
 @media(max-width:600px){
-  .row{
-    grid-template-columns:1fr
-  }
+.row{
+grid-template-columns:1fr
+}
 
-  .product{
-    align-items:flex-start
-  }
+.product{
+align-items:flex-start
+}
 
-  .actions{
-    flex-direction:column
-  }
+.actions{
+flex-direction:column
+}
 }
 </style>
 </head>
@@ -168,28 +178,30 @@ button:disabled{
 
 <h1>لوحة تحكم العمدة</h1>
 
-<!-- تسجيل الدخول -->
+<!-- LOGIN -->
+
 <div id="login" class="box">
 
 <h2>تسجيل الدخول</h2>
 
-<label>البريد الإلكتروني</label>
 <input
-  id="email"
-  type="email"
-  placeholder="اكتب البريد الإلكتروني"
-  autocomplete="email"
+id="email"
+type="email"
+placeholder="البريد الإلكتروني"
+autocomplete="email"
 >
 
-<label>كلمة المرور</label>
 <input
-  id="password"
-  type="password"
-  placeholder="اكتب كلمة المرور"
-  autocomplete="current-password"
+id="password"
+type="password"
+placeholder="كلمة المرور"
+autocomplete="current-password"
 >
 
-<button class="primary" id="loginBtn">
+<button
+class="primary"
+id="loginBtn"
+>
 دخول
 </button>
 
@@ -198,11 +210,13 @@ button:disabled{
 </div>
 
 
-<!-- لوحة التحكم -->
+<!-- APP -->
+
 <div id="app" class="hidden">
 
 
-<!-- إعدادات المتجر -->
+<!-- SETTINGS -->
+
 <div class="box">
 
 <h2>إعدادات المتجر</h2>
@@ -216,7 +230,7 @@ button:disabled{
 
 <div>
 <label>رقم واتساب</label>
-<input id="wa" placeholder="2010xxxxxxxx">
+<input id="wa">
 </div>
 
 </div>
@@ -224,13 +238,13 @@ button:disabled{
 <label>رابط اللوجو</label>
 
 <input
-  id="logoUrl"
-  placeholder="https://..."
+id="logoUrl"
+placeholder="https://..."
 >
 
 <button
-  class="green"
-  id="saveSettings"
+class="green"
+id="saveSettings"
 >
 حفظ الإعدادات
 </button>
@@ -244,7 +258,8 @@ button:disabled{
 </div>
 
 
-<!-- إضافة وتعديل المنتجات -->
+<!-- PRODUCT FORM -->
+
 <div class="box">
 
 <h2 id="formTitle">
@@ -254,50 +269,52 @@ button:disabled{
 <label>اسم المنتج</label>
 
 <input
-  id="pName"
-  placeholder="مثال: مفتاح كهرباء"
+id="pName"
+placeholder="اسم المنتج"
 >
 
 <label>السعر</label>
 
 <input
-  id="pPrice"
-  type="number"
-  step="0.01"
-  placeholder="مثال: 150"
+id="pPrice"
+type="number"
+step="0.01"
+placeholder="السعر"
 >
 
 <label>الوصف</label>
 
 <textarea
-  id="pDesc"
-  rows="5"
-  placeholder="اكتب وصف المنتج..."
+id="pDesc"
+rows="5"
+placeholder="وصف المنتج"
 ></textarea>
 
 <label>صور / فيديوهات المنتج</label>
 
 <input
-  id="files"
-  type="file"
-  accept="image/*,video/*"
-  multiple
+id="files"
+type="file"
+accept="image/*,video/*"
+multiple
 >
 
 <p class="muted">
-يمكنك اختيار أكثر من صورة أو فيديو في نفس الوقت.
+يمكنك اختيار أكثر من صورة أو فيديو.
 </p>
 
+<div id="preview" class="media-preview"></div>
+
 <button
-  class="primary"
-  id="saveProduct"
+class="primary"
+id="saveProduct"
 >
 حفظ المنتج
 </button>
 
 <button
-  id="cancelEdit"
-  class="hidden"
+id="cancelEdit"
+class="hidden"
 >
 إلغاء التعديل
 </button>
@@ -307,12 +324,11 @@ button:disabled{
 </div>
 
 
-<!-- المنتجات -->
+<!-- PRODUCTS -->
+
 <div class="box">
 
-<h2>
-المنتجات
-</h2>
+<h2>المنتجات</h2>
 
 <div id="list">
 جاري تحميل المنتجات...
@@ -329,10 +345,6 @@ button:disabled{
 
 <script>
 
-/* =========================
-   بيانات Supabase
-========================= */
-
 const SUPABASE_URL =
 'https://kiiumhhgncvondiemebj.supabase.co';
 
@@ -341,1104 +353,1119 @@ const SUPABASE_KEY =
 
 const db =
 supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
-
-
-/* =========================
-   متغيرات
-========================= */
 
 let editing = null;
 let oldMedia = [];
 
 
-/* =========================
-   اختصار العناصر
-========================= */
+/* ELEMENT */
 
 const $ = id =>
 document.getElementById(id);
 
 
-/* =========================
-   الرسائل
-========================= */
+/* MESSAGE */
 
-function showMessage(element,type,text){
+function message(el,type,text){
 
-  element.className =
-    'message ' + type;
+el.className =
+'message ' + type;
 
-  element.textContent =
-    text;
+el.textContent =
+text;
+
 }
 
 
-function hideMessage(element){
-
-  element.className =
-    'message';
-
-  element.textContent =
-    '';
-}
-
-
-/* =========================
-   تشغيل لوحة التحكم
-========================= */
+/* LOGIN */
 
 async function boot(){
 
-  try{
+try{
 
-    const {
-      data,
-      error
-    } =
-    await db.auth.getSession();
+const result =
+await db.auth.getSession();
 
-    if(error){
+if(result.error){
 
-      showMessage(
-        $('loginMsg'),
-        'error',
-        'حدث خطأ أثناء التحقق من تسجيل الدخول: ' +
-        error.message
-      );
+message(
+$('loginMsg'),
+'error',
+result.error.message
+);
 
-      return;
-    }
-
-    if(data.session){
-
-      showApp();
-
-    }
-
-  }catch(error){
-
-    showMessage(
-      $('loginMsg'),
-      'error',
-      'حدث خطأ: ' + error.message
-    );
-
-  }
+return;
 
 }
 
+if(result.data.session){
 
-/* =========================
-   إظهار لوحة التحكم
-========================= */
+showApp();
+
+}
+
+}catch(error){
+
+message(
+$('loginMsg'),
+'error',
+'خطأ: ' + error.message
+);
+
+}
+
+}
+
 
 function showApp(){
 
-  $('login').classList.add('hidden');
+$('login').classList.add('hidden');
 
-  $('app').classList.remove('hidden');
+$('app').classList.remove('hidden');
 
-  loadSettings();
+loadSettings();
 
-  loadProducts();
+loadProducts();
 
 }
 
 
-/* =========================
-   تسجيل الدخول
-========================= */
+/* LOGIN BUTTON */
 
-$('loginBtn').addEventListener(
-'click',
+$('loginBtn').onclick =
 async function(){
 
-  const email =
-    $('email').value.trim();
+const email =
+$('email').value.trim();
 
-  const password =
-    $('password').value;
-
-  if(!email){
-
-    showMessage(
-      $('loginMsg'),
-      'error',
-      'من فضلك اكتب البريد الإلكتروني.'
-    );
-
-    return;
-  }
-
-  if(!password){
-
-    showMessage(
-      $('loginMsg'),
-      'error',
-      'من فضلك اكتب كلمة المرور.'
-    );
-
-    return;
-  }
+const password =
+$('password').value;
 
 
-  const button =
-    $('loginBtn');
+if(!email){
 
-  button.disabled = true;
+message(
+$('loginMsg'),
+'error',
+'اكتب البريد الإلكتروني.'
+);
 
-  button.textContent =
-    'جاري تسجيل الدخول...';
+return;
 
-  showMessage(
-    $('loginMsg'),
-    'info',
-    'جاري التحقق من بيانات الدخول...'
-  );
+}
 
 
-  try{
+if(!password){
 
-    const {
-      data,
-      error
-    } =
-    await db.auth.signInWithPassword({
-      email:email,
-      password:password
-    });
+message(
+$('loginMsg'),
+'error',
+'اكتب كلمة المرور.'
+);
 
+return;
 
-    if(error){
-
-      console.error(error);
-
-      showMessage(
-        $('loginMsg'),
-        'error',
-        'فشل تسجيل الدخول: ' +
-        error.message
-      );
-
-      return;
-    }
+}
 
 
-    if(data && data.session){
+const btn =
+$('loginBtn');
 
-      showMessage(
-        $('loginMsg'),
-        'success',
-        'تم تسجيل الدخول بنجاح ✅'
-      );
+btn.disabled = true;
 
-      setTimeout(
-        function(){
-          showApp();
-        },
-        500
-      );
+btn.textContent =
+'جاري تسجيل الدخول...';
 
-    }else{
-
-      showMessage(
-        $('loginMsg'),
-        'error',
-        'لم يتم إنشاء جلسة دخول. تأكد من بيانات الحساب.'
-      );
-
-    }
+message(
+$('loginMsg'),
+'info',
+'جاري التحقق من البيانات...'
+);
 
 
-  }catch(error){
+try{
 
-    console.error(error);
+const result =
+await db.auth.signInWithPassword({
 
-    showMessage(
-      $('loginMsg'),
-      'error',
-      'حدث خطأ غير متوقع: ' +
-      error.message
-    );
+email:email,
 
-  }finally{
-
-    button.disabled = false;
-
-    button.textContent =
-      'دخول';
-
-  }
+password:password
 
 });
 
 
-/* =========================
-   زر Enter لتسجيل الدخول
-========================= */
+if(result.error){
+
+message(
+$('loginMsg'),
+'error',
+'فشل تسجيل الدخول: ' +
+result.error.message
+);
+
+return;
+
+}
+
+
+if(result.data.session){
+
+message(
+$('loginMsg'),
+'success',
+'تم تسجيل الدخول بنجاح ✅'
+);
+
+setTimeout(
+showApp,
+500
+);
+
+}
+
+}catch(error){
+
+message(
+$('loginMsg'),
+'error',
+'حدث خطأ: ' +
+error.message
+);
+
+}finally{
+
+btn.disabled = false;
+
+btn.textContent =
+'دخول';
+
+}
+
+};
+
+
+/* ENTER LOGIN */
 
 $('password').addEventListener(
 'keydown',
-function(event){
+function(e){
 
-  if(event.key === 'Enter'){
+if(e.key === 'Enter'){
 
-    $('loginBtn').click();
+$('loginBtn').click();
 
-  }
+}
 
 });
 
 
-/* =========================
-   تسجيل الخروج
-========================= */
+/* LOGOUT */
 
-$('logout').addEventListener(
-'click',
+$('logout').onclick =
 async function(){
 
-  const {
-    error
-  } =
-  await db.auth.signOut();
+await db.auth.signOut();
 
-  if(error){
+location.reload();
 
-    alert(
-      'حدث خطأ أثناء تسجيل الخروج: ' +
-      error.message
-    );
-
-    return;
-  }
-
-  location.reload();
-
-});
+};
 
 
-/* =========================
-   تحميل إعدادات المتجر
-========================= */
+/* SETTINGS */
 
 async function loadSettings(){
 
-  try{
-
-    const {
-      data,
-      error
-    } =
-    await db
-    .from('settings')
-    .select('*')
-    .eq('id',1)
-    .single();
+const result =
+await db
+.from('settings')
+.select('*')
+.eq('id',1)
+.single();
 
 
-    if(error){
+if(result.error){
 
-      showMessage(
-        $('settingsMsg'),
-        'error',
-        'تعذر تحميل إعدادات المتجر: ' +
-        error.message
-      );
+message(
+$('settingsMsg'),
+'error',
+'خطأ في الإعدادات: ' +
+result.error.message
+);
 
-      return;
-    }
-
-
-    if(data){
-
-      $('shopName').value =
-        data.shop_name || '';
-
-      $('wa').value =
-        data.whatsapp || '';
-
-      $('logoUrl').value =
-        data.logo_url || '';
-
-    }
-
-  }catch(error){
-
-    showMessage(
-      $('settingsMsg'),
-      'error',
-      'حدث خطأ: ' +
-      error.message
-    );
-
-  }
+return;
 
 }
 
 
-/* =========================
-   حفظ إعدادات المتجر
-========================= */
+const data =
+result.data;
 
-$('saveSettings').addEventListener(
-'click',
+if(data){
+
+$('shopName').value =
+data.shop_name || '';
+
+$('wa').value =
+data.whatsapp || '';
+
+$('logoUrl').value =
+data.logo_url || '';
+
+}
+
+}
+
+
+/* SAVE SETTINGS */
+
+$('saveSettings').onclick =
 async function(){
 
-  const shop_name =
-    $('shopName').value.trim();
+const shop_name =
+$('shopName').value.trim();
 
-  const whatsapp =
-    $('wa').value.trim();
+const whatsapp =
+$('wa').value.trim();
 
-  const logo_url =
-    $('logoUrl').value.trim();
-
-
-  if(!shop_name){
-
-    showMessage(
-      $('settingsMsg'),
-      'error',
-      'اكتب اسم المحل.'
-    );
-
-    return;
-  }
+const logo_url =
+$('logoUrl').value.trim();
 
 
-  if(!whatsapp){
+if(!shop_name){
 
-    showMessage(
-      $('settingsMsg'),
-      'error',
-      'اكتب رقم واتساب.'
-    );
+message(
+$('settingsMsg'),
+'error',
+'اكتب اسم المحل.'
+);
 
-    return;
-  }
+return;
 
-
-  showMessage(
-    $('settingsMsg'),
-    'info',
-    'جاري حفظ الإعدادات...'
-  );
+}
 
 
-  const {
-    error
-  } =
-  await db
-  .from('settings')
-  .update({
-    shop_name,
-    whatsapp,
-    logo_url
-  })
-  .eq('id',1);
+if(!whatsapp){
+
+message(
+$('settingsMsg'),
+'error',
+'اكتب رقم واتساب.'
+);
+
+return;
+
+}
 
 
-  if(error){
-
-    console.error(error);
-
-    showMessage(
-      $('settingsMsg'),
-      'error',
-      'فشل حفظ الإعدادات: ' +
-      error.message
-    );
-
-    return;
-  }
+message(
+$('settingsMsg'),
+'info',
+'جاري الحفظ...'
+);
 
 
-  showMessage(
-    $('settingsMsg'),
-    'success',
-    'تم حفظ الإعدادات بنجاح ✅'
-  );
+const result =
+await db
+.from('settings')
+.update({
 
-});
+shop_name,
+whatsapp,
+logo_url
+
+})
+.eq('id',1);
 
 
-/* =========================
-   تحميل المنتجات
-========================= */
+if(result.error){
+
+message(
+$('settingsMsg'),
+'error',
+'فشل الحفظ: ' +
+result.error.message
+);
+
+return;
+
+}
+
+
+message(
+$('settingsMsg'),
+'success',
+'تم حفظ الإعدادات بنجاح ✅'
+);
+
+};
+
+
+/* FILE PREVIEW */
+
+$('files').onchange =
+function(){
+
+const preview =
+$('preview');
+
+preview.innerHTML = '';
+
+for(const file of this.files){
+
+const url =
+URL.createObjectURL(file);
+
+if(file.type.startsWith('video/')){
+
+const video =
+document.createElement('video');
+
+video.src = url;
+
+video.controls = true;
+
+preview.appendChild(video);
+
+}else{
+
+const img =
+document.createElement('img');
+
+img.src = url;
+
+preview.appendChild(img);
+
+}
+
+}
+
+};
+
+
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
-  $('list').innerHTML =
-    'جاري تحميل المنتجات...';
+$('list').innerHTML =
+'جاري تحميل المنتجات...';
 
 
-  try{
+const result =
+await db
+.from('products')
+.select('*')
+.order(
+'created_at',
+{
+ascending:false
+}
+);
 
-    const {
-      data,
-      error
-    } =
-    await db
-    .from('products')
-    .select('*')
-    .order(
-      'created_at',
-      {
-        ascending:false
-      }
-    );
 
+if(result.error){
 
-    if(error){
+$('list').innerHTML =
+'<div class="message error" style="display:block">' +
+escapeHtml(result.error.message) +
+'</div>';
 
-      console.error(error);
-
-      $('list').innerHTML =
-        '<div class="message error" style="display:block">' +
-        'تعذر تحميل المنتجات: ' +
-        escapeHtml(error.message) +
-        '</div>';
-
-      return;
-    }
-
-
-    if(!data || data.length === 0){
-
-      $('list').innerHTML =
-        '<p class="muted">لا توجد منتجات حتى الآن.</p>';
-
-      return;
-    }
-
-
-    $('list').innerHTML =
-      '';
-
-
-    data.forEach(
-      function(product){
-
-        const arr =
-          Array.isArray(product.media)
-          ? product.media
-          : [];
-
-
-        const src =
-          arr.length
-          ? (
-              arr[0].url ||
-              arr[0]
-            )
-          : '';
-
-
-        const div =
-        document.createElement('div');
-
-        div.className =
-          'product';
-
-
-        const thumb =
-          document.createElement('div');
-
-        thumb.className =
-          'thumb';
-
-
-        if(src){
-
-          const img =
-            document.createElement('img');
-
-          img.src =
-            src;
-
-          img.alt =
-            product.name || '';
-
-          thumb.appendChild(img);
-
-        }
-
-
-        const info =
-          document.createElement('div');
-
-
-        const name =
-          document.createElement('b');
-
-        name.textContent =
-          product.name || 'بدون اسم';
-
-
-        const br =
-          document.createElement('br');
-
-
-        const price =
-          document.createElement('span');
-
-        price.className =
-          'muted';
-
-        price.textContent =
-          Number(product.price || 0)
-          .toLocaleString('ar-EG') +
-          ' جنيه';
-
-
-        info.appendChild(name);
-
-        info.appendChild(br);
-
-        info.appendChild(price);
-
-
-        const actions =
-          document.createElement('div');
-
-        actions.className =
-          'actions';
-
-
-        const edit =
-          document.createElement('button');
-
-        edit.textContent =
-          'تعديل';
-
-        edit.onclick =
-          function(){
-
-            editProduct(
-              product.id
-            );
-
-          };
-
-
-        const del =
-          document.createElement('button');
-
-        del.textContent =
-          'حذف';
-
-        del.className =
-          'danger';
-
-        del.onclick =
-          function(){
-
-            deleteProduct(
-              product.id
-            );
-
-          };
-
-
-        actions.appendChild(edit);
-
-        actions.appendChild(del);
-
-
-        div.appendChild(thumb);
-
-        div.appendChild(info);
-
-        div.appendChild(actions);
-
-
-        $('list').appendChild(div);
-
-      }
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    $('list').innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(error.message) +
-      '</div>';
-
-  }
+return;
 
 }
 
 
-/* =========================
-   إضافة / تعديل منتج
-========================= */
+const products =
+result.data || [];
 
-$('saveProduct').addEventListener(
-'click',
+
+if(!products.length){
+
+$('list').innerHTML =
+'<p class="muted">لا توجد منتجات حتى الآن.</p>';
+
+return;
+
+}
+
+
+$('list').innerHTML = '';
+
+
+products.forEach(
+function(p){
+
+const media =
+Array.isArray(p.media)
+? p.media
+: [];
+
+
+const first =
+media.length
+? media[0]
+: null;
+
+
+const div =
+document.createElement('div');
+
+div.className =
+'product';
+
+
+const thumb =
+document.createElement('div');
+
+thumb.className =
+'thumb';
+
+
+if(first){
+
+const url =
+typeof first === 'string'
+? first
+: first.url;
+
+
+const type =
+typeof first === 'string'
+? 'image'
+: first.type;
+
+
+if(url){
+
+if(type === 'video'){
+
+const video =
+document.createElement('video');
+
+video.src = url;
+
+video.muted = true;
+
+video.controls = true;
+
+thumb.appendChild(video);
+
+}else{
+
+const img =
+document.createElement('img');
+
+img.src = url;
+
+img.alt = p.name || '';
+
+thumb.appendChild(img);
+
+}
+
+}
+
+}
+
+
+const info =
+document.createElement('div');
+
+
+const name =
+document.createElement('b');
+
+name.textContent =
+p.name || 'بدون اسم';
+
+
+const br =
+document.createElement('br');
+
+
+const price =
+document.createElement('span');
+
+price.className =
+'muted';
+
+price.textContent =
+Number(p.price || 0)
+.toLocaleString('ar-EG') +
+' جنيه';
+
+
+info.appendChild(name);
+
+info.appendChild(br);
+
+info.appendChild(price);
+
+
+const actions =
+document.createElement('div');
+
+actions.className =
+'actions';
+
+
+const edit =
+document.createElement('button');
+
+edit.textContent =
+'تعديل';
+
+edit.onclick =
+function(){
+
+editProduct(p.id);
+
+};
+
+
+const del =
+document.createElement('button');
+
+del.textContent =
+'حذف';
+
+del.className =
+'danger';
+
+del.onclick =
+function(){
+
+deleteProduct(p.id);
+
+};
+
+
+actions.appendChild(edit);
+
+actions.appendChild(del);
+
+
+div.appendChild(thumb);
+
+div.appendChild(info);
+
+div.appendChild(actions);
+
+
+$('list').appendChild(div);
+
+}
+
+);
+
+}
+
+
+/* SAVE PRODUCT */
+
+$('saveProduct').onclick =
 async function(){
 
-  const name =
-    $('pName').value.trim();
+const name =
+$('pName').value.trim();
 
-  const price =
-    Number($('pPrice').value);
+const price =
+Number($('pPrice').value);
 
-  const description =
-    $('pDesc').value.trim();
+const description =
+$('pDesc').value.trim();
 
 
-  if(!name){
+if(!name){
 
-    showMessage(
-      $('productMsg'),
-      'error',
-      'اكتب اسم المنتج.'
-    );
+message(
+$('productMsg'),
+'error',
+'اكتب اسم المنتج.'
+);
 
-    return;
-  }
+return;
 
+}
 
-  if(!Number.isFinite(price)){
 
-    showMessage(
-      $('productMsg'),
-      'error',
-      'اكتب سعر المنتج.'
-    );
+if(!Number.isFinite(price)){
 
-    return;
-  }
+message(
+$('productMsg'),
+'error',
+'اكتب السعر.'
+);
 
+return;
 
-  const button =
-    $('saveProduct');
+}
 
-  button.disabled = true;
 
-  button.textContent =
-    editing
-    ? 'جاري حفظ التعديل...'
-    : 'جاري حفظ المنتج...';
+const btn =
+$('saveProduct');
 
+btn.disabled = true;
 
-  showMessage(
-    $('productMsg'),
-    'info',
-    'جاري تجهيز المنتج...'
-  );
+btn.textContent =
+editing
+? 'جاري التعديل...'
+: 'جاري الحفظ...';
 
 
-  try{
+try{
 
-    let media =
-      editing
-      ? oldMedia.slice()
-      : [];
+let media =
+editing
+? [...oldMedia]
+: [];
 
 
-    const selectedFiles =
-      $('files').files;
+const selected =
+$('files').files;
 
 
-    /*
-      رفع الصور والفيديوهات
-    */
+if(selected.length){
 
-    for(
-      const file of selectedFiles
-    ){
+message(
+$('productMsg'),
+'info',
+'جاري رفع الصور والفيديوهات...'
+);
 
-      showMessage(
-        $('productMsg'),
-        'info',
-        'جاري رفع: ' +
-        file.name
-      );
+}
 
 
-      const safeName =
-        file.name
-        .replace(
-          /[^a-zA-Z0-9._-]/g,
-          '_'
-        );
+/* UPLOAD */
 
+for(const file of selected){
 
-      const path =
-        Date.now() +
-        '_' +
-        Math.random()
-        .toString(36)
-        .slice(2) +
-        '_' +
-        safeName;
+const extension =
+file.name.includes('.')
+? file.name.substring(
+file.name.lastIndexOf('.')
+)
+: '';
 
 
-      const upload =
-        await db
-        .storage
-        .from('product-media')
-        .upload(
-          path,
-          file,
-          {
-            upsert:false
-          }
-        );
+const random =
+crypto.randomUUID
+? crypto.randomUUID()
+: Date.now() +
+'_' +
+Math.random()
+.toString(36)
+.substring(2);
 
 
-      if(upload.error){
+const path =
+random +
+extension;
 
-        throw new Error(
-          'فشل رفع الملف "' +
-          file.name +
-          '": ' +
-          upload.error.message
-        );
 
-      }
+const upload =
+await db
+.storage
+.from('product-media')
+.upload(
+path,
+file,
+{
+cacheControl:'3600',
+upsert:false
+}
+);
 
 
-      const publicUrl =
-        db
-        .storage
-        .from('product-media')
-        .getPublicUrl(path);
+if(upload.error){
 
+throw new Error(
+'فشل رفع الصورة/الفيديو "' +
+file.name +
+'": ' +
+upload.error.message
+);
 
-      media.push({
+}
 
-        type:
-          file.type.startsWith('video/')
-          ? 'video'
-          : 'image',
 
-        url:
-          publicUrl.data.publicUrl
+/* PUBLIC URL */
 
-      });
+const publicResult =
+db
+.storage
+.from('product-media')
+.getPublicUrl(path);
 
-    }
 
+const publicUrl =
+publicResult.data.publicUrl;
 
-    /*
-      حفظ المنتج
-    */
 
-    let result;
+if(!publicUrl){
 
+throw new Error(
+'تم رفع الملف لكن لم يتم الحصول على رابط الصورة.'
+);
 
-    if(editing){
+}
 
-      result =
-        await db
-        .from('products')
-        .update({
 
-          name,
-          price,
-          description,
-          media
+/* SAVE URL */
 
-        })
-        .eq(
-          'id',
-          editing
-        );
+media.push({
 
-    }else{
+type:
+file.type.startsWith('video/')
+? 'video'
+: 'image',
 
-      result =
-        await db
-        .from('products')
-        .insert({
-
-          name,
-          price,
-          description,
-          media
-
-        });
-
-    }
-
-
-    if(result.error){
-
-      throw new Error(
-        result.error.message
-      );
-
-    }
-
-
-    showMessage(
-      $('productMsg'),
-      'success',
-      editing
-      ? 'تم تعديل المنتج بنجاح ✅'
-      : 'تم إضافة المنتج بنجاح ✅'
-    );
-
-
-    resetForm();
-
-    await loadProducts();
-
-
-  }catch(error){
-
-    console.error(error);
-
-    showMessage(
-      $('productMsg'),
-      'error',
-      'فشل حفظ المنتج: ' +
-      error.message
-    );
-
-  }finally{
-
-    button.disabled = false;
-
-    button.textContent =
-      editing
-      ? 'حفظ التعديل'
-      : 'حفظ المنتج';
-
-  }
+url:publicUrl
 
 });
 
+}
 
-/* =========================
-   تعديل منتج
-========================= */
+
+/* SAVE DATABASE */
+
+message(
+$('productMsg'),
+'info',
+'جاري حفظ بيانات المنتج...'
+);
+
+
+let result;
+
+
+if(editing){
+
+result =
+await db
+.from('products')
+.update({
+
+name:name,
+
+price:price,
+
+description:description,
+
+media:media
+
+})
+.eq(
+'id',
+editing
+);
+
+}else{
+
+result =
+await db
+.from('products')
+.insert({
+
+name:name,
+
+price:price,
+
+description:description,
+
+media:media
+
+});
+
+}
+
+
+if(result.error){
+
+throw new Error(
+'تم رفع الملفات، لكن فشل حفظ المنتج: ' +
+result.error.message
+);
+
+}
+
+
+message(
+$('productMsg'),
+'success',
+editing
+? 'تم تعديل المنتج والصور بنجاح ✅'
+: 'تم إضافة المنتج والصور بنجاح ✅'
+);
+
+
+resetForm();
+
+await loadProducts();
+
+
+}catch(error){
+
+console.error(error);
+
+message(
+$('productMsg'),
+'error',
+error.message
+);
+
+}finally{
+
+btn.disabled = false;
+
+btn.textContent =
+editing
+? 'حفظ التعديل'
+: 'حفظ المنتج';
+
+}
+
+};
+
+
+/* EDIT */
 
 async function editProduct(id){
 
-  showMessage(
-    $('productMsg'),
-    'info',
-    'جاري تحميل بيانات المنتج...'
-  );
+const result =
+await db
+.from('products')
+.select('*')
+.eq('id',id)
+.single();
 
 
-  const {
-    data,
-    error
-  } =
-  await db
-  .from('products')
-  .select('*')
-  .eq('id',id)
-  .single();
+if(result.error){
 
+message(
+$('productMsg'),
+'error',
+result.error.message
+);
 
-  if(error){
-
-    showMessage(
-      $('productMsg'),
-      'error',
-      'تعذر تحميل المنتج: ' +
-      error.message
-    );
-
-    return;
-  }
-
-
-  editing =
-    id;
-
-
-  oldMedia =
-    Array.isArray(data.media)
-    ? data.media
-    : [];
-
-
-  $('pName').value =
-    data.name || '';
-
-  $('pPrice').value =
-    data.price || '';
-
-  $('pDesc').value =
-    data.description || '';
-
-
-  $('formTitle').textContent =
-    'تعديل المنتج';
-
-
-  $('cancelEdit')
-    .classList
-    .remove('hidden');
-
-
-  $('saveProduct').textContent =
-    'حفظ التعديل';
-
-
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
-
-
-  hideMessage(
-    $('productMsg')
-  );
+return;
 
 }
 
 
-/* =========================
-   حذف منتج
-========================= */
-
-async function deleteProduct(id){
-
-  if(
-    !confirm(
-      'هل أنت متأكد من حذف هذا المنتج؟'
-    )
-  ){
-
-    return;
-
-  }
+const data =
+result.data;
 
 
-  const {
-    error
-  } =
-  await db
-  .from('products')
-  .delete()
-  .eq('id',id);
+editing =
+id;
 
 
-  if(error){
-
-    alert(
-      'فشل حذف المنتج: ' +
-      error.message
-    );
-
-    return;
-  }
+oldMedia =
+Array.isArray(data.media)
+? data.media
+: [];
 
 
-  showMessage(
-    $('productMsg'),
-    'success',
-    'تم حذف المنتج بنجاح ✅'
-  );
+$('pName').value =
+data.name || '';
+
+$('pPrice').value =
+data.price || '';
+
+$('pDesc').value =
+data.description || '';
 
 
-  loadProducts();
+$('formTitle').textContent =
+'تعديل المنتج';
+
+
+$('cancelEdit')
+.classList
+.remove('hidden');
+
+
+$('saveProduct').textContent =
+'حفظ التعديل';
+
+
+/* SHOW OLD MEDIA */
+
+const preview =
+$('preview');
+
+preview.innerHTML = '';
+
+
+oldMedia.forEach(
+function(item){
+
+const url =
+typeof item === 'string'
+? item
+: item.url;
+
+
+const type =
+typeof item === 'string'
+? 'image'
+: item.type;
+
+
+if(type === 'video'){
+
+const video =
+document.createElement('video');
+
+video.src = url;
+
+video.controls = true;
+
+preview.appendChild(video);
+
+}else{
+
+const img =
+document.createElement('img');
+
+img.src = url;
+
+preview.appendChild(img);
 
 }
-
-
-/* =========================
-   إلغاء التعديل
-========================= */
-
-$('cancelEdit').addEventListener(
-'click',
-function(){
-
-  resetForm();
 
 });
 
 
-/* =========================
-   إعادة النموذج
-========================= */
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+/* DELETE */
+
+async function deleteProduct(id){
+
+if(
+!confirm(
+'هل أنت متأكد من حذف المنتج؟'
+)
+){
+
+return;
+
+}
+
+
+const result =
+await db
+.from('products')
+.delete()
+.eq('id',id);
+
+
+if(result.error){
+
+alert(
+'فشل الحذف: ' +
+result.error.message
+);
+
+return;
+
+}
+
+
+message(
+$('productMsg'),
+'success',
+'تم حذف المنتج بنجاح ✅'
+);
+
+
+loadProducts();
+
+}
+
+
+/* CANCEL */
+
+$('cancelEdit').onclick =
+function(){
+
+resetForm();
+
+};
+
+
+/* RESET */
 
 function resetForm(){
 
-  editing =
-    null;
+editing = null;
 
-  oldMedia =
-    [];
+oldMedia = [];
 
+$('pName').value = '';
 
-  $('pName').value =
-    '';
+$('pPrice').value = '';
 
-  $('pPrice').value =
-    '';
+$('pDesc').value = '';
 
-  $('pDesc').value =
-    '';
+$('files').value = '';
 
-  $('files').value =
-    '';
+$('preview').innerHTML = '';
 
+$('formTitle').textContent =
+'إضافة منتج';
 
-  $('formTitle').textContent =
-    'إضافة منتج';
+$('cancelEdit')
+.classList
+.add('hidden');
 
-
-  $('cancelEdit')
-    .classList
-    .add('hidden');
-
-
-  $('saveProduct').textContent =
-    'حفظ المنتج';
+$('saveProduct').textContent =
+'حفظ المنتج';
 
 }
 
 
-/* =========================
-   حماية النصوص
-========================= */
+/* ESCAPE */
 
 function escapeHtml(value){
 
-  return String(value || '')
-  .replace(
-    /[&<>"']/g,
-    function(char){
+return String(value || '')
+.replace(
+/[&<>"']/g,
+function(char){
 
-      return {
+return {
 
-        '&':'&amp;',
-        '<':'&lt;',
-        '>':'&gt;',
-        '"':'&quot;',
-        "'":'&#039;'
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
 
-      }[char];
+}[char];
 
-    }
-  );
+}
+);
 
 }
 
 
-/* =========================
-   تشغيل
-========================= */
+/* START */
 
 boot();
 
 </script>
 
 </body>
-  </html>
+  </html>ذ

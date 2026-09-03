@@ -83,19 +83,66 @@
       margin-top: 5px;
     }
 
+    /* =========================
+       البحث
+    ========================= */
+
     .search {
       max-width: 1200px;
       margin: 15px auto 0;
+      position: relative;
     }
 
     .search input {
       width: 100%;
-      padding: 13px;
+      padding: 13px 45px 13px 13px;
       border: none;
       border-radius: 10px;
       font-size: 16px;
       outline: none;
     }
+
+    .clear-search {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 50%;
+      background: #eee;
+      color: #555;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .clear-search:hover {
+      background: #ddd;
+      color: #e65100;
+    }
+
+    /* نتائج البحث تحت شريط البحث مباشرة */
+
+    #searchResultsSection {
+      display: none;
+      max-width: 1200px;
+      margin: 15px auto 0;
+      padding: 0 15px;
+    }
+
+    #searchResultsSection .section-title {
+      margin-bottom: 15px;
+    }
+
+    /* =========================
+       التنقل
+    ========================= */
 
     nav {
       background: #222;
@@ -126,6 +173,10 @@
       color: #222;
     }
 
+    /* =========================
+       البانر
+    ========================= */
+
     .hero {
       max-width: 1200px;
       margin: 25px auto;
@@ -145,6 +196,10 @@
       font-size: 18px;
       line-height: 1.8;
     }
+
+    /* =========================
+       الأقسام والمنتجات
+    ========================= */
 
     .section {
       max-width: 1200px;
@@ -182,7 +237,8 @@
       color: white;
     }
 
-    /* المنتجات مخفية في البداية */
+    /* المنتجات الأصلية مخفية في البداية */
+
     #productsSection {
       display: none;
     }
@@ -234,7 +290,9 @@
       font-size: 14px;
     }
 
-    /* الفاتورة */
+    /* =========================
+       الفاتورة
+    ========================= */
 
     .invoice-box {
       background: rgba(255, 255, 255, 0.97);
@@ -312,7 +370,9 @@
       color: #e65100;
     }
 
-    /* المنتج */
+    /* =========================
+       المنتج
+    ========================= */
 
     .modal {
       display: none;
@@ -383,7 +443,9 @@
       margin-top: 15px;
     }
 
-    /* الفوتر */
+    /* =========================
+       الفوتر
+    ========================= */
 
     footer {
       background: #222;
@@ -507,18 +569,48 @@
 
   </div>
 
+  <!-- شريط البحث -->
+
   <div class="search">
 
     <input
       type="text"
       id="searchInput"
-      placeholder="ابحث عن منتج..."
+      placeholder="🔍 ابحث عن اسم المنتج أو وصفه..."
       oninput="renderProducts()"
     >
+
+    <button
+      id="clearSearch"
+      class="clear-search"
+      onclick="clearSearch()"
+      aria-label="مسح البحث"
+    >
+      ×
+    </button>
 
   </div>
 
 </header>
+
+
+<!-- نتائج البحث تظهر هنا مباشرة أسفل شريط البحث -->
+
+<section
+  class="section"
+  id="searchResultsSection"
+>
+
+  <h2 class="section-title">
+    🔍 نتائج البحث
+  </h2>
+
+  <div
+    class="products"
+    id="searchResults"
+  ></div>
+
+</section>
 
 
 <nav>
@@ -574,7 +666,7 @@
 </section>
 
 
-<!-- المنتجات -->
+<!-- المنتجات في مكانها الطبيعي -->
 
 <section
   class="section"
@@ -733,7 +825,6 @@
 
       </a>
 
-
       <a
         class="social-link"
         href="https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s"
@@ -746,7 +837,6 @@
         >
 
       </a>
-
 
       <a
         class="social-link"
@@ -796,6 +886,7 @@
   let categories = [];
 
   /* لا يوجد قسم مختار في البداية */
+
   let selectedCategory = null;
 
   let currentProduct = null;
@@ -814,6 +905,23 @@
       ?.scrollIntoView({
         behavior: "smooth"
       });
+
+  }
+
+
+  /* =========================
+     تطبيع البحث العربي
+  ========================= */
+
+  function normalizeArabic(text) {
+
+    return String(text || "")
+      .toLowerCase()
+      .replace(/[\u064B-\u065F\u0670]/g, "")
+      .replace(/ـ/g, "")
+      .replace(/[أإآ]/g, "ا")
+      .replace(/ى/g, "ي")
+      .trim();
 
   }
 
@@ -922,8 +1030,6 @@
 
     renderCategories();
 
-    /* لا تعرض المنتجات عند فتح الموقع */
-
     renderProducts();
 
     renderInvoice();
@@ -981,24 +1087,198 @@
 
   function selectCategory(id) {
 
-    selectedCategory = id;
+    /*
+      لو ضغط على نفس القسم مرة ثانية:
+      إلغاء اختيار القسم
+    */
+
+    if (
+      selectedCategory !== null &&
+      Number(selectedCategory) === Number(id)
+    ) {
+
+      selectedCategory = null;
+
+    } else {
+
+      selectedCategory = id;
+
+    }
+
+
+    /*
+      عند اختيار قسم:
+      نمسح البحث ونخرج من وضع البحث
+    */
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    searchInput.value = "";
+
+    updateClearSearchButton();
+
 
     renderCategories();
 
     renderProducts();
 
-    /* ينزل للمنتجات تلقائيًا */
 
-    setTimeout(function () {
+    /*
+      ننزل للمنتجات في مكانها الطبيعي
+    */
 
-      document
-        .getElementById("productsSection")
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+    if (selectedCategory !== null) {
 
-    }, 100);
+      setTimeout(function () {
+
+        document
+          .getElementById("productsSection")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+      }, 100);
+
+    }
+
+  }
+
+
+  /* =========================
+     مسح البحث
+  ========================= */
+
+  function clearSearch() {
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    searchInput.value = "";
+
+
+    /*
+      إظهار المنتجات في مكانها الطبيعي
+      حسب القسم المختار
+    */
+
+    renderProducts();
+
+    updateClearSearchButton();
+
+
+    /*
+      لو فيه قسم مختار:
+      ننزل للمنتجات الأصلية
+    */
+
+    if (selectedCategory !== null) {
+
+      setTimeout(function () {
+
+        document
+          .getElementById("productsSection")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+      }, 100);
+
+    }
+
+  }
+
+
+  /* =========================
+     زر X في البحث
+  ========================= */
+
+  function updateClearSearchButton() {
+
+    const input =
+      document.getElementById("searchInput");
+
+    const button =
+      document.getElementById("clearSearch");
+
+
+    if (input.value.trim()) {
+
+      button.style.display = "flex";
+
+    } else {
+
+      button.style.display = "none";
+
+    }
+
+  }
+
+
+  /* =========================
+     عرض بطاقة المنتج
+  ========================= */
+
+  function productCard(product) {
+
+    const media =
+      Array.isArray(product.media)
+        ? product.media
+        : [];
+
+
+    const firstImage =
+      media.find(
+        m => m.type === "image"
+      );
+
+
+    const imageUrl =
+      firstImage?.url ||
+      "https://via.placeholder.com/500x400?text=Product";
+
+
+    const categoryName =
+      product.categories?.name ||
+      "أخرى";
+
+
+    return `
+
+      <div
+        class="product-card"
+        onclick="openProduct(${product.id})"
+      >
+
+        <img
+          class="product-image"
+          src="${imageUrl}"
+          alt="${escapeHtml(product.name)}"
+        >
+
+        <div class="product-info">
+
+          <h3>
+            ${escapeHtml(product.name)}
+          </h3>
+
+          <div class="category-name">
+            ${categoryEmoji(product.categories)}
+            ${escapeHtml(categoryName)}
+          </div>
+
+          <div class="price">
+            ${formatPrice(product.price)}
+            جنيه
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
 
   }
 
@@ -1009,23 +1289,139 @@
 
   function renderProducts() {
 
-    const container =
-      document.getElementById("products");
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const search =
+      searchInput.value.trim();
+
 
     const productsSection =
       document.getElementById("productsSection");
 
+    const productsContainer =
+      document.getElementById("products");
+
+    const searchSection =
+      document.getElementById("searchResultsSection");
+
+    const searchContainer =
+      document.getElementById("searchResults");
+
+
+    updateClearSearchButton();
+
 
     /*
-      لو مفيش قسم متحدد:
-      اخفاء المنتجات تمامًا
+      =========================
+      أولاً: يوجد بحث
+      =========================
     */
 
-    if (selectedCategory === null) {
+    if (search) {
+
+      /*
+        عند وجود بحث:
+        نخفي المنتجات الأصلية
+        ونضع النتائج تحت شريط البحث
+      */
 
       productsSection.style.display = "none";
 
-      container.innerHTML = "";
+      searchSection.style.display = "block";
+
+
+      const words =
+        normalizeArabic(search)
+          .split(/\s+/)
+          .filter(Boolean);
+
+
+      const filtered =
+        products.filter(product => {
+
+          /*
+            لو يوجد قسم مختار:
+            البحث يكون داخل هذا القسم فقط
+          */
+
+          const matchesCategory =
+            selectedCategory === null ||
+            Number(product.category_id) ===
+            Number(selectedCategory);
+
+
+          /*
+            البحث في اسم المنتج + الوصف
+          */
+
+          const text =
+            normalizeArabic(
+              `${product.name || ""} ${product.description || ""}`
+            );
+
+
+          /*
+            كل كلمات البحث لازم تكون موجودة
+          */
+
+          const matchesSearch =
+            words.every(word =>
+              text.includes(word)
+            );
+
+
+          return (
+            matchesCategory &&
+            matchesSearch
+          );
+
+        });
+
+
+      if (!filtered.length) {
+
+        searchContainer.innerHTML = `
+
+          <p
+            style="
+              text-align:center;
+              width:100%;
+              padding:30px;
+              font-size:18px;
+              background:white;
+              border-radius:12px;
+            "
+          >
+            🔍 لا يوجد منتج مطابق للبحث
+          </p>
+
+        `;
+
+        return;
+
+      }
+
+
+      searchContainer.innerHTML =
+        filtered
+          .map(productCard)
+          .join("");
+
+
+      /*
+        ننزل النتائج بحيث تكون تحت شريط البحث
+      */
+
+      setTimeout(function () {
+
+        searchSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      }, 50);
+
 
       return;
 
@@ -1033,49 +1429,46 @@
 
 
     /*
-      يوجد قسم محدد:
-      إظهار المنتجات
+      =========================
+      لا يوجد بحث
+      =========================
+    */
+
+    searchSection.style.display = "none";
+
+    searchContainer.innerHTML = "";
+
+
+    /*
+      لا يوجد قسم:
+      نخفي المنتجات
+    */
+
+    if (selectedCategory === null) {
+
+      productsSection.style.display = "none";
+
+      productsContainer.innerHTML = "";
+
+      return;
+
+    }
+
+
+    /*
+      يوجد قسم:
+      نعرض المنتجات في مكانها الطبيعي
     */
 
     productsSection.style.display = "block";
 
 
-    const search =
-      document
-        .getElementById("searchInput")
-        .value
-        .trim()
-        .toLowerCase();
-
-
     const filtered =
       products.filter(product => {
 
-        /*
-          المنتجات التابعة للقسم المختار فقط
-        */
-
-        const matchesCategory =
-          Number(product.category_id) ===
-          Number(selectedCategory);
-
-
-        const matchesSearch =
-          !search ||
-          product.name
-            .toLowerCase()
-            .includes(search) ||
-          (
-            product.description ||
-            ""
-          )
-            .toLowerCase()
-            .includes(search);
-
-
         return (
-          matchesCategory &&
-          matchesSearch
+          Number(product.category_id) ===
+          Number(selectedCategory)
         );
 
       });
@@ -1083,7 +1476,7 @@
 
     if (!filtered.length) {
 
-      container.innerHTML = `
+      productsContainer.innerHTML = `
 
         <p
           style="
@@ -1103,67 +1496,10 @@
     }
 
 
-    container.innerHTML =
-      filtered.map(product => {
-
-        const media =
-          Array.isArray(product.media)
-            ? product.media
-            : [];
-
-
-        const firstImage =
-          media.find(
-            m => m.type === "image"
-          );
-
-
-        const imageUrl =
-          firstImage?.url ||
-          "https://via.placeholder.com/500x400?text=Product";
-
-
-        const categoryName =
-          product.categories?.name ||
-          "أخرى";
-
-
-        return `
-
-          <div
-            class="product-card"
-            onclick="openProduct(${product.id})"
-          >
-
-            <img
-              class="product-image"
-              src="${imageUrl}"
-              alt="${escapeHtml(product.name)}"
-            >
-
-            <div class="product-info">
-
-              <h3>
-                ${escapeHtml(product.name)}
-              </h3>
-
-              <div class="category-name">
-                ${categoryEmoji(product.categories)}
-                ${escapeHtml(categoryName)}
-              </div>
-
-              <div class="price">
-                ${formatPrice(product.price)}
-                جنيه
-              </div>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }).join("");
+    productsContainer.innerHTML =
+      filtered
+        .map(productCard)
+        .join("");
 
   }
 
@@ -1664,6 +2000,22 @@
     }
 
   }
+
+
+  /* =========================
+     مراقبة الكتابة في البحث
+  ========================= */
+
+  document
+    .getElementById("searchInput")
+    .addEventListener(
+      "input",
+      function() {
+
+        renderProducts();
+
+      }
+    );
 
 
   /* =========================

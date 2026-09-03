@@ -493,7 +493,27 @@
     }
   </style>
 </head>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+  function removeAllCategory() {
+    document.querySelectorAll("button").forEach(function (button) {
+      if (button.textContent.includes("الكل")) {
+        button.remove();
+      }
+    });
+  }
+
+  removeAllCategory();
+
+  const observer = new MutationObserver(removeAllCategory);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+});
+</script>
 <body>
 
 <header>

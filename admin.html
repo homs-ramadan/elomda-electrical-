@@ -13,16 +13,18 @@
   --y:#ffb300;
   --bg:#fff8e8;
   --dark:#222;
-  --line:#ecd9aa
+  --line:#ecd9aa;
+  --red:#c62828;
+  --green:#168c48;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Tahoma,Arial;
+  font-family:Tahoma,Arial,sans-serif;
   background:var(--bg);
-  color:#222
+  color:#222;
 }
 
 body:before{
@@ -30,17 +32,17 @@ body:before{
   position:fixed;
   inset:0;
   background:url('logo.jpg') center/500px no-repeat;
-  opacity:.06;
+  opacity:.045;
   z-index:-1;
-  pointer-events:none
+  pointer-events:none;
 }
 
 button,input,textarea,select{
-  font:inherit
+  font:inherit;
 }
 
 button{
-  cursor:pointer
+  cursor:pointer;
 }
 
 .login{
@@ -48,7 +50,7 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:20px
+  padding:20px;
 }
 
 .login-box{
@@ -58,14 +60,14 @@ button{
   border-radius:22px;
   box-shadow:0 15px 45px #0001;
   border-top:6px solid var(--o);
-  text-align:center
+  text-align:center;
 }
 
 .logo{
   width:130px;
   height:90px;
   object-fit:cover;
-  border-radius:15px
+  border-radius:15px;
 }
 
 .field{
@@ -73,16 +75,24 @@ button{
   flex-direction:column;
   gap:7px;
   text-align:right;
-  margin:13px 0
+  margin:13px 0;
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
   width:100%;
   padding:12px;
   border:1px solid var(--line);
   border-radius:10px;
   background:#fff;
-  outline:0
+  outline:0;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--o);
 }
 
 .btn{
@@ -91,28 +101,32 @@ input,textarea,select{
   color:#fff;
   padding:12px 18px;
   border-radius:10px;
-  font-weight:700
+  font-weight:700;
+}
+
+.btn:hover{
+  opacity:.9;
 }
 
 .alt{
   background:#fff;
   color:var(--o);
-  border:1px solid var(--o)
+  border:1px solid var(--o);
 }
 
 .danger{
-  background:#c62828
+  background:var(--red);
 }
 
 .msg{
   min-height:25px;
   margin-top:10px;
-  font-weight:700
+  font-weight:700;
 }
 
 .app{
   display:none;
-  min-height:100vh
+  min-height:100vh;
 }
 
 .sidebar{
@@ -124,7 +138,7 @@ input,textarea,select{
   background:#222;
   color:#fff;
   padding:18px;
-  z-index:5
+  z-index:5;
 }
 
 .side-logo{
@@ -132,7 +146,7 @@ input,textarea,select{
   height:105px;
   object-fit:cover;
   border-radius:14px;
-  margin-bottom:18px
+  margin-bottom:18px;
 }
 
 .side button{
@@ -144,18 +158,18 @@ input,textarea,select{
   color:#fff;
   padding:13px;
   border-radius:9px;
-  margin:4px 0
+  margin:4px 0;
 }
 
 .side button:hover,
 .side button.active{
-  background:var(--o)
+  background:var(--o);
 }
 
 .main{
   margin-right:235px;
   padding:22px;
-  max-width:1250px
+  max-width:1250px;
 }
 
 .topbar{
@@ -165,7 +179,7 @@ input,textarea,select{
   display:flex;
   justify-content:space-between;
   border:1px solid var(--line);
-  margin-bottom:18px
+  margin-bottom:18px;
 }
 
 .panel{
@@ -173,73 +187,73 @@ input,textarea,select{
   background:#fff;
   border:1px solid var(--line);
   border-radius:16px;
-  padding:18px
+  padding:18px;
 }
 
 .panel.active{
-  display:block
+  display:block;
 }
 
 .grid2{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px
+  gap:14px;
 }
 
 .grid3{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px
+  gap:14px;
 }
 
 .stat{
   background:linear-gradient(135deg,#fff4cf,#fff);
   padding:18px;
   border-radius:15px;
-  border:1px solid var(--line)
+  border:1px solid var(--line);
 }
 
 .stat b{
   font-size:27px;
   color:var(--o);
   display:block;
-  margin-top:8px
+  margin-top:8px;
 }
 
 .products-admin{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:13px
+  gap:13px;
 }
 
 .pitem{
   border:1px solid var(--line);
   border-radius:14px;
   overflow:hidden;
-  background:#fff
+  background:#fff;
 }
 
 .pitem img{
   width:100%;
   height:150px;
-  object-fit:contain
+  object-fit:contain;
 }
 
 .pbody{
-  padding:12px
+  padding:12px;
 }
 
 .actions{
   display:flex;
   gap:7px;
-  margin-top:10px
+  margin-top:10px;
 }
 
 .cat-list{
   display:flex;
-  gap:8px;
+  gap:10px;
   flex-wrap:wrap;
-  margin-top:18px
+  margin-top:18px;
 }
 
 .cat-chip{
@@ -247,31 +261,84 @@ input,textarea,select{
   align-items:center;
   gap:8px;
   background:#fff3d0;
-  padding:8px 10px;
-  border-radius:10px
+  padding:9px 11px;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
+
+.cat-emoji{
+  font-size:25px;
 }
 
 .media-list{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  margin:8px 0
+  margin:8px 0;
 }
 
 .media-chip{
   padding:8px 10px;
   background:#fff3d0;
   border-radius:9px;
-  font-size:12px
+  font-size:12px;
 }
 
-.footer-box{
-  margin-top:25px;
-  padding-top:20px;
-  border-top:2px solid #f3e5c2
+.emoji-box{
+  margin-top:15px;
+  padding:15px;
+  background:#fffaf0;
+  border:1px solid var(--line);
+  border-radius:13px;
+}
+
+.emoji-title{
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.emoji-palette{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.emoji-btn{
+  width:45px;
+  height:42px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:9px;
+  font-size:23px;
+}
+
+.emoji-btn:hover{
+  border-color:var(--o);
+  background:#fff3d0;
+}
+
+.emoji-input{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-top:12px;
+}
+
+.emoji-input input{
+  max-width:100px;
+  text-align:center;
+  font-size:24px;
+}
+
+.category-edit{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 @media(max-width:800px){
+
   .sidebar{
     position:static;
     width:100%;
@@ -279,25 +346,25 @@ input,textarea,select{
     display:flex;
     overflow:auto;
     gap:5px;
-    align-items:center
+    align-items:center;
   }
 
   .side-logo{
-    display:none
+    display:none;
   }
 
   .side button{
     white-space:nowrap;
-    width:auto
+    width:auto;
   }
 
   .main{
-    margin-right:0
+    margin-right:0;
   }
 
   .grid2,
   .grid3{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -305,8 +372,9 @@ input,textarea,select{
 
 <body>
 
-<!-- LOGIN -->
+<!-- تسجيل الدخول -->
 <div id="login" class="login">
+
   <div class="login-box">
 
     <img src="logo.jpg" class="logo" alt="العمدة">
@@ -315,15 +383,24 @@ input,textarea,select{
 
     <div class="field">
       <label>البريد الإلكتروني</label>
-      <input id="email" type="email" autocomplete="username">
+      <input
+        id="email"
+        type="email"
+        autocomplete="username">
     </div>
 
     <div class="field">
       <label>كلمة المرور</label>
-      <input id="password" type="password" autocomplete="current-password">
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password">
     </div>
 
-    <button id="loginBtn" class="btn" style="width:100%">
+    <button
+      id="loginBtn"
+      class="btn"
+      style="width:100%">
       دخول
     </button>
 
@@ -333,14 +410,19 @@ input,textarea,select{
 </div>
 
 
-<!-- APP -->
+<!-- التطبيق -->
 <div id="app" class="app">
 
   <aside class="sidebar side">
 
-    <img src="logo.jpg" class="side-logo" alt="العمدة">
+    <img
+      src="logo.jpg"
+      class="side-logo"
+      alt="العمدة">
 
-    <button class="active" data-tab="dashboard">
+    <button
+      class="active"
+      data-tab="dashboard">
       🏠 لوحة التحكم
     </button>
 
@@ -371,8 +453,10 @@ input,textarea,select{
     </div>
 
 
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="panel active">
+    <!-- لوحة التحكم -->
+    <section
+      id="dashboard"
+      class="panel active">
 
       <h2>نظرة عامة</h2>
 
@@ -398,25 +482,39 @@ input,textarea,select{
     </section>
 
 
-    <!-- PRODUCTS -->
-    <section id="products" class="panel">
+    <!-- المنتجات -->
+    <section
+      id="products"
+      class="panel">
 
       <h2>المنتجات</h2>
 
       <form id="productForm">
 
-        <input type="hidden" id="editId">
+        <input
+          type="hidden"
+          id="editId">
+
 
         <div class="grid2">
 
           <div class="field">
             <label>اسم المنتج</label>
-            <input id="pName" required>
+
+            <input
+              id="pName"
+              required>
           </div>
+
 
           <div class="field">
             <label>السعر بالجنيه</label>
-            <input id="pPrice" type="number" step="0.01" required>
+
+            <input
+              id="pPrice"
+              type="number"
+              step="0.01"
+              required>
           </div>
 
         </div>
@@ -425,24 +523,29 @@ input,textarea,select{
         <div class="grid2">
 
           <div class="field">
+
             <label>القسم</label>
-            <select id="pCategory">
-              <option value="">بدون قسم</option>
-            </select>
+
+            <select id="pCategory"></select>
+
           </div>
 
+
           <div class="field">
+
             <label>
               صور وفيديوهات
-              (يمكن اختيار أكثر من ملف)
+              <small>
+                (يمكن اختيار أكثر من ملف)
+              </small>
             </label>
 
             <input
               id="pMedia"
               type="file"
               multiple
-              accept="image/*,video/*"
-            >
+              accept="image/*,video/*">
+
           </div>
 
         </div>
@@ -454,13 +557,15 @@ input,textarea,select{
 
           <textarea
             id="pDesc"
-            rows="4"
-          ></textarea>
+            rows="4"></textarea>
 
         </div>
 
 
-        <div id="currentMedia" class="media-list"></div>
+        <div
+          id="currentMedia"
+          class="media-list">
+        </div>
 
 
         <button class="btn">
@@ -471,218 +576,202 @@ input,textarea,select{
           type="button"
           id="cancelEdit"
           class="btn alt"
-          style="display:none"
-        >
+          style="display:none">
           إلغاء
         </button>
 
-        <div id="productMsg" class="msg"></div>
+        <div
+          id="productMsg"
+          class="msg">
+        </div>
 
       </form>
 
 
-      <hr style="border:0;border-top:1px solid #eee;margin:22px 0">
+      <hr
+        style="
+        border:0;
+        border-top:1px solid #eee;
+        margin:22px 0
+        ">
 
-      <div id="adminProducts" class="products-admin"></div>
+
+      <div
+        id="adminProducts"
+        class="products-admin">
+      </div>
 
     </section>
 
 
-    <!-- CATEGORIES -->
-    <section id="categories" class="panel">
+    <!-- الأقسام -->
+    <section
+      id="categories"
+      class="panel">
 
       <h2>الأقسام</h2>
 
       <p>
-        اختر الإيموجي المناسب للقسم، وسيظهر مع اسم القسم في الموقع.
+        أضف اسم القسم واختر الإيموجي المناسب له.
       </p>
 
-      <form
-        id="catForm"
-        style="display:flex;gap:8px;max-width:750px;flex-wrap:wrap"
-      >
 
-        <input
-          id="catName"
-          placeholder="اسم القسم"
-          required
-        >
+      <form id="catForm">
 
-        <select
-          id="categoryEmoji"
-          style="max-width:280px"
-        >
+        <div class="grid2">
 
-          <option value="💡">
-            💡 لمبات / إضاءة
-          </option>
+          <div class="field">
 
-          <option value="🔌">
-            🔌 أفياش ومقابس
-          </option>
+            <label>اسم القسم</label>
 
-          <option value="⚡">
-            ⚡ كهرباء
-          </option>
+            <input
+              id="catName"
+              placeholder="مثال: الإضاءة"
+              required>
 
-          <option value="🔧">
-            🔧 عدد وأدوات
-          </option>
+          </div>
 
-          <option value="🪛">
-            🪛 مفكات
-          </option>
 
-          <option value="🔩">
-            🔩 قطع تثبيت
-          </option>
+          <div class="field">
 
-          <option value="🧰">
-            🧰 عدة
-          </option>
+            <label>الإيموجي</label>
 
-          <option value="🎛️">
-            🎛️ قواطع ولوحات
-          </option>
+            <input
+              id="catEmoji"
+              value="📦"
+              maxlength="8"
+              placeholder="💡">
 
-          <option value="🔦">
-            🔦 كشافات
-          </option>
+          </div>
 
-          <option value="🔋">
-            🔋 بطاريات
-          </option>
+        </div>
 
-          <option value="🛠️">
-            🛠️ صيانة
-          </option>
 
-          <option value="📦">
-            📦 أخرى
-          </option>
+        <div class="emoji-box">
 
-        </select>
+          <div class="emoji-title">
+            اختر إيموجي جاهز:
+          </div>
 
-        <button class="btn">
-          إضافة قسم
+          <div class="emoji-palette">
+
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('💡')">💡</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔦')">🔦</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔌')">🔌</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('⚡')">⚡</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔧')">🔧</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🪛')">🪛</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🧰')">🧰</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🛠️')">🛠️</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🎛️')">🎛️</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔋')">🔋</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔩')">🔩</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🧵')">🧵</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('📦')">📦</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🛒')">🛒</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🏠')">🏠</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔩')">🔩</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('📡')">📡</button>
+            <button type="button" class="emoji-btn" onclick="setCatEmoji('🔔')">🔔</button>
+
+          </div>
+
+
+          <div class="emoji-input">
+
+            <label>
+              الإيموجي المختار:
+            </label>
+
+            <input
+              id="catEmojiPreview"
+              value="📦"
+              readonly>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn"
+          style="margin-top:15px">
+          إضافة القسم
         </button>
 
       </form>
 
-      <div id="catMsg" class="msg"></div>
 
-      <div id="catList" class="cat-list"></div>
+      <div
+        id="catMsg"
+        class="msg">
+      </div>
+
+
+      <div
+        id="catList"
+        class="cat-list">
+      </div>
 
     </section>
 
 
-    <!-- SETTINGS -->
-    <section id="settings" class="panel">
+    <!-- الإعدادات -->
+    <section
+      id="settings"
+      class="panel">
 
       <h2>إعدادات المتجر</h2>
 
       <form
         id="settingsForm"
-        style="max-width:650px"
-      >
+        style="max-width:650px">
 
         <div class="field">
+
           <label>اسم المحل</label>
+
           <input id="shopName">
+
         </div>
 
+
         <div class="field">
+
           <label>رقم واتساب</label>
+
           <input id="shopWhats">
+
         </div>
 
+
         <div class="field">
-          <label>رابط اللوجو (اختياري)</label>
-          <input
-            id="logoUrl"
-            placeholder="https://..."
-          >
+
+          <label>
+            رابط اللوجو
+            <small>(اختياري)</small>
+          </label>
+
+          <input id="logoUrl">
+
         </div>
+
 
         <button class="btn">
-          حفظ إعدادات المتجر
+          حفظ الإعدادات
         </button>
 
-        <div id="settingsMsg" class="msg"></div>
+        <div
+          id="settingsMsg"
+          class="msg">
+        </div>
 
       </form>
 
-
-      <!-- FOOTER SETTINGS -->
-      <div class="footer-box">
-
-        <h2>🔗 إعدادات الفوتر والتواصل</h2>
-
-        <p>
-          الإعدادات دي هي اللي هتظهر في أسفل الموقع.
-        </p>
-
-        <form
-          id="footerForm"
-          style="max-width:650px"
-        >
-
-          <div class="field">
-
-            <label>
-              🏪 عنوان المتجر
-            </label>
-
-            <input
-              id="storeAddress"
-              placeholder="اكتب عنوان المتجر"
-            >
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              📘 رابط فيسبوك
-            </label>
-
-            <input
-              id="facebookUrl"
-              type="url"
-              placeholder="https://facebook.com/..."
-            >
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              🎵 رابط تيك توك
-            </label>
-
-            <input
-              id="tiktokUrl"
-              type="url"
-              placeholder="https://tiktok.com/@..."
-            >
-
-          </div>
-
-
-          <button class="btn">
-            حفظ إعدادات الفوتر
-          </button>
-
-          <div
-            id="footerMsg"
-            class="msg"
-          ></div>
-
-        </form>
-
-      </div>
+      <p style="margin-top:20px;color:#777">
+        ملاحظة: بيانات الفوتر وروابط فيسبوك وتيك توك والعنوان
+        ثابتة داخل الموقع وليست ضمن إعدادات لوحة التحكم.
+      </p>
 
     </section>
 
@@ -705,9 +794,8 @@ let cats = [];
 let settings = {};
 
 
-function esc(s){
-
-  return String(s ?? '').replace(
+const esc = s =>
+  String(s ?? '').replace(
     /[&<>"']/g,
     m => ({
       '&':'&amp;',
@@ -718,8 +806,6 @@ function esc(s){
     }[m])
   );
 
-}
-
 
 function msg(id,text,ok=false){
 
@@ -727,11 +813,12 @@ function msg(id,text,ok=false){
 
   $(id).style.color =
     ok ? '#168c48' : '#c62828';
-
 }
 
 
-/* LOGIN */
+/* =========================
+   تسجيل الدخول
+========================= */
 
 async function start(){
 
@@ -743,7 +830,6 @@ async function start(){
     show(data.session.user);
 
   }
-
 }
 
 
@@ -768,14 +854,11 @@ $('loginBtn').onclick = async () => {
     );
 
     return;
-
   }
 
   b.disabled = true;
-
   b.textContent =
     'جاري تسجيل الدخول...';
-
 
   const {data,error} =
     await db.auth.signInWithPassword({
@@ -783,12 +866,8 @@ $('loginBtn').onclick = async () => {
       password:p
     });
 
-
   b.disabled = false;
-
-  b.textContent =
-    'دخول';
-
+  b.textContent = 'دخول';
 
   if(error){
 
@@ -798,9 +877,7 @@ $('loginBtn').onclick = async () => {
     );
 
     return;
-
   }
-
 
   msg(
     'loginMsg',
@@ -808,30 +885,23 @@ $('loginBtn').onclick = async () => {
     true
   );
 
-
   setTimeout(
     () => show(data.user),
     350
   );
-
 };
 
 
 async function show(u){
 
-  $('login').style.display =
-    'none';
+  $('login').style.display = 'none';
 
-  $('app').style.display =
-    'block';
+  $('app').style.display = 'block';
 
   $('userEmail').textContent =
     u?.email || '';
 
   await refresh();
-
-  await loadFooterSettings();
-
 }
 
 
@@ -844,7 +914,9 @@ $('logout').onclick = async () => {
 };
 
 
-/* TABS */
+/* =========================
+   التنقل
+========================= */
 
 document
   .querySelectorAll('[data-tab]')
@@ -860,13 +932,11 @@ document
 
       b.classList.add('active');
 
-
       document
         .querySelectorAll('.panel')
         .forEach(x =>
           x.classList.remove('active')
         );
-
 
       $(b.dataset.tab)
         .classList.add('active');
@@ -876,7 +946,9 @@ document
   });
 
 
-/* REFRESH */
+/* =========================
+   تحميل البيانات
+========================= */
 
 async function refresh(){
 
@@ -907,6 +979,13 @@ async function refresh(){
 
   ]);
 
+  if(p.error){
+    console.error(p.error);
+  }
+
+  if(c.error){
+    console.error(c.error);
+  }
 
   products =
     p.data || [];
@@ -917,15 +996,10 @@ async function refresh(){
   settings =
     s.data || {};
 
-
   renderProducts();
-
   renderCats();
-
   fillCats();
-
   fillSettings();
-
 
   $('statProducts').textContent =
     products.length;
@@ -935,91 +1009,39 @@ async function refresh(){
 
   $('statWhats').textContent =
     settings.whatsapp || '-';
-
 }
 
 
-/* CATEGORY */
-
-function getCatParts(name){
-
-  const text =
-    String(name || '');
-
-  const parts =
-    text.split('|');
-
-  if(parts.length >= 2){
-
-    return {
-      emoji:parts[0].trim() || '📦',
-      name:parts.slice(1).join('|').trim()
-    };
-
-  }
-
-  return {
-    emoji:'📦',
-    name:text
-  };
-
-}
-
+/* =========================
+   الأقسام داخل المنتج
+========================= */
 
 function fillCats(){
 
   $('pCategory').innerHTML =
     '<option value="">بدون قسم</option>' +
 
-    cats.map(c => {
+    cats.map(c =>
 
-      const x =
-        getCatParts(c.name);
+      '<option value="' +
+      c.id +
+      '">' +
 
-      return `
-        <option value="${c.id}">
-          ${esc(x.emoji)} ${esc(x.name)}
-        </option>
-      `;
+      esc(
+        (c.emoji || '📦') +
+        ' ' +
+        c.name
+      ) +
 
-    }).join('');
+      '</option>'
 
+    ).join('');
 }
 
 
-function renderCats(){
-
-  $('catList').innerHTML =
-    cats.map(c => {
-
-      const x =
-        getCatParts(c.name);
-
-      return `
-        <div class="cat-chip">
-
-          <span>
-            ${esc(x.emoji)}
-            ${esc(x.name)}
-          </span>
-
-          <button
-            class="btn danger"
-            style="padding:5px 8px"
-            onclick="deleteCat(${c.id})"
-          >
-            ×
-          </button>
-
-        </div>
-      `;
-
-    }).join('');
-
-}
-
-
-/* PRODUCTS */
+/* =========================
+   صورة المنتج
+========================= */
 
 function first(p){
 
@@ -1030,100 +1052,255 @@ function first(p){
   )
   .find(
     x => x.type !== 'video'
-  )?.url || 'logo.jpg';
-
+  )?.url
+  || 'logo.jpg';
 }
 
+
+/* =========================
+   عرض المنتجات
+========================= */
 
 function renderProducts(){
 
   $('adminProducts').innerHTML =
+
     products.length
 
-      ? products.map(p => {
+    ?
 
-          const cat =
-            cats.find(
-              c =>
-                String(c.id) ===
-                String(p.category_id)
-            );
+    products.map(p => {
 
-          const catName =
-            cat
-              ? getCatParts(cat.name)
-              : null;
+      const cat =
+        cats.find(
+          c =>
+          String(c.id) ===
+          String(p.category_id)
+        );
 
+      return (
 
-          return `
-            <div class="pitem">
+        '<div class="pitem">' +
 
-              <img
-                src="${esc(first(p))}"
-                onerror="this.src='logo.jpg'"
-                alt=""
-              >
+          '<img src="' +
+          esc(first(p)) +
+          '" ' +
+          'onerror="this.src=\'logo.jpg\'">' +
 
-              <div class="pbody">
+          '<div class="pbody">' +
 
-                <b>
-                  ${esc(p.name)}
-                </b>
+            '<b>' +
+            esc(p.name) +
+            '</b>' +
 
-                <div
-                  style="
-                    color:#f57c00;
-                    font-weight:700;
-                    margin:6px 0
-                  "
-                >
-                  ${Number(
-                    p.price || 0
-                  ).toLocaleString('ar-EG')}
-                  جنيه
-                </div>
+            '<div style="color:#f57c00;font-weight:700;margin:6px 0">' +
 
-                <small>
-                  ${
-                    catName
-                      ? esc(catName.emoji) +
-                        ' ' +
-                        esc(catName.name)
-                      : 'بدون قسم'
-                  }
-                </small>
+              Number(p.price || 0)
+              .toLocaleString('ar-EG') +
 
-                <div class="actions">
+              ' جنيه' +
 
-                  <button
-                    class="btn"
-                    onclick="editProduct(${p.id})"
-                  >
-                    تعديل
-                  </button>
+            '</div>' +
 
-                  <button
-                    class="btn danger"
-                    onclick="deleteProduct(${p.id})"
-                  >
-                    حذف
-                  </button>
+            '<small>' +
 
-                </div>
+              esc(
+                cat
+                  ? (cat.emoji || '📦') +
+                    ' ' +
+                    cat.name
+                  : 'بدون قسم'
+              ) +
 
-              </div>
+            '</small>' +
 
-            </div>
-          `;
+            '<div class="actions">' +
 
-        }).join('')
+              '<button ' +
+              'class="btn" ' +
+              'onclick="editProduct(' +
+              p.id +
+              ')">' +
 
-      : '<div>لا توجد منتجات بعد.</div>';
+              'تعديل' +
 
+              '</button>' +
+
+              '<button ' +
+              'class="btn danger" ' +
+              'onclick="deleteProduct(' +
+              p.id +
+              ')">' +
+
+              'حذف' +
+
+              '</button>' +
+
+            '</div>' +
+
+          '</div>' +
+
+        '</div>'
+
+      );
+
+    }).join('')
+
+    :
+
+    '<div>لا توجد منتجات بعد.</div>';
 }
 
 
-/* MEDIA */
+/* =========================
+   الأقسام
+========================= */
+
+function renderCats(){
+
+  $('catList').innerHTML =
+
+    cats.length
+
+    ?
+
+    cats.map(c =>
+
+      '<div class="cat-chip">' +
+
+        '<span class="cat-emoji">' +
+          esc(c.emoji || '📦') +
+        '</span>' +
+
+        '<span>' +
+          esc(c.name) +
+        '</span>' +
+
+        '<button ' +
+        'class="btn" ' +
+        'style="padding:5px 8px" ' +
+        'onclick="changeCatEmoji(' +
+        c.id +
+        ')">' +
+
+        '✏️ الإيموجي' +
+
+        '</button>' +
+
+        '<button ' +
+        'class="btn danger" ' +
+        'style="padding:5px 8px" ' +
+        'onclick="deleteCat(' +
+        c.id +
+        ')">' +
+
+        'حذف' +
+
+        '</button>' +
+
+      '</div>'
+
+    ).join('')
+
+    :
+
+    '<div>لا توجد أقسام.</div>';
+}
+
+
+/* =========================
+   اختيار إيموجي القسم
+========================= */
+
+function setCatEmoji(emoji){
+
+  $('catEmoji').value =
+    emoji;
+
+  $('catEmojiPreview').value =
+    emoji;
+}
+
+
+$('catEmoji').addEventListener(
+  'input',
+  () => {
+
+    $('catEmojiPreview').value =
+      $('catEmoji').value || '📦';
+
+  }
+);
+
+
+/* =========================
+   تغيير إيموجي قسم موجود
+========================= */
+
+async function changeCatEmoji(id){
+
+  const cat =
+    cats.find(
+      c =>
+      String(c.id) ===
+      String(id)
+    );
+
+  if(!cat) return;
+
+  const emoji =
+    prompt(
+      'اكتب الإيموجي الجديد للقسم:',
+      cat.emoji || '📦'
+    );
+
+  if(emoji === null) return;
+
+  const value =
+    emoji.trim() || '📦';
+
+  const r =
+    await db
+      .from('categories')
+      .update({
+        emoji:value
+      })
+      .eq('id',id);
+
+  if(r.error){
+
+    alert(
+      'حدث خطأ: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+  await refresh();
+}
+
+
+/* =========================
+   إعدادات المتجر
+========================= */
+
+function fillSettings(){
+
+  $('shopName').value =
+    settings.shop_name || '';
+
+  $('shopWhats').value =
+    settings.whatsapp || '';
+
+  $('logoUrl').value =
+    settings.logo_url || '';
+}
+
+
+/* =========================
+   رفع الصور والفيديو
+========================= */
 
 async function uploadFiles(files){
 
@@ -1132,7 +1309,9 @@ async function uploadFiles(files){
   for(const f of files){
 
     const ext =
-      f.name.split('.').pop();
+      f.name
+      .split('.')
+      .pop();
 
     const path =
       Date.now() +
@@ -1143,24 +1322,32 @@ async function uploadFiles(files){
       '.' +
       ext;
 
-
     const r =
-      await db.storage
+      await db
+        .storage
         .from('product-media')
-        .upload(path,f);
+        .upload(
+          path,
+          f
+        );
 
+    if(r.error){
 
-    if(r.error)
       throw r.error;
 
+    }
+
+    const publicUrl =
+      db
+        .storage
+        .from('product-media')
+        .getPublicUrl(path)
+        .data
+        .publicUrl;
 
     out.push({
 
-      url:
-        db.storage
-          .from('product-media')
-          .getPublicUrl(path)
-          .data.publicUrl,
+      url:publicUrl,
 
       type:
         f.type.startsWith('video/')
@@ -1172,15 +1359,15 @@ async function uploadFiles(files){
       path:path
 
     });
-
   }
 
   return out;
-
 }
 
 
-/* SAVE PRODUCT */
+/* =========================
+   حفظ المنتج
+========================= */
 
 $('productForm').onsubmit =
 async e => {
@@ -1190,26 +1377,29 @@ async e => {
   const id =
     $('editId').value;
 
-
   try{
 
     const old =
       id
-        ? (
-            products.find(
-              p =>
-                String(p.id) ===
-                String(id)
-            )?.media || []
-          )
-        : [];
 
+      ?
+
+      (
+        products.find(
+          p =>
+          String(p.id) ===
+          String(id)
+        )?.media || []
+      )
+
+      :
+
+      [];
 
     const newMedia =
       await uploadFiles(
         [...$('pMedia').files]
       );
-
 
     const media =
       (
@@ -1222,17 +1412,23 @@ async e => {
     const payload = {
 
       name:
-        $('pName').value.trim(),
+        $('pName')
+        .value
+        .trim(),
 
       price:
-        Number($('pPrice').value),
+        Number(
+          $('pPrice').value
+        ),
 
       description:
         $('pDesc').value,
 
       category_id:
         $('pCategory').value
-          ? Number($('pCategory').value)
+          ? Number(
+              $('pCategory').value
+            )
           : null,
 
       media:media
@@ -1243,18 +1439,25 @@ async e => {
     const r =
       id
 
-        ? await db
-            .from('products')
-            .update(payload)
-            .eq('id',id)
+      ?
 
-        : await db
-            .from('products')
-            .insert(payload);
+      await db
+        .from('products')
+        .update(payload)
+        .eq('id',id)
+
+      :
+
+      await db
+        .from('products')
+        .insert(payload);
 
 
-    if(r.error)
+    if(r.error){
+
       throw r.error;
+
+    }
 
 
     msg(
@@ -1265,14 +1468,11 @@ async e => {
       true
     );
 
-
     reset();
 
     await refresh();
 
-  }
-
-  catch(x){
+  }catch(x){
 
     msg(
       'productMsg',
@@ -1281,24 +1481,23 @@ async e => {
     );
 
   }
-
 };
 
 
-/* EDIT PRODUCT */
+/* =========================
+   تعديل منتج
+========================= */
 
 function editProduct(id){
 
   const p =
     products.find(
       x =>
-        String(x.id) ===
-        String(id)
+      String(x.id) ===
+      String(id)
     );
 
-  if(!p)
-    return;
-
+  if(!p) return;
 
   $('editId').value =
     p.id;
@@ -1318,51 +1517,81 @@ function editProduct(id){
   $('pMedia').value =
     '';
 
-
   $('currentMedia').innerHTML =
+
     (
       Array.isArray(p.media)
         ? p.media
         : []
     )
+
     .map(
       (m,i) =>
-        `
-        <span class="media-chip">
-          ${
-            m.type === 'video'
-              ? '🎥'
-              : '🖼️'
-          }
-          ${esc(
-            m.name ||
-            ('ملف ' + (i+1))
-          )}
-        </span>
-        `
-    )
-    .join('');
 
+      '<span class="media-chip">' +
 
-  $('cancelEdit').style.display =
+        (
+          m.type === 'video'
+            ? '🎥'
+            : '🖼️'
+        ) +
+
+        ' ' +
+
+        esc(
+          m.name ||
+          ('ملف ' + (i+1))
+        ) +
+
+      '</span>'
+
+    ).join('');
+
+  $('cancelEdit')
+    .style
+    .display =
     'inline-block';
 
+  document
+    .querySelector(
+      '[data-tab="products"]'
+    )
+    .click();
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
 }
 
 
+/* =========================
+   إلغاء التعديل
+========================= */
+
 function reset(){
 
-  $('editId').value =
-    '';
+  $('editId').value = '';
 
   $('productForm').reset();
 
-  $('currentMedia').innerHTML =
-    '';
+  $('currentMedia').innerHTML = '';
 
-  $('cancelEdit').style.display =
+  $('cancelEdit')
+    .style
+    .display =
     'none';
 
+  $('catEmoji').value =
+    '📦';
+
+  $('catEmojiPreview').value =
+    '📦';
+
+  msg(
+    'productMsg',
+    ''
+  );
 }
 
 
@@ -1370,7 +1599,9 @@ $('cancelEdit').onclick =
 reset;
 
 
-/* DELETE PRODUCT */
+/* =========================
+   حذف المنتج
+========================= */
 
 async function deleteProduct(id){
 
@@ -1378,9 +1609,10 @@ async function deleteProduct(id){
     !confirm(
       'هل تريد حذف المنتج؟'
     )
-  )
-    return;
+  ){
 
+    return;
+  }
 
   const r =
     await db
@@ -1388,49 +1620,47 @@ async function deleteProduct(id){
       .delete()
       .eq('id',id);
 
-
   if(r.error){
 
-    alert(r.error.message);
+    alert(
+      r.error.message
+    );
 
     return;
-
   }
 
-
   await refresh();
-
 }
 
 
-/* ADD CATEGORY */
+/* =========================
+   إضافة قسم
+========================= */
 
 $('catForm').onsubmit =
 async e => {
 
   e.preventDefault();
 
-
   const name =
     $('catName')
-      .value
-      .trim();
-
+    .value
+    .trim();
 
   const emoji =
-    $('categoryEmoji')
-      .value;
-
+    $('catEmoji')
+    .value
+    .trim() ||
+    '📦';
 
   if(!name){
 
     msg(
       'catMsg',
-      'اكتب اسم القسم أولاً.'
+      'اكتب اسم القسم.'
     );
 
     return;
-
   }
 
 
@@ -1438,10 +1668,11 @@ async e => {
     await db
       .from('categories')
       .insert({
-        name:
-          emoji +
-          ' | ' +
-          name
+
+        name:name,
+
+        emoji:emoji
+
       });
 
 
@@ -1453,12 +1684,17 @@ async e => {
     );
 
     return;
-
   }
 
 
   $('catName').value =
     '';
+
+  $('catEmoji').value =
+    '📦';
+
+  $('catEmojiPreview').value =
+    '📦';
 
   msg(
     'catMsg',
@@ -1466,22 +1702,24 @@ async e => {
     true
   );
 
-
   await refresh();
-
 };
 
 
-/* DELETE CATEGORY */
+/* =========================
+   حذف قسم
+========================= */
 
 async function deleteCat(id){
 
   if(
     !confirm(
-      'حذف القسم؟ المنتجات ستصبح بدون قسم.'
+      'حذف القسم؟\n\nالمنتجات الموجودة في هذا القسم ستصبح بدون قسم.'
     )
-  )
+  ){
+
     return;
+  }
 
 
   const r =
@@ -1493,39 +1731,25 @@ async function deleteCat(id){
 
   if(r.error){
 
-    alert(r.error.message);
+    alert(
+      r.error.message
+    );
 
     return;
-
   }
 
-
   await refresh();
-
 }
 
 
-/* STORE SETTINGS */
-
-function fillSettings(){
-
-  $('shopName').value =
-    settings.shop_name || '';
-
-  $('shopWhats').value =
-    settings.whatsapp || '';
-
-  $('logoUrl').value =
-    settings.logo_url || '';
-
-}
-
+/* =========================
+   حفظ إعدادات المتجر
+========================= */
 
 $('settingsForm').onsubmit =
 async e => {
 
   e.preventDefault();
-
 
   const r =
     await db
@@ -1553,123 +1777,24 @@ async e => {
     );
 
     return;
-
   }
 
 
   msg(
     'settingsMsg',
-    'تم حفظ إعدادات المتجر.',
+    'تم حفظ الإعدادات.',
     true
   );
-
 
   await refresh();
-
 };
 
 
-/* FOOTER SETTINGS */
-
-async function loadFooterSettings(){
-
-  const r =
-    await db
-      .from('footer_settings')
-      .select('*')
-      .eq('id',1)
-      .maybeSingle();
-
-
-  if(r.error){
-
-    console.log(
-      'Footer settings:',
-      r.error.message
-    );
-
-    return;
-
-  }
-
-
-  if(r.data){
-
-    $('storeAddress').value =
-      r.data.address || '';
-
-    $('facebookUrl').value =
-      r.data.facebook || '';
-
-    $('tiktokUrl').value =
-      r.data.tiktok || '';
-
-  }
-
-}
-
-
-$('footerForm').onsubmit =
-async e => {
-
-  e.preventDefault();
-
-
-  const r =
-    await db
-      .from('footer_settings')
-      .upsert({
-
-        id:1,
-
-        address:
-          $('storeAddress')
-            .value
-            .trim(),
-
-        facebook:
-          $('facebookUrl')
-            .value
-            .trim(),
-
-        tiktok:
-          $('tiktokUrl')
-            .value
-            .trim(),
-
-        updated_at:
-          new Date().toISOString()
-
-      });
-
-
-  if(r.error){
-
-    msg(
-      'footerMsg',
-      'حدث خطأ: ' +
-      r.error.message
-    );
-
-    return;
-
-  }
-
-
-  msg(
-    'footerMsg',
-    'تم حفظ إعدادات الفوتر بنجاح.',
-    true
-  );
-
-};
-
-
-/* START */
+/* تشغيل */
 
 start();
 
 </script>
 
 </body>
-  </html>
+      </html>

@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>العمدة للأدوات الكهربائية</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -26,7 +29,6 @@
       min-height: 100vh;
     }
 
-    /* لوجو خلفية الموقع */
     body::before {
       content: "";
       position: fixed;
@@ -77,7 +79,7 @@
     }
 
     .shop-title p {
-      color: #fff;
+      color: white;
       margin-top: 5px;
     }
 
@@ -131,7 +133,6 @@
       text-align: center;
       background: linear-gradient(135deg, #fff3cd, #ffe0a3);
       border-radius: 18px;
-      position: relative;
     }
 
     .hero h2 {
@@ -142,6 +143,7 @@
 
     .hero p {
       font-size: 18px;
+      line-height: 1.8;
     }
 
     .section {
@@ -178,6 +180,11 @@
     .category-btn:hover {
       background: #ff9800;
       color: white;
+    }
+
+    /* المنتجات مخفية في البداية */
+    #productsSection {
+      display: none;
     }
 
     .products {
@@ -227,9 +234,7 @@
       font-size: 14px;
     }
 
-    /* =========================
-       احسب فاتورتك
-    ========================= */
+    /* الفاتورة */
 
     .invoice-box {
       background: rgba(255, 255, 255, 0.97);
@@ -295,11 +300,6 @@
       outline: none;
     }
 
-    .quantity-input:focus {
-      border-color: #e65100;
-      box-shadow: 0 0 5px #ff980055;
-    }
-
     .invoice-grand-total {
       margin-top: 20px;
       background: #fff3cd;
@@ -312,9 +312,7 @@
       color: #e65100;
     }
 
-    /* =========================
-       Modal
-    ========================= */
+    /* المنتج */
 
     .modal {
       display: none;
@@ -371,10 +369,6 @@
       cursor: pointer;
     }
 
-    .media-controls button:hover {
-      background: #e65100;
-    }
-
     .buy-btn {
       display: block;
       width: 100%;
@@ -389,13 +383,7 @@
       margin-top: 15px;
     }
 
-    .buy-btn:hover {
-      background: #1ebe5d;
-    }
-
-    /* =========================
-       Footer
-    ========================= */
+    /* الفوتر */
 
     footer {
       background: #222;
@@ -437,11 +425,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: .2s;
-    }
-
-    .social-link:hover {
-      transform: scale(1.1);
     }
 
     .social-link img {
@@ -490,30 +473,13 @@
       .invoice-box {
         padding: 12px;
       }
+
     }
+
   </style>
+
 </head>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
 
-  function removeAllCategory() {
-    document.querySelectorAll("button").forEach(function (button) {
-      if (button.textContent.includes("الكل")) {
-        button.remove();
-      }
-    });
-  }
-
-  removeAllCategory();
-
-  const observer = new MutationObserver(removeAllCategory);
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-
-});
-</script>
 <body>
 
 <header>
@@ -554,13 +520,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </header>
 
+
 <nav>
 
   <div class="nav-inner">
-
-    <button onclick="scrollToSection('productsSection')">
-      المنتجات
-    </button>
 
     <button onclick="scrollToSection('categoriesSection')">
       الأقسام
@@ -574,6 +537,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </nav>
 
+
 <section class="hero">
 
   <h2>
@@ -582,9 +546,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <p>
     اختار المنتج وشوف التفاصيل والسعر وتواصل معنا مباشرة على واتساب
-  <p>🚚 يوجد شحن لجميع المحافظات</p>
+  </p>
+
+  <p>
+    🚚 يوجد شحن لجميع المحافظات
+  </p>
 
 </section>
+
+
+<!-- الأقسام -->
 
 <section
   class="section"
@@ -602,6 +573,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </section>
 
+
+<!-- المنتجات -->
+
 <section
   class="section"
   id="productsSection"
@@ -618,9 +592,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </section>
 
-<!-- =========================
-     احسب فاتورتك
-========================= -->
+
+<!-- الفاتورة -->
 
 <section
   class="section"
@@ -632,8 +605,6 @@ document.addEventListener("DOMContentLoaded", function () {
   </h2>
 
   <div class="invoice-box">
-
-    <!-- عناوين الجدول -->
 
     <div class="invoice-header">
 
@@ -655,11 +626,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     </div>
 
-    <!-- المنتجات -->
-
     <div id="invoiceProducts"></div>
-
-    <!-- الإجمالي النهائي -->
 
     <div class="invoice-grand-total">
 
@@ -677,9 +644,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </section>
 
-<!-- =========================
-     Product Modal
-========================= -->
+
+<!-- نافذة المنتج -->
 
 <div
   class="modal"
@@ -727,9 +693,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </div>
 
-<!-- =========================
-     Footer
-========================= -->
+
+<!-- الفوتر -->
 
 <footer>
 
@@ -745,19 +710,20 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 
     <div>
-      📞 واتساب:
+      واتساب:
       <strong>01028420413</strong>
     </div>
 
-    <div class="socials">
+    <p style="margin-top:12px;">
+      🚚 يوجد شحن لجميع المحافظات
+    </p>
 
-      <!-- Facebook -->
+    <div class="socials">
 
       <a
         class="social-link"
         href="https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr"
         target="_blank"
-        title="Facebook"
       >
 
         <img
@@ -767,13 +733,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       </a>
 
-      <!-- TikTok -->
 
       <a
         class="social-link"
         href="https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s"
         target="_blank"
-        title="TikTok"
       >
 
         <img
@@ -783,13 +747,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       </a>
 
-      <!-- WhatsApp -->
 
       <a
         class="social-link"
         href="https://wa.me/201028420413"
         target="_blank"
-        title="WhatsApp"
       >
 
         <img
@@ -809,7 +771,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </footer>
 
+
 <script>
+
+  /* =========================
+     Supabase
+  ========================= */
 
   const SUPABASE_URL =
     "https://kiiumhhgncvondiemebj.supabase.co";
@@ -823,10 +790,12 @@ document.addEventListener("DOMContentLoaded", function () {
       SUPABASE_KEY
     );
 
+
   let products = [];
 
   let categories = [];
 
+  /* لا يوجد قسم مختار في البداية */
   let selectedCategory = null;
 
   let currentProduct = null;
@@ -835,7 +804,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     الانتقال للأقسام
+     الانتقال
   ========================= */
 
   function scrollToSection(id) {
@@ -953,6 +922,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderCategories();
 
+    /* لا تعرض المنتجات عند فتح الموقع */
+
     renderProducts();
 
     renderInvoice();
@@ -962,37 +933,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* =========================
      عرض الأقسام
+     بدون زر الكل
   ========================= */
 
   function renderCategories() {
 
     const container =
-      document.getElementById(
-        "categories"
-      );
+      document.getElementById("categories");
 
-    container.innerHTML = `
-
-      <button
-        class="category-btn ${
-          selectedCategory === null
-            ? "active"
-            : ""
-        }"
-        onclick="selectCategory(null)"
-      >
-        🛒 الكل
-      </button>
-
-    `;
+    container.innerHTML = "";
 
 
     categories.forEach(category => {
 
       const button =
-        document.createElement(
-          "button"
-        );
+        document.createElement("button");
 
       button.className =
         "category-btn " +
@@ -1007,19 +962,22 @@ document.addEventListener("DOMContentLoaded", function () {
          ${escapeHtml(category.name)}`;
 
       button.onclick =
-        () =>
-          selectCategory(
-            category.id
-          );
+        function () {
 
-      container.appendChild(
-        button
-      );
+          selectCategory(category.id);
+
+        };
+
+      container.appendChild(button);
 
     });
 
   }
 
+
+  /* =========================
+     اختيار قسم
+  ========================= */
 
   function selectCategory(id) {
 
@@ -1028,6 +986,19 @@ document.addEventListener("DOMContentLoaded", function () {
     renderCategories();
 
     renderProducts();
+
+    /* ينزل للمنتجات تلقائيًا */
+
+    setTimeout(function () {
+
+      document
+        .getElementById("productsSection")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+    }, 100);
 
   }
 
@@ -1039,15 +1010,39 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderProducts() {
 
     const container =
-      document.getElementById(
-        "products"
-      );
+      document.getElementById("products");
+
+    const productsSection =
+      document.getElementById("productsSection");
+
+
+    /*
+      لو مفيش قسم متحدد:
+      اخفاء المنتجات تمامًا
+    */
+
+    if (selectedCategory === null) {
+
+      productsSection.style.display = "none";
+
+      container.innerHTML = "";
+
+      return;
+
+    }
+
+
+    /*
+      يوجد قسم محدد:
+      إظهار المنتجات
+    */
+
+    productsSection.style.display = "block";
+
 
     const search =
       document
-        .getElementById(
-          "searchInput"
-        )
+        .getElementById("searchInput")
         .value
         .trim()
         .toLowerCase();
@@ -1056,10 +1051,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const filtered =
       products.filter(product => {
 
+        /*
+          المنتجات التابعة للقسم المختار فقط
+        */
+
         const matchesCategory =
-          selectedCategory === null ||
-          product.category_id ===
-            selectedCategory;
+          Number(product.category_id) ===
+          Number(selectedCategory);
 
 
         const matchesSearch =
@@ -1092,14 +1090,16 @@ document.addEventListener("DOMContentLoaded", function () {
             text-align:center;
             width:100%;
             padding:30px;
+            font-size:18px;
           "
         >
-          لا توجد منتجات.
+          لا توجد منتجات في هذا القسم.
         </p>
 
       `;
 
       return;
+
     }
 
 
@@ -1169,7 +1169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     احسب فاتورتك
+     الفاتورة
   ========================= */
 
   function renderInvoice() {
@@ -1196,12 +1196,11 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
 
       document
-        .getElementById(
-          "grandTotal"
-        )
+        .getElementById("grandTotal")
         .textContent = "0";
 
       return;
+
     }
 
 
@@ -1215,8 +1214,6 @@ document.addEventListener("DOMContentLoaded", function () {
             data-product-id="${product.id}"
           >
 
-            <!-- اسم المنتج -->
-
             <div class="invoice-product">
 
               ${escapeHtml(
@@ -1225,8 +1222,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             </div>
 
-
-            <!-- سعر الوحدة -->
 
             <div class="invoice-price">
 
@@ -1238,8 +1233,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             </div>
 
-
-            <!-- العدد -->
 
             <div class="quantity-box">
 
@@ -1259,8 +1252,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             </div>
 
-
-            <!-- إجمالي المنتج -->
 
             <div
               class="invoice-total"
@@ -1304,9 +1295,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       let quantity =
-        parseFloat(
-          input.value
-        ) || 0;
+        parseFloat(input.value) || 0;
 
 
       if (quantity < 0) {
@@ -1343,13 +1332,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document
-      .getElementById(
-        "grandTotal"
-      )
+      .getElementById("grandTotal")
       .textContent =
-      formatPrice(
-        grandTotal
-      );
+      formatPrice(grandTotal);
 
   }
 
@@ -1379,25 +1364,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document
-      .getElementById(
-        "modalName"
-      )
+      .getElementById("modalName")
       .textContent =
       product.name;
 
 
     document
-      .getElementById(
-        "modalPrice"
-      )
+      .getElementById("modalPrice")
       .textContent =
       `${formatPrice(product.price)} جنيه`;
 
 
     document
-      .getElementById(
-        "modalDescription"
-      )
+      .getElementById("modalDescription")
       .textContent =
       product.description ||
       "لا يوجد وصف للمنتج.";
@@ -1412,9 +1391,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document
-      .getElementById(
-        "buyBtn"
-      )
+      .getElementById("buyBtn")
       .href =
       `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
@@ -1423,9 +1400,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document
-      .getElementById(
-        "productModal"
-      )
+      .getElementById("productModal")
       .style.display =
       "block";
 
@@ -1433,7 +1408,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     صور وفيديوهات المنتج
+     صور وفيديوهات
   ========================= */
 
   function renderModalMedia() {
@@ -1474,6 +1449,7 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
 
       return;
+
     }
 
 
@@ -1512,23 +1488,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
       controls.innerHTML = `
 
-        <button
-          onclick="previousMedia()"
-        >
+        <button onclick="previousMedia()">
           السابق
         </button>
 
-        <span
-          style="padding:10px;"
-        >
+        <span style="padding:10px;">
           ${currentMediaIndex + 1}
           /
           ${media.length}
         </span>
 
-        <button
-          onclick="nextMedia()"
-        >
+        <button onclick="nextMedia()">
           التالي
         </button>
 
@@ -1598,9 +1568,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function closeModal() {
 
     document
-      .getElementById(
-        "productModal"
-      )
+      .getElementById("productModal")
       .style.display =
       "none";
 
@@ -1616,9 +1584,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-      if (
-        event.target === modal
-      ) {
+      if (event.target === modal) {
 
         closeModal();
 
@@ -1647,26 +1613,11 @@ document.addEventListener("DOMContentLoaded", function () {
     return String(
       text || ""
     )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   }
 
@@ -1688,10 +1639,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .maybeSingle();
 
 
-    if (
-      error ||
-      !data
-    ) {
+    if (error || !data) {
       return;
     }
 
@@ -1699,9 +1647,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (data.shop_name) {
 
       document
-        .getElementById(
-          "shopName"
-        )
+        .getElementById("shopName")
         .textContent =
         data.shop_name;
 
@@ -1711,9 +1657,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (data.logo_url) {
 
       document
-        .getElementById(
-          "shopLogo"
-        )
+        .getElementById("shopLogo")
         .src =
         data.logo_url;
 
@@ -1740,4 +1684,4 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 </body>
-      </html>
+  </html>

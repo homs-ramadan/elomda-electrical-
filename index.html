@@ -19,8 +19,6 @@
 
 *{box-sizing:border-box}
 
-html{scroll-behavior:smooth}
-
 body{
   margin:0;
   font-family:Tahoma,Arial,sans-serif;
@@ -48,8 +46,6 @@ button{cursor:pointer}
   display:flex;
   justify-content:space-between;
   font-size:14px;
-  gap:10px;
-  flex-wrap:wrap;
 }
 
 .header{
@@ -104,7 +100,6 @@ button{cursor:pointer}
   padding:12px;
   border-bottom:1px solid var(--line);
   font-weight:700;
-  flex-wrap:wrap;
 }
 
 .nav a{
@@ -161,10 +156,6 @@ button{cursor:pointer}
   font-weight:700;
 }
 
-.btn:hover{
-  background:#e56f00;
-}
-
 .section{
   padding:10px 5% 30px;
 }
@@ -198,6 +189,7 @@ button{cursor:pointer}
   text-align:center;
   font-weight:700;
   cursor:pointer;
+  transition:.2s;
 }
 
 .cat.active,
@@ -207,7 +199,7 @@ button{cursor:pointer}
 }
 
 .ico{
-  font-size:30px;
+  font-size:32px;
   margin-bottom:8px;
 }
 
@@ -231,7 +223,6 @@ button{cursor:pointer}
   width:100%;
   height:185px;
   object-fit:contain;
-  background:#fff;
 }
 
 .body{
@@ -268,101 +259,9 @@ button{cursor:pointer}
   color:#666;
 }
 
-/* الفاتورة */
-
-.invoice-wrap{
-  max-width:1100px;
-  margin:auto;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:16px;
-  box-shadow:0 8px 24px #f57c0010;
-}
-
-.invoice-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
-
-.invoice-head h3{
-  margin:0;
-  color:var(--o);
-}
-
-.invoice-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.invoice-row{
-  display:grid;
-  grid-template-columns:minmax(0,2fr) 110px 130px 145px;
-  gap:10px;
-  align-items:center;
-  background:#fffaf0;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:11px;
-}
-
-.invoice-name{
-  font-weight:700;
-}
-
-.invoice-unit,
-.invoice-total{
-  font-weight:800;
-  color:var(--o);
-}
-
-.invoice-qty{
-  width:100%;
-  border:1px solid #e4c98d;
-  border-radius:9px;
-  padding:9px;
-  text-align:center;
-  background:#fff;
-  outline:0;
-}
-
-.invoice-qty:focus{
-  border-color:var(--o);
-}
-
-.invoice-summary{
-  margin-top:15px;
-  padding:15px;
-  border-radius:13px;
-  background:linear-gradient(135deg,#fff4c7,#ffe082);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.invoice-grand{
-  font-size:23px;
-  font-weight:900;
-  color:var(--o);
-}
-
-.secondary-btn{
-  border:1px solid var(--o);
-  background:#fff;
-  color:var(--o);
-  border-radius:10px;
-  padding:10px 16px;
-  font-weight:700;
-}
-
-/* الفوتر */
+/* =========================
+   الفوتر
+========================= */
 
 .site-footer{
   position:relative;
@@ -397,12 +296,12 @@ button{cursor:pointer}
 }
 
 .footer-logo{
-  width:80px;
-  height:80px;
+  width:85px;
+  height:85px;
   object-fit:contain;
   border-radius:14px;
   background:#fff;
-  padding:4px;
+  padding:5px;
 }
 
 .site-footer h3{
@@ -417,17 +316,26 @@ button{cursor:pointer}
 .footer-social{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
 }
 
 .footer-social a{
   color:#fff;
   text-decoration:none;
   font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:max-content;
 }
 
-.footer-social a:hover{
-  text-decoration:underline;
+.social-logo{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+  background:#fff;
+  border-radius:7px;
+  padding:3px;
 }
 
 .footer-bottom{
@@ -438,7 +346,28 @@ button{cursor:pointer}
   font-size:13px;
 }
 
-/* نافذة المنتج */
+@media(max-width:700px){
+  .footer-grid{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .footer-logo{
+    margin:auto;
+  }
+
+  .footer-social{
+    align-items:center;
+  }
+
+  .footer-social a{
+    width:auto;
+  }
+}
+
+/* =========================
+   نافذة المنتج
+========================= */
 
 .modal{
   display:none;
@@ -507,13 +436,8 @@ button{cursor:pointer}
   font-size:23px;
 }
 
-.prev{
-  right:12px;
-}
-
-.next{
-  left:12px;
-}
+.prev{right:12px}
+.next{left:12px}
 
 .dots{
   text-align:center;
@@ -533,7 +457,65 @@ button{cursor:pointer}
   background:var(--o);
 }
 
-@media(max-width:700px){
+/* =========================
+   الفاتورة
+========================= */
+
+.invoice-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.invoice-head{
+  display:grid;
+  grid-template-columns:1fr 100px 130px 130px;
+  gap:10px;
+  padding:10px;
+  background:#fff4d0;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.invoice-row{
+  display:grid;
+  grid-template-columns:1fr 100px 130px 130px;
+  gap:10px;
+  align-items:center;
+  padding:12px 10px;
+  border-bottom:1px solid #eee;
+}
+
+.qty{
+  width:100%;
+  padding:8px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  text-align:center;
+}
+
+.line-total{
+  color:var(--o);
+  font-weight:700;
+}
+
+.invoice-total{
+  margin-top:15px;
+  padding:15px;
+  background:#fff4d0;
+  border-radius:12px;
+  font-size:21px;
+  font-weight:800;
+  text-align:center;
+}
+
+@media(max-width:600px){
+  .top{
+    font-size:12px;
+  }
 
   .header{
     flex-wrap:wrap;
@@ -556,43 +538,21 @@ button{cursor:pointer}
     height:145px;
   }
 
+  .invoice-head{
+    display:none;
+  }
+
   .invoice-row{
-    grid-template-columns:1fr 80px 105px 115px;
+    grid-template-columns:1fr 85px;
+    gap:8px;
+  }
+
+  .invoice-row .unit-price{
     font-size:13px;
   }
 
-  .footer-grid{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .footer-logo{
-    margin:auto;
-  }
-
-  .footer-social{
-    align-items:center;
-  }
-}
-
-@media(max-width:480px){
-
-  .invoice-row{
-    grid-template-columns:1fr 80px;
-    gap:7px;
-  }
-
-  .invoice-unit,
-  .invoice-total{
-    font-size:13px;
-  }
-
-  .invoice-grand{
-    font-size:20px;
-  }
-
-  .top{
-    justify-content:center;
+  .invoice-row .line-total{
+    font-size:14px;
   }
 }
 </style>
@@ -600,11 +560,13 @@ button{cursor:pointer}
 
 <body>
 
+<!-- الشريط العلوي -->
 <div class="top">
   <span>⚡ جودة عالية • أسعار مناسبة</span>
   <span>📱 واتساب: <b id="topWhats">01028420413</b></span>
 </div>
 
+<!-- الهيدر -->
 <header class="header">
   <img class="logo" id="logo" src="logo.jpg" alt="العمدة">
 
@@ -614,113 +576,77 @@ button{cursor:pointer}
   </div>
 </header>
 
+<!-- القائمة -->
 <nav class="nav">
   <a href="#">الرئيسية</a>
   <a href="#products">المنتجات</a>
   <a href="#categories">الأقسام</a>
-  <a href="#invoice">🧾 احسب فاتورتك</a>
+  <a href="#invoice">احسب فاتورتك</a>
 </nav>
 
+<!-- الرئيسية -->
 <section class="hero">
   <div class="hero-inner">
     <h1 id="shopTitle">العمدة للأدوات الكهربائية</h1>
     <p>كل احتياجات الكهرباء في مكان واحد</p>
-    <button class="btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+    <button class="btn"
+      onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
       ⚡ تسوق الآن
     </button>
   </div>
 </section>
 
+<!-- الأقسام -->
 <section class="section" id="categories">
   <h2 class="title">الأقسام</h2>
   <div id="categoriesGrid" class="categories"></div>
 </section>
 
-<section class="section" id="invoice">
-  <h2 class="title">🧾 احسب فاتورتك</h2>
-
-  <div class="invoice-wrap">
-
-    <div class="invoice-head">
-      <h3>اختار الكميات المطلوبة</h3>
-
-      <button class="secondary-btn" onclick="resetInvoice()">
-        مسح الكميات
-      </button>
-    </div>
-
-    <div id="invoiceList" class="invoice-list"></div>
-
-    <div class="invoice-summary">
-      <b>إجمالي الفاتورة</b>
-
-      <div class="invoice-grand">
-        <span id="invoiceGrand">0</span> جنيه
-      </div>
-    </div>
-
-  </div>
-</section>
-
+<!-- المنتجات -->
 <section class="section" id="products">
   <h2 class="title">المنتجات</h2>
   <div id="productsGrid" class="products"></div>
 </section>
 
-<!-- نافذة المنتج -->
+<!-- حاسبة الفاتورة -->
+<section class="section" id="invoice">
+  <h2 class="title">احسب فاتورتك</h2>
 
-<div id="modal"
-     class="modal"
-     onclick="if(event.target===this)closeModal()">
+  <div class="invoice-box">
 
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModal()">×</button>
-
-    <div id="mediaBox" class="media"></div>
-
-    <div id="dots" class="dots"></div>
-
-    <h2 id="mName"></h2>
-
-    <div id="mPrice"
-         class="price"
-         style="font-size:25px">
+    <div class="invoice-head">
+      <div>المنتج</div>
+      <div>الكمية</div>
+      <div>سعر الوحدة</div>
+      <div>الإجمالي</div>
     </div>
 
-    <p id="mDesc"
-       style="line-height:1.9;white-space:pre-wrap">
-    </p>
+    <div id="invoiceRows"></div>
 
-    <button id="buyBtn"
-            class="btn"
-            style="width:100%;margin-top:12px">
-      🛒 شراء عبر واتساب
-    </button>
+    <div class="invoice-total">
+      إجمالي الفاتورة:
+      <span id="invoiceGrandTotal">0</span>
+      جنيه
+    </div>
 
   </div>
-</div>
+</section>
 
-<!-- الفوتر الثابت -->
-
+<!-- الفوتر -->
 <footer class="site-footer">
 
   <div class="footer-grid">
 
     <div>
-
       <img src="logo.jpg"
            class="footer-logo"
            alt="العمدة للأدوات الكهربائية">
 
-      <h3 id="footerShopName">
-        العمدة للأدوات الكهربائية
-      </h3>
+      <h3>العمدة للأدوات الكهربائية</h3>
 
       <p>
         كل ما تحتاجه من الأدوات والمستلزمات الكهربائية.
       </p>
-
     </div>
 
     <div>
@@ -728,40 +654,60 @@ button{cursor:pointer}
       <h3>المتجر</h3>
 
       <p>
-        📍 العنوان:
-        الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/
+        📍 الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/
         محل العمده للأدوات الكهربائيه
       </p>
 
-      <p id="footerPhone">
-        📱 واتساب: 01028420413
+      <p>
+        📱 واتساب:
+        <span>01028420413</span>
       </p>
 
     </div>
 
     <div>
 
-      <h3>تابعنا</h3>
+      <h3>تابعنا وتواصل معنا</h3>
 
       <div class="footer-social">
 
-        <a href="https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr"
-           target="_blank"
-           rel="noopener">
-          📘 فيسبوك
+        <a
+          href="https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr"
+          target="_blank"
+          rel="noopener">
+
+          <img
+            class="social-logo"
+            src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+            alt="Facebook">
+
+          فيسبوك
         </a>
 
-        <a href="https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s"
-           target="_blank"
-           rel="noopener">
-          🎵 تيك توك
+        <a
+          href="https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s"
+          target="_blank"
+          rel="noopener">
+
+          <img
+            class="social-logo"
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg"
+            alt="TikTok">
+
+          تيك توك
         </a>
 
-        <a id="footerWhatsapp"
-           href="https://wa.me/201028420413"
-           target="_blank"
-           rel="noopener">
-          💬 واتساب
+        <a
+          href="https://wa.me/201028420413"
+          target="_blank"
+          rel="noopener">
+
+          <img
+            class="social-logo"
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+            alt="WhatsApp">
+
+          واتساب
         </a>
 
       </div>
@@ -777,106 +723,201 @@ button{cursor:pointer}
 
 </footer>
 
+<!-- نافذة المنتج -->
+<div
+  id="modal"
+  class="modal"
+  onclick="if(event.target===this)closeModal()">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal()">×</button>
+
+    <div id="mediaBox" class="media"></div>
+
+    <div id="dots" class="dots"></div>
+
+    <h2 id="mName"></h2>
+
+    <div
+      id="mPrice"
+      class="price"
+      style="font-size:25px">
+    </div>
+
+    <p
+      id="mDesc"
+      style="line-height:1.9;white-space:pre-wrap">
+    </p>
+
+    <button
+      id="buyBtn"
+      class="btn"
+      style="width:100%;margin-top:12px">
+      🛒 شراء عبر واتساب
+    </button>
+
+  </div>
+</div>
+
 <script>
 
-const db=supabase.createClient(
+const db = supabase.createClient(
   'https://kiiumhhgncvondiemebj.supabase.co',
   'sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7'
 );
 
-let products=[];
-let cats=[];
-let active=null;
-let current=null;
-let media=[];
-let mi=0;
+let products = [];
+let cats = [];
+let active = null;
+let current = null;
+let media = [];
+let mi = 0;
+let siteWhats = '01028420413';
 
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-const esc=s=>String(s??'').replace(
-  /[&<>"']/g,
-  m=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  }[m])
-);
+const esc = s =>
+  String(s ?? '').replace(
+    /[&<>"']/g,
+    m => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[m])
+  );
 
-const wa=n=>
-  String(n||'')
-  .replace(/[^0-9]/g,'')
-  .replace(/^0/,'20');
+function wa(n){
+  let x = String(n || '').replace(/[^0-9]/g,'');
 
+  if(x.startsWith('20')){
+    return x;
+  }
 
-/* بيانات الفوتر */
+  if(x.startsWith('0')){
+    return '20' + x.substring(1);
+  }
 
-const FOOTER={
-  name:'العمدة للأدوات الكهربائية',
+  return '20' + x;
+}
 
-  whatsapp:'01028420413',
+/* =========================
+   إيموجي الأقسام
+========================= */
 
-  address:'الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/ محل العمده للأدوات الكهربائيه',
+function categoryEmoji(category){
 
-  facebook:'https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr',
+  const name = String(category?.name || '').toLowerCase();
 
-  tiktok:'https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s'
-};
+  /* لو الإيموجي محفوظ من لوحة التحكم */
+  if(category?.emoji){
+    return category.emoji;
+  }
 
+  if(
+    name.includes('إضاءة') ||
+    name.includes('اضاءة') ||
+    name.includes('لمب') ||
+    name.includes('إنارة') ||
+    name.includes('انارة')
+  ){
+    return '💡';
+  }
 
-/* إيموجي الأقسام */
+  if(
+    name.includes('كشاف') ||
+    name.includes('فانوس')
+  ){
+    return '🔦';
+  }
 
-function categoryIcon(name){
-
-  const n=String(name||'').toLowerCase();
-
-  if(/إضاءة|اضاءة|إنارة|انارة|لمب|كشاف/.test(n))
-    return /كشاف/.test(n)?'🔦':'💡';
-
-  if(/سلك|أسلاك|اسلاك|كابل|كابلات/.test(n))
+  if(
+    name.includes('أسلاك') ||
+    name.includes('اسلاك') ||
+    name.includes('كابلات') ||
+    name.includes('كابل')
+  ){
     return '🧵';
+  }
 
-  if(/قاطع|قواطع|لوح|لوحات|كونتاكتور|ريلاي|فيوز/.test(n))
+  if(
+    name.includes('قاطع') ||
+    name.includes('لوح') ||
+    name.includes('لوحات')
+  ){
     return '🎛️';
+  }
 
-  if(/مفتاح|مفاتيح|فيش|أفياش|افياش|بريزة|بريز/.test(n))
+  if(
+    name.includes('مفتاح') ||
+    name.includes('مفاتيح') ||
+    name.includes('فيشة') ||
+    name.includes('أفياش') ||
+    name.includes('افياش')
+  ){
     return '🔌';
+  }
 
-  if(/مفك|مفكات/.test(n))
+  if(
+    name.includes('مفك') ||
+    name.includes('مفكات')
+  ){
     return '🪛';
+  }
 
-  if(/عدد|أدوات|ادوات|كماشة|بنسة|مفتاح ربط/.test(n))
+  if(
+    name.includes('عدد') ||
+    name.includes('أدوات') ||
+    name.includes('ادوات')
+  ){
     return '🧰';
+  }
 
-  if(/بطاري/.test(n))
+  if(
+    name.includes('بطاري')
+  ){
     return '🔋';
+  }
 
-  if(/شاحن|شواحن/.test(n))
+  if(
+    name.includes('شاحن') ||
+    name.includes('شواحن')
+  ){
     return '🔌';
+  }
 
-  if(/مسمار|مسامير|صامولة|ورد/.test(n))
+  if(
+    name.includes('مسامير') ||
+    name.includes('مسمار')
+  ){
     return '🔩';
+  }
 
-  if(/صيانة/.test(n))
+  if(
+    name.includes('صيانة') ||
+    name.includes('صيانه')
+  ){
     return '🛠️';
+  }
 
-  if(/كهرب/.test(n))
+  if(
+    name.includes('كهرب')
+  ){
     return '⚡';
+  }
 
   return '📦';
 }
 
-
-/* تحميل البيانات */
+/* =========================
+   تحميل البيانات
+========================= */
 
 async function load(){
 
-  const [
-    p,
-    c,
-    s
-  ]=await Promise.all([
+  const [p,c,s] = await Promise.all([
 
     db
       .from('products')
@@ -896,178 +937,149 @@ async function load(){
 
   ]);
 
-  products=p.data||[];
-  cats=c.data||[];
+  products = p.data || [];
+  cats = c.data || [];
 
-  if(p.error)
-    console.error('Products:',p.error);
+  if(s.data){
 
-  if(c.error)
-    console.error('Categories:',c.error);
+    $('shopTitle').textContent =
+      s.data.shop_name ||
+      'العمدة للأدوات الكهربائية';
 
-  if(s.error)
-    console.error('Settings:',s.error);
+    siteWhats =
+      s.data.whatsapp ||
+      '01028420413';
 
+    $('topWhats').textContent =
+      s.data.whatsapp ||
+      '01028420413';
+  }
 
   renderCategories();
-
   renderProducts();
-
   renderInvoice();
-
-
-  const shopName=
-    s.data?.shop_name ||
-    FOOTER.name;
-
-  const shopWhats=
-    s.data?.whatsapp ||
-    FOOTER.whatsapp;
-
-
-  $('shopTitle').textContent=shopName;
-
-  $('topWhats').textContent=shopWhats;
-
-  $('footerShopName').textContent=shopName;
-
-  $('footerPhone').textContent=
-    'واتساب: '+shopWhats;
-
-  $('footerWhatsapp').href=
-    'https://wa.me/'+wa(shopWhats);
-
-  $('footerYear').textContent=
-    new Date().getFullYear();
 }
 
-
-/* عرض الأقسام */
+/* =========================
+   الأقسام
+========================= */
 
 function renderCategories(){
 
-  $('categoriesGrid').innerHTML=
+  $('categoriesGrid').innerHTML =
 
-    '<div class="cat '+
-    (!active?'active':'')+
-    '" onclick="selectCat(null)">'+
+    '<div class="cat ' +
+    (!active ? 'active' : '') +
+    '" onclick="selectCat(null)">' +
 
-    '<div class="ico">🛍️</div>'+
-    'كل المنتجات'+
+      '<div class="ico">🛍️</div>' +
+      'كل المنتجات' +
 
-    '</div>'+
+    '</div>' +
 
-    cats.map(c=>
+    cats.map(c =>
 
-      '<div class="cat '+
-      (String(active)===String(c.id)?'active':'')+
-      '" onclick="selectCat('+c.id+')">'+
+      '<div class="cat ' +
+      (String(active) === String(c.id) ? 'active' : '') +
+      '" onclick="selectCat(' + c.id + ')">' +
 
-      '<div class="ico">'+
-      categoryIcon(c.name)+
-      '</div>'+
+        '<div class="ico">' +
+          esc(categoryEmoji(c)) +
+        '</div>' +
 
-      esc(c.name)+
+        esc(c.name) +
 
       '</div>'
 
     ).join('');
 }
 
-
-/* اختيار قسم */
-
 function selectCat(id){
 
-  active=id;
+  active = id;
 
   renderCategories();
-
   renderProducts();
 
-  $('products').scrollIntoView({
-    behavior:'smooth'
-  });
+  document
+    .getElementById('products')
+    .scrollIntoView({behavior:'smooth'});
 }
 
-
-/* الصور والفيديوهات */
+/* =========================
+   المنتجات
+========================= */
 
 function mediaOf(p){
-
-  return Array.isArray(p.media)
-    ?p.media
-    :[];
+  return Array.isArray(p.media) ? p.media : [];
 }
-
 
 function first(p){
 
-  return mediaOf(p)
-    .find(x=>x.type!=='video')
-    ?.url ||
-    'logo.jpg';
+  return (
+    mediaOf(p).find(x => x.type !== 'video')?.url
+    || 'logo.jpg'
+  );
 }
-
-
-/* عرض المنتجات */
 
 function renderProducts(){
 
-  const q=
-    $('search')
-    .value
-    .trim()
-    .toLowerCase();
+  const q =
+    $('search').value
+      .trim()
+      .toLowerCase();
 
+  let list = products.filter(p =>
 
-  const list=
-    products.filter(p=>
+    (!active ||
+      String(p.category_id) === String(active))
 
-      (!active ||
-       String(p.category_id)===String(active))
+    &&
 
-      &&
+    (!q ||
+      (`${p.name} ${p.description || ''}`)
+      .toLowerCase()
+      .includes(q))
 
-      (!q ||
-       (`${p.name} ${p.description||''}`)
-       .toLowerCase()
-       .includes(q))
+  );
 
-    );
+  $('productsGrid').innerHTML =
 
+    list.length
 
-  $('productsGrid').innerHTML=
+    ?
 
-    list.length?
+    list.map(p =>
 
-    list.map(p=>
+      '<article class="card">' +
 
-      '<article class="card">'+
+        '<img src="' +
+          esc(first(p)) +
+          '" ' +
+          'onerror="this.src=\'logo.jpg\'">' +
 
-      '<img src="'+
-      esc(first(p))+
-      '" onerror="this.src=\'logo.jpg\'">'+
+        '<div class="body">' +
 
-      '<div class="body">'+
+          '<h3>' +
+            esc(p.name) +
+          '</h3>' +
 
-      '<h3>'+
-      esc(p.name)+
-      '</h3>'+
+          '<div class="price">' +
+            Number(p.price || 0)
+              .toLocaleString('ar-EG') +
+            ' جنيه' +
+          '</div>' +
 
-      '<div class="price">'+
-      Number(p.price||0)
-      .toLocaleString('ar-EG')+
-      ' جنيه'+
-      '</div>'+
+          '<button class="btn" ' +
+            'onclick="openProduct(' +
+            p.id +
+            ')">' +
 
-      '<button class="btn" onclick="openProduct('+
-      p.id+
-      ')">'+
-      'عرض المنتج'+
-      '</button>'+
+            'عرض المنتج' +
 
-      '</div>'+
+          '</button>' +
+
+        '</div>' +
 
       '</article>'
 
@@ -1075,332 +1087,301 @@ function renderProducts(){
 
     :
 
-    '<div class="empty">'+
-    'لا توجد منتجات في هذا القسم.'+
+    '<div class="empty">' +
+      'لا توجد منتجات في هذا القسم.' +
     '</div>';
 }
 
-
-/* الفاتورة */
-
-function renderInvoice(){
-
-  if(!products.length){
-
-    $('invoiceList').innerHTML=
-      '<div class="empty">'+
-      'لا توجد منتجات متاحة حاليًا.'+
-      '</div>';
-
-    return;
-  }
-
-
-  $('invoiceList').innerHTML=
-
-    products.map((p,i)=>
-
-      '<div class="invoice-row">'+
-
-      '<div class="invoice-name">'+
-      esc(p.name)+
-      '</div>'+
-
-      '<input '+
-      'class="invoice-qty" '+
-      'type="number" '+
-      'min="0" '+
-      'step="1" '+
-      'value="0" '+
-      'data-index="'+i+'" '+
-      'oninput="updateInvoice()" '+
-      'aria-label="كمية '+esc(p.name)+'">'+
-
-      '<div class="invoice-unit">'+
-      Number(p.price||0)
-      .toLocaleString('ar-EG')+
-      ' جنيه'+
-      '</div>'+
-
-      '<div class="invoice-total" id="lineTotal-'+i+'">'+
-      '0 جنيه'+
-      '</div>'+
-
-      '</div>'
-
-    ).join('');
-
-
-  updateInvoice();
-}
-
-
-/* حساب الفاتورة */
-
-function updateInvoice(){
-
-  let grand=0;
-
-
-  document
-    .querySelectorAll('.invoice-qty')
-    .forEach(input=>{
-
-      const i=
-        Number(input.dataset.index);
-
-      const qty=
-        Math.max(
-          0,
-          Number(input.value)||0
-        );
-
-      const price=
-        Number(products[i]?.price)||0;
-
-      const total=
-        qty*price;
-
-      grand+=total;
-
-
-      const line=
-        $('lineTotal-'+i);
-
-      if(line){
-
-        line.textContent=
-          total.toLocaleString('ar-EG')+
-          ' جنيه';
-
-      }
-
-    });
-
-
-  $('invoiceGrand').textContent=
-    grand.toLocaleString('ar-EG');
-}
-
-
-/* مسح الفاتورة */
-
-function resetInvoice(){
-
-  document
-    .querySelectorAll('.invoice-qty')
-    .forEach(x=>x.value=0);
-
-  updateInvoice();
-}
-
-
-/* فتح المنتج */
+/* =========================
+   المنتج
+========================= */
 
 function openProduct(id){
 
-  current=
+  current =
     products.find(
-      p=>String(p.id)===String(id)
+      p => String(p.id) === String(id)
     );
 
-  if(!current)
-    return;
+  if(!current) return;
 
+  media = mediaOf(current);
+  mi = 0;
 
-  media=mediaOf(current);
+  $('mName').textContent =
+    current.name || '';
 
-  mi=0;
-
-
-  $('mName').textContent=
-    current.name||'';
-
-
-  $('mPrice').textContent=
-    Number(current.price||0)
-    .toLocaleString('ar-EG')+
+  $('mPrice').textContent =
+    Number(current.price || 0)
+      .toLocaleString('ar-EG') +
     ' جنيه';
 
-
-  $('mDesc').textContent=
-    current.description||'';
-
+  $('mDesc').textContent =
+    current.description || '';
 
   renderMedia();
 
-
   $('modal').classList.add('open');
 
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 
+  $('buyBtn').onclick = () => {
 
-  $('buyBtn').onclick=()=>{
+    const n = wa(siteWhats);
 
-    const link=
-      location.origin+
-      location.pathname+
-      '?product='+
+    const link =
+      location.origin +
+      location.pathname +
+      '?product=' +
       current.id;
 
-
-    location.href=
-      'https://wa.me/'+
-      wa(FOOTER.whatsapp)+
-      '?text='+
+    location.href =
+      'https://wa.me/' +
+      n +
+      '?text=' +
       encodeURIComponent(
-
-        'أريد شراء: '+
-        current.name+
-
-        '\nالسعر: '+
-        current.price+
-        ' جنيه'+
-
-        '\nرابط المنتج: '+
+        'أريد شراء: ' +
+        current.name +
+        '\nالسعر: ' +
+        current.price +
+        ' جنيه' +
+        '\nرابط المنتج: ' +
         link
-
       );
-
   };
 }
 
-
-/* عرض الميديا */
-
 function renderMedia(){
 
-  const m=media[mi];
+  let m = media[mi];
 
+  $('mediaBox').innerHTML =
 
-  $('mediaBox').innerHTML=
+    m
 
-    m?
+    ?
 
     (
-
-      m.type==='video'
+      m.type === 'video'
 
       ?
 
-      '<video src="'+
-      esc(m.url)+
+      '<video src="' +
+      esc(m.url) +
       '" controls playsinline></video>'
 
       :
 
-      '<img src="'+
-      esc(m.url)+
-      '" alt="'+
-      esc(current?.name||'')+
-      '">'
-
+      '<img src="' +
+      esc(m.url) +
+      '" alt="">'
     )
 
     :
 
-    '<img src="logo.jpg" alt="العمدة">';
+    '<img src="logo.jpg">';
 
+  if(media.length > 1){
 
-  if(media.length>1){
+    $('mediaBox').innerHTML +=
 
-    $('mediaBox').innerHTML+=
+      '<button class="arrow prev" ' +
+      'onclick="prevMedia()">›</button>' +
 
-      '<button class="arrow prev" onclick="prevMedia()">›</button>'+
-
-      '<button class="arrow next" onclick="nextMedia()">‹</button>';
-
+      '<button class="arrow next" ' +
+      'onclick="nextMedia()">‹</button>';
   }
 
+  $('dots').innerHTML =
 
-  $('dots').innerHTML=
+    media.map((_,i) =>
 
-    media.map((_,i)=>
-
-      '<span class="dot '+
-      (i===mi?'on':'')+
+      '<span class="dot ' +
+      (i === mi ? 'on' : '') +
       '"></span>'
 
     ).join('');
 }
 
-
-/* الصورة السابقة */
-
 function prevMedia(){
 
-  if(!media.length)
-    return;
+  if(!media.length) return;
 
-  mi=
-    (mi-1+media.length)%
+  mi =
+    (mi - 1 + media.length) %
     media.length;
 
   renderMedia();
 }
-
-
-/* الصورة التالية */
 
 function nextMedia(){
 
-  if(!media.length)
-    return;
+  if(!media.length) return;
 
-  mi=
-    (mi+1)%
+  mi =
+    (mi + 1) %
     media.length;
 
   renderMedia();
 }
-
-
-/* إغلاق المنتج */
 
 function closeModal(){
 
   $('modal').classList.remove('open');
 
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
 }
 
+document.addEventListener('keydown',e => {
 
-/* البحث */
+  if(e.key === 'Escape'){
+    closeModal();
+  }
+
+});
 
 $('search').addEventListener(
   'input',
   renderProducts
 );
 
+/* =========================
+   حاسبة الفاتورة
+========================= */
 
-/* زر Escape */
+function renderInvoice(){
 
-document.addEventListener(
-  'keydown',
-  e=>{
+  const box = $('invoiceRows');
 
-    if(e.key==='Escape')
-      closeModal();
+  if(!products.length){
 
+    box.innerHTML =
+      '<div class="empty">' +
+      'لا توجد منتجات حاليًا.' +
+      '</div>';
+
+    updateInvoiceTotal();
+
+    return;
   }
-);
 
+  box.innerHTML = products.map(p =>
+
+    '<div class="invoice-row">' +
+
+      '<div>' +
+        '<strong>' +
+          esc(p.name) +
+        '</strong>' +
+      '</div>' +
+
+      '<input ' +
+        'class="qty" ' +
+        'type="number" ' +
+        'min="0" ' +
+        'step="1" ' +
+        'value="0" ' +
+        'data-id="' +
+        p.id +
+        '" ' +
+        'oninput="updateInvoiceTotal()">' +
+
+      '<div class="unit-price">' +
+        Number(p.price || 0)
+          .toLocaleString('ar-EG') +
+        ' جنيه' +
+      '</div>' +
+
+      '<div ' +
+        'class="line-total" ' +
+        'data-total-id="' +
+        p.id +
+        '">' +
+
+        '0 جنيه' +
+
+      '</div>' +
+
+    '</div>'
+
+  ).join('');
+
+  updateInvoiceTotal();
+}
+
+function updateInvoiceTotal(){
+
+  let grand = 0;
+
+  document
+    .querySelectorAll('.invoice-row')
+    .forEach(row => {
+
+      const input =
+        row.querySelector('.qty');
+
+      const id =
+        input?.dataset.id;
+
+      const product =
+        products.find(
+          p => String(p.id) === String(id)
+        );
+
+      if(!product) return;
+
+      let qty =
+        Number(input.value || 0);
+
+      if(qty < 0) qty = 0;
+
+      const total =
+        qty * Number(product.price || 0);
+
+      const line =
+        row.querySelector(
+          '[data-total-id="' +
+          id +
+          '"]'
+        );
+
+      if(line){
+
+        line.textContent =
+          total.toLocaleString('ar-EG') +
+          ' جنيه';
+      }
+
+      grand += total;
+    });
+
+  $('invoiceGrandTotal').textContent =
+    grand.toLocaleString('ar-EG');
+}
+
+/* =========================
+   السنة
+========================= */
+
+$('footerYear').textContent =
+  new Date().getFullYear();
 
 /* تشغيل الموقع */
 
-load().then(()=>{
+load().then(() => {
 
-  const id=
+  const id =
     new URLSearchParams(
       location.search
     ).get('product');
 
-  if(id)
+  if(id){
     openProduct(id);
+  }
 
 });
 
 </script>
 
 </body>
- </html>
+</html>

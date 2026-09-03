@@ -1,1387 +1,1138 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>العمدة للأدوات الكهربائية</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root{
-  --o:#f57c00;
-  --o2:#ff9800;
-  --y:#ffc107;
-  --cream:#fffaf0;
-  --ink:#181818;
-  --line:#f0ddb4;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Tahoma,Arial,sans-serif;
-  background:var(--cream);
-  color:var(--ink);
-}
-
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:url('logo.jpg') center/520px no-repeat;
-  opacity:.085;
-  pointer-events:none;
-  z-index:-1;
-}
-
-button,input{font:inherit}
-button{cursor:pointer}
-
-.top{
-  background:linear-gradient(90deg,#ffb300,#f57c00);
-  color:#fff;
-  padding:9px 5%;
-  display:flex;
-  justify-content:space-between;
-  font-size:14px;
-}
-
-.header{
-  background:#fffdf8;
-  padding:12px 5%;
-  display:flex;
-  align-items:center;
-  gap:20px;
-  position:sticky;
-  top:0;
-  z-index:20;
-  border-bottom:1px solid var(--line);
-}
-
-.logo{
-  width:108px;
-  height:74px;
-  object-fit:cover;
-  border-radius:13px;
-  border:2px solid #ffb300;
-  background:#fff;
-}
-
-.search{
-  flex:1;
-  display:flex;
-  border:1px solid #ead6a5;
-  border-radius:13px;
-  overflow:hidden;
-  background:#fff;
-}
-
-.search input{
-  flex:1;
-  border:0;
-  outline:0;
-  padding:13px;
-}
-
-.search button{
-  border:0;
-  background:var(--o);
-  color:#fff;
-  padding:0 20px;
-}
-
-.nav{
-  display:flex;
-  justify-content:center;
-  gap:28px;
-  background:#fff;
-  padding:12px;
-  border-bottom:1px solid var(--line);
-  font-weight:700;
-}
-
-.nav a{
-  color:#222;
-  text-decoration:none;
-}
-
-.nav a:first-child{
-  color:var(--o);
-}
-
-.hero{
-  margin:18px 5%;
-  border-radius:24px;
-  min-height:255px;
-  background:linear-gradient(135deg,#fff4c7,#ffe082,#ffb300);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url('logo.jpg') left center/390px no-repeat;
-  opacity:.11;
-}
-
-.hero-inner{
-  position:relative;
-  z-index:1;
-  padding:35px;
-}
-
-.hero h1{
-  font-size:38px;
-  margin:0 0 10px;
-}
-
-.hero p{
-  font-size:18px;
-}
-
-.btn{
-  border:0;
-  background:var(--o);
-  color:#fff;
-  border-radius:10px;
-  padding:12px 20px;
-  font-weight:700;
-}
-
-.section{
-  padding:10px 5% 30px;
-}
-
-.title{
-  text-align:center;
-  font-size:28px;
-}
-
-.title:after{
-  content:"";
-  display:block;
-  width:55px;
-  height:4px;
-  background:var(--o);
-  margin:8px auto;
-  border-radius:8px;
-}
-
-.categories{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
-  gap:12px;
-}
-
-.cat{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:15px;
-  padding:17px;
-  text-align:center;
-  font-weight:700;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.cat.active,
-.cat:hover{
-  border-color:var(--o);
-  box-shadow:0 5px 18px #f57c0018;
-}
-
-.ico{
-  font-size:32px;
-  margin-bottom:8px;
-}
-
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-  gap:16px;
-}
-
-.card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:16px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  min-height:305px;
-}
-
-.card img{
-  width:100%;
-  height:185px;
-  object-fit:contain;
-}
-
-.body{
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  flex:1;
-}
-
-.body h3{
-  margin:0;
-  font-size:17px;
-}
-
-.price{
-  color:var(--o);
-  font-weight:800;
-  font-size:18px;
-}
-
-.body .btn{
-  margin-top:auto;
-  width:100%;
-}
-
-.empty{
-  grid-column:1/-1;
-  background:#fff;
-  border:1px dashed #d8bd7c;
-  border-radius:14px;
-  padding:35px;
-  text-align:center;
-  color:#666;
-}
-
-/* =========================
-   الفوتر
-========================= */
-
-.site-footer{
-  position:relative;
-  overflow:hidden;
-  margin-top:45px;
-  padding:38px 20px 16px;
-  background:linear-gradient(135deg,#f57c00,#ffd54f);
-  color:#fff;
-}
-
-.site-footer:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("logo.jpg") center/280px auto no-repeat;
-  opacity:.085;
-  pointer-events:none;
-}
-
-.footer-grid,
-.footer-bottom{
-  position:relative;
-  z-index:1;
-  max-width:1100px;
-  margin:auto;
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
-}
-
-.footer-logo{
-  width:85px;
-  height:85px;
-  object-fit:contain;
-  border-radius:14px;
-  background:#fff;
-  padding:5px;
-}
-
-.site-footer h3{
-  margin:8px 0 10px;
-}
-
-.site-footer p{
-  margin:7px 0;
-  line-height:1.8;
-}
-
-.footer-social{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.footer-social a{
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  width:max-content;
-}
-
-.social-logo{
-  width:30px;
-  height:30px;
-  object-fit:contain;
-  background:#fff;
-  border-radius:7px;
-  padding:3px;
-}
-
-.footer-bottom{
-  margin-top:25px;
-  padding-top:14px;
-  border-top:1px solid rgba(255,255,255,.45);
-  text-align:center;
-  font-size:13px;
-}
-
-@media(max-width:700px){
-  .footer-grid{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .footer-logo{
-    margin:auto;
-  }
-
-  .footer-social{
-    align-items:center;
-  }
-
-  .footer-social a{
-    width:auto;
-  }
-}
-
-/* =========================
-   نافذة المنتج
-========================= */
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0009;
-  z-index:100;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-}
-
-.modal.open{
-  display:flex;
-}
-
-.modal-box{
-  background:#fff;
-  width:min(850px,100%);
-  max-height:94vh;
-  overflow:auto;
-  border-radius:20px;
-  padding:20px;
-  position:relative;
-}
-
-.close{
-  position:absolute;
-  left:10px;
-  top:6px;
-  border:0;
-  background:transparent;
-  font-size:36px;
-  line-height:1;
-  z-index:3;
-}
-
-.media{
-  position:relative;
-  min-height:300px;
-  background:#fff8e1;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.media img,
-.media video{
-  max-width:100%;
-  max-height:55vh;
-  object-fit:contain;
-}
-
-.arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  border:0;
-  background:#fff;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  box-shadow:0 2px 10px #0002;
-  font-size:23px;
-}
-
-.prev{right:12px}
-.next{left:12px}
-
-.dots{
-  text-align:center;
-  margin:9px;
-}
-
-.dot{
-  display:inline-block;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#ddd;
-  margin:3px;
-}
-
-.dot.on{
-  background:var(--o);
-}
-
-/* =========================
-   الفاتورة
-========================= */
-
-.invoice-box{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px;
-  max-width:1100px;
-  margin:auto;
-}
-
-.invoice-head{
-  display:grid;
-  grid-template-columns:1fr 100px 130px 130px;
-  gap:10px;
-  padding:10px;
-  background:#fff4d0;
-  border-radius:10px;
-  font-weight:700;
-}
-
-.invoice-row{
-  display:grid;
-  grid-template-columns:1fr 100px 130px 130px;
-  gap:10px;
-  align-items:center;
-  padding:12px 10px;
-  border-bottom:1px solid #eee;
-}
-
-.qty{
-  width:100%;
-  padding:8px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  text-align:center;
-}
-
-.line-total{
-  color:var(--o);
-  font-weight:700;
-}
-
-.invoice-total{
-  margin-top:15px;
-  padding:15px;
-  background:#fff4d0;
-  border-radius:12px;
-  font-size:21px;
-  font-weight:800;
-  text-align:center;
-}
-
-@media(max-width:600px){
-  .top{
-    font-size:12px;
-  }
-
-  .header{
-    flex-wrap:wrap;
-  }
-
-  .logo{
-    width:85px;
-    height:60px;
-  }
-
-  .hero h1{
-    font-size:28px;
-  }
-
-  .products{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-
-  .card img{
-    height:145px;
-  }
-
-  .invoice-head{
-    display:none;
-  }
-
-  .invoice-row{
-    grid-template-columns:1fr 85px;
-    gap:8px;
-  }
-
-  .invoice-row .unit-price{
-    font-size:13px;
-  }
-
-  .invoice-row .line-total{
-    font-size:14px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>العمدة للأدوات الكهربائية</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    body {
+      background: #fffaf0;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ff8c00, #ffc107);
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 10px #0002;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      justify-content: space-between;
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      background: white;
+      border-radius: 50%;
+      padding: 5px;
+    }
+
+    .shop-title {
+      flex: 1;
+    }
+
+    .shop-title h1 {
+      font-size: 24px;
+      color: white;
+    }
+
+    .shop-title p {
+      color: #fff;
+      margin-top: 5px;
+    }
+
+    .search {
+      max-width: 1200px;
+      margin: 15px auto 0;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    nav {
+      background: #222;
+      padding: 10px;
+    }
+
+    nav .nav-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      border: none;
+      background: #ff9800;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    nav button:hover {
+      background: #ffc107;
+      color: #222;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 35px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #fff3cd, #ffe0a3);
+      border-radius: 18px;
+    }
+
+    .hero h2 {
+      font-size: 30px;
+      color: #e65100;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 18px;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    .section-title {
+      text-align: center;
+      color: #e65100;
+      margin-bottom: 20px;
+      font-size: 27px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category-btn {
+      border: 2px solid #ff9800;
+      background: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .category-btn.active,
+    .category-btn:hover {
+      background: #ff9800;
+      color: white;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px #0002;
+      cursor: pointer;
+      transition: .2s;
+      border: 1px solid #eee;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #f5f5f5;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h3 {
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #e65100;
+      font-size: 21px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .category-name {
+      color: #777;
+      font-size: 14px;
+    }
+
+    /* =========================
+       احسب فاتورتك
+    ========================= */
+
+    .invoice-box {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 4px 15px #0002;
+      overflow-x: auto;
+    }
+
+    .invoice-header {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) 130px 100px 140px;
+      gap: 10px;
+      background: #ff9800;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-align: center;
+      min-width: 650px;
+    }
+
+    .invoice-row {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) 130px 100px 140px;
+      gap: 10px;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 12px 5px;
+      min-width: 650px;
+    }
+
+    .invoice-product {
+      font-weight: bold;
+    }
+
+    .invoice-price,
+    .invoice-total {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .quantity-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .quantity-label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .quantity-input {
+      width: 75px;
+      padding: 9px;
+      border: 2px solid #ff9800;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .invoice-grand-total {
+      margin-top: 20px;
+      background: #fff3cd;
+      border: 2px solid #ff9800;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #e65100;
+    }
+
+    /* =========================
+       Modal
+    ========================= */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0008;
+      z-index: 2000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 700px;
+      margin: 30px auto;
+      border-radius: 18px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      left: 15px;
+      top: 10px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #e65100;
+    }
+
+    .modal-media {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      background: #f5f5f5;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .media-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .media-controls button {
+      border: none;
+      background: #ff9800;
+      color: white;
+      padding: 9px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .buy-btn {
+      display: block;
+      width: 100%;
+      background: #25d366;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    /* =========================
+       Footer
+    ========================= */
+
+    footer {
+      background: #222;
+      color: white;
+      margin-top: 50px;
+      padding: 35px 15px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-title {
+      font-size: 23px;
+      color: #ffc107;
+      margin-bottom: 12px;
+    }
+
+    .footer-address {
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-top: 15px;
+    }
+
+    .social-link {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .2s;
+    }
+
+    .social-link:hover {
+      transform: scale(1.1);
+    }
+
+    .social-link img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .copyright {
+      margin-top: 25px;
+      color: #bbb;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner {
+        flex-wrap: wrap;
+      }
+
+      .shop-title h1 {
+        font-size: 19px;
+      }
+
+      .hero h2 {
+        font-size: 24px;
+      }
+
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .product-image {
+        height: 150px;
+      }
+
+      .product-info {
+        padding: 10px;
+      }
+
+      .product-info h3 {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- الشريط العلوي -->
-<div class="top">
-  <span>⚡ جودة عالية • أسعار مناسبة</span>
-  <span>📱 واتساب: <b id="topWhats">01028420413</b></span>
-</div>
+<header>
+  <div class="header-inner">
+    <img id="shopLogo" class="logo" src="logo.jpg" alt="شعار العمدة">
 
-<!-- الهيدر -->
-<header class="header">
-  <img class="logo" id="logo" src="logo.jpg" alt="العمدة">
+    <div class="shop-title">
+      <h1 id="shopName">العمدة للأدوات الكهربائية</h1>
+      <p>كل ما تحتاجه من الأدوات الكهربائية</p>
+    </div>
+  </div>
 
   <div class="search">
-    <input id="search" placeholder="ابحث عن منتج...">
-    <button onclick="renderProducts()">🔎</button>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="ابحث عن منتج..."
+      oninput="renderProducts()"
+    >
   </div>
 </header>
 
-<!-- القائمة -->
-<nav class="nav">
-  <a href="#">الرئيسية</a>
-  <a href="#products">المنتجات</a>
-  <a href="#categories">الأقسام</a>
-  <a href="#invoice">احسب فاتورتك</a>
+<nav>
+  <div class="nav-inner">
+    <button onclick="scrollToSection('productsSection')">المنتجات</button>
+    <button onclick="scrollToSection('categoriesSection')">الأقسام</button>
+    <button onclick="scrollToSection('invoice')">احسب فاتورتك</button>
+  </div>
 </nav>
 
-<!-- الرئيسية -->
 <section class="hero">
-  <div class="hero-inner">
-    <h1 id="shopTitle">العمدة للأدوات الكهربائية</h1>
-    <p>كل احتياجات الكهرباء في مكان واحد</p>
-    <button class="btn"
-      onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
-      ⚡ تسوق الآن
-    </button>
-  </div>
+  <h2>مرحبًا بكم في العمدة للأدوات الكهربائية</h2>
+  <p>اختار المنتج وشوف التفاصيل والسعر وتواصل معنا مباشرة على واتساب</p>
 </section>
 
-<!-- الأقسام -->
-<section class="section" id="categories">
-  <h2 class="title">الأقسام</h2>
-  <div id="categoriesGrid" class="categories"></div>
+<section class="section" id="categoriesSection">
+  <h2 class="section-title">الأقسام</h2>
+  <div class="categories" id="categories"></div>
 </section>
 
-<!-- المنتجات -->
-<section class="section" id="products">
-  <h2 class="title">المنتجات</h2>
-  <div id="productsGrid" class="products"></div>
+<section class="section" id="productsSection">
+  <h2 class="section-title">المنتجات</h2>
+  <div class="products" id="products"></div>
 </section>
 
-<!-- حاسبة الفاتورة -->
 <section class="section" id="invoice">
-  <h2 class="title">احسب فاتورتك</h2>
+  <h2 class="section-title">🧾 احسب فاتورتك</h2>
 
   <div class="invoice-box">
 
-    <div class="invoice-head">
+    <!-- العناوين -->
+    <div class="invoice-header">
       <div>المنتج</div>
-      <div>الكمية</div>
       <div>سعر الوحدة</div>
+      <div>عدد</div>
       <div>الإجمالي</div>
     </div>
 
-    <div id="invoiceRows"></div>
+    <!-- المنتجات -->
+    <div id="invoiceProducts"></div>
 
-    <div class="invoice-total">
+    <!-- الإجمالي النهائي -->
+    <div class="invoice-grand-total">
       إجمالي الفاتورة:
-      <span id="invoiceGrandTotal">0</span>
+      <span id="grandTotal">0</span>
       جنيه
     </div>
 
   </div>
 </section>
 
-<!-- الفوتر -->
-<footer class="site-footer">
+<!-- Product Modal -->
+<div class="modal" id="productModal">
+  <div class="modal-content">
 
-  <div class="footer-grid">
+    <span class="close" onclick="closeModal()">×</span>
 
-    <div>
-      <img src="logo.jpg"
-           class="footer-logo"
-           alt="العمدة للأدوات الكهربائية">
+    <div id="modalMediaContainer"></div>
 
-      <h3>العمدة للأدوات الكهربائية</h3>
+    <div class="media-controls" id="mediaControls"></div>
 
-      <p>
-        كل ما تحتاجه من الأدوات والمستلزمات الكهربائية.
-      </p>
-    </div>
+    <h2 id="modalName"></h2>
 
-    <div>
+    <div class="price" id="modalPrice"></div>
 
-      <h3>المتجر</h3>
+    <p id="modalDescription" style="line-height:1.8; margin-top:10px;"></p>
 
-      <p>
-        📍 الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/
-        محل العمده للأدوات الكهربائيه
-      </p>
-
-      <p>
-        📱 واتساب:
-        <span>01028420413</span>
-      </p>
-
-    </div>
-
-    <div>
-
-      <h3>تابعنا وتواصل معنا</h3>
-
-      <div class="footer-social">
-
-        <a
-          href="https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr"
-          target="_blank"
-          rel="noopener">
-
-          <img
-            class="social-logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-            alt="Facebook">
-
-          فيسبوك
-        </a>
-
-        <a
-          href="https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s"
-          target="_blank"
-          rel="noopener">
-
-          <img
-            class="social-logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg"
-            alt="TikTok">
-
-          تيك توك
-        </a>
-
-        <a
-          href="https://wa.me/201028420413"
-          target="_blank"
-          rel="noopener">
-
-          <img
-            class="social-logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-            alt="WhatsApp">
-
-          واتساب
-        </a>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © <span id="footerYear"></span>
-    العمدة للأدوات الكهربائية — جميع الحقوق محفوظة
-  </div>
-
-</footer>
-
-<!-- نافذة المنتج -->
-<div
-  id="modal"
-  class="modal"
-  onclick="if(event.target===this)closeModal()">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModal()">×</button>
-
-    <div id="mediaBox" class="media"></div>
-
-    <div id="dots" class="dots"></div>
-
-    <h2 id="mName"></h2>
-
-    <div
-      id="mPrice"
-      class="price"
-      style="font-size:25px">
-    </div>
-
-    <p
-      id="mDesc"
-      style="line-height:1.9;white-space:pre-wrap">
-    </p>
-
-    <button
+    <a
       id="buyBtn"
-      class="btn"
-      style="width:100%;margin-top:12px">
-      🛒 شراء عبر واتساب
-    </button>
+      class="buy-btn"
+      target="_blank"
+      href="#"
+    >
+      🟢 شراء عن طريق واتساب
+    </a>
 
   </div>
 </div>
 
+<footer>
+  <div class="footer-inner">
+
+    <div class="footer-title">
+      العمدة للأدوات الكهربائية
+    </div>
+
+    <div class="footer-address">
+      الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/ محل العمده للأدوات الكهربائيه
+    </div>
+
+    <div>
+      📞 واتساب:
+      <strong>01028420413</strong>
+    </div>
+
+    <div class="socials">
+
+      <a
+        class="social-link"
+        href="https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr"
+        target="_blank"
+        title="Facebook"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+          alt="Facebook"
+        >
+      </a>
+
+      <a
+        class="social-link"
+        href="https://www.tiktok.com/@el0mda2?_r=1&_t=ZS-99OjHkZ9o9s"
+        target="_blank"
+        title="TikTok"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg"
+          alt="TikTok"
+        >
+      </a>
+
+      <a
+        class="social-link"
+        href="https://wa.me/201028420413"
+        target="_blank"
+        title="WhatsApp"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+          alt="WhatsApp"
+        >
+      </a>
+
+    </div>
+
+    <div class="copyright">
+      جميع الحقوق محفوظة © العمدة للأدوات الكهربائية
+    </div>
+
+  </div>
+</footer>
+
 <script>
+  const SUPABASE_URL = "https://kiiumhhgncvondiemebj.supabase.co";
+  const SUPABASE_KEY = "sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7";
 
-const db = supabase.createClient(
-  'https://kiiumhhgncvondiemebj.supabase.co',
-  'sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7'
-);
-
-let products = [];
-let cats = [];
-let active = null;
-let current = null;
-let media = [];
-let mi = 0;
-let siteWhats = '01028420413';
-
-const $ = id => document.getElementById(id);
-
-const esc = s =>
-  String(s ?? '').replace(
-    /[&<>"']/g,
-    m => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;',
-      "'":'&#39;'
-    }[m])
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
   );
 
-function wa(n){
-  let x = String(n || '').replace(/[^0-9]/g,'');
+  let products = [];
+  let categories = [];
+  let selectedCategory = null;
 
-  if(x.startsWith('20')){
-    return x;
+  let currentProduct = null;
+  let currentMediaIndex = 0;
+
+  function scrollToSection(id) {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth"
+    });
   }
 
-  if(x.startsWith('0')){
-    return '20' + x.substring(1);
+  function categoryEmoji(category) {
+    if (category?.emoji) return category.emoji;
+
+    const name = category?.name || "";
+
+    if (name.includes("إضاءة") || name.includes("لمب") || name.includes("كشاف"))
+      return "💡";
+
+    if (name.includes("سلك") || name.includes("كابل"))
+      return "🧵";
+
+    if (name.includes("مفتاح") || name.includes("فيش"))
+      return "🔌";
+
+    if (name.includes("قاطع") || name.includes("لوح"))
+      return "🎛️";
+
+    if (name.includes("أداة") || name.includes("عدة"))
+      return "🔧";
+
+    return "📦";
   }
 
-  return '20' + x;
-}
+  async function loadData() {
+    const { data: categoryData, error: categoryError } =
+      await supabaseClient
+        .from("categories")
+        .select("*")
+        .order("id");
 
-/* =========================
-   إيموجي الأقسام
-========================= */
+    if (!categoryError) {
+      categories = categoryData || [];
+    }
 
-function categoryEmoji(category){
+    const { data: productData, error: productError } =
+      await supabaseClient
+        .from("products")
+        .select(`
+          *,
+          categories (
+            id,
+            name,
+            emoji
+          )
+        `)
+        .order("id", { ascending: false });
 
-  const name = String(category?.name || '').toLowerCase();
+    if (!productError) {
+      products = productData || [];
+    }
 
-  /* لو الإيموجي محفوظ من لوحة التحكم */
-  if(category?.emoji){
-    return category.emoji;
+    renderCategories();
+    renderProducts();
+    renderInvoice();
   }
 
-  if(
-    name.includes('إضاءة') ||
-    name.includes('اضاءة') ||
-    name.includes('لمب') ||
-    name.includes('إنارة') ||
-    name.includes('انارة')
-  ){
-    return '💡';
+  function renderCategories() {
+    const container = document.getElementById("categories");
+
+    container.innerHTML = `
+      <button
+        class="category-btn ${selectedCategory === null ? "active" : ""}"
+        onclick="selectCategory(null)"
+      >
+        🛒 الكل
+      </button>
+    `;
+
+    categories.forEach(category => {
+      const button = document.createElement("button");
+
+      button.className =
+        "category-btn " +
+        (selectedCategory === category.id ? "active" : "");
+
+      button.innerHTML =
+        `${categoryEmoji(category)} ${escapeHtml(category.name)}`;
+
+      button.onclick = () => selectCategory(category.id);
+
+      container.appendChild(button);
+    });
   }
 
-  if(
-    name.includes('كشاف') ||
-    name.includes('فانوس')
-  ){
-    return '🔦';
+  function selectCategory(id) {
+    selectedCategory = id;
+    renderCategories();
+    renderProducts();
   }
 
-  if(
-    name.includes('أسلاك') ||
-    name.includes('اسلاك') ||
-    name.includes('كابلات') ||
-    name.includes('كابل')
-  ){
-    return '🧵';
-  }
+  function renderProducts() {
+    const container = document.getElementById("products");
 
-  if(
-    name.includes('قاطع') ||
-    name.includes('لوح') ||
-    name.includes('لوحات')
-  ){
-    return '🎛️';
-  }
+    const search =
+      document.getElementById("searchInput").value
+        .trim()
+        .toLowerCase();
 
-  if(
-    name.includes('مفتاح') ||
-    name.includes('مفاتيح') ||
-    name.includes('فيشة') ||
-    name.includes('أفياش') ||
-    name.includes('افياش')
-  ){
-    return '🔌';
-  }
+    let filtered = products.filter(product => {
 
-  if(
-    name.includes('مفك') ||
-    name.includes('مفكات')
-  ){
-    return '🪛';
-  }
+      const matchesCategory =
+        selectedCategory === null ||
+        product.category_id === selectedCategory;
 
-  if(
-    name.includes('عدد') ||
-    name.includes('أدوات') ||
-    name.includes('ادوات')
-  ){
-    return '🧰';
-  }
+      const matchesSearch =
+        !search ||
+        product.name.toLowerCase().includes(search) ||
+        (product.description || "").toLowerCase().includes(search);
 
-  if(
-    name.includes('بطاري')
-  ){
-    return '🔋';
-  }
-
-  if(
-    name.includes('شاحن') ||
-    name.includes('شواحن')
-  ){
-    return '🔌';
-  }
-
-  if(
-    name.includes('مسامير') ||
-    name.includes('مسمار')
-  ){
-    return '🔩';
-  }
-
-  if(
-    name.includes('صيانة') ||
-    name.includes('صيانه')
-  ){
-    return '🛠️';
-  }
-
-  if(
-    name.includes('كهرب')
-  ){
-    return '⚡';
-  }
-
-  return '📦';
-}
-
-/* =========================
-   تحميل البيانات
-========================= */
-
-async function load(){
-
-  const [p,c,s] = await Promise.all([
-
-    db
-      .from('products')
-      .select('*')
-      .order('created_at',{ascending:false}),
-
-    db
-      .from('categories')
-      .select('*')
-      .order('id'),
-
-    db
-      .from('settings')
-      .select('*')
-      .eq('id',1)
-      .maybeSingle()
-
-  ]);
-
-  products = p.data || [];
-  cats = c.data || [];
-
-  if(s.data){
-
-    $('shopTitle').textContent =
-      s.data.shop_name ||
-      'العمدة للأدوات الكهربائية';
-
-    siteWhats =
-      s.data.whatsapp ||
-      '01028420413';
-
-    $('topWhats').textContent =
-      s.data.whatsapp ||
-      '01028420413';
-  }
-
-  renderCategories();
-  renderProducts();
-  renderInvoice();
-}
-
-/* =========================
-   الأقسام
-========================= */
-
-function renderCategories(){
-
-  $('categoriesGrid').innerHTML =
-
-    '<div class="cat ' +
-    (!active ? 'active' : '') +
-    '" onclick="selectCat(null)">' +
-
-      '<div class="ico">🛍️</div>' +
-      'كل المنتجات' +
-
-    '</div>' +
-
-    cats.map(c =>
-
-      '<div class="cat ' +
-      (String(active) === String(c.id) ? 'active' : '') +
-      '" onclick="selectCat(' + c.id + ')">' +
-
-        '<div class="ico">' +
-          esc(categoryEmoji(c)) +
-        '</div>' +
-
-        esc(c.name) +
-
-      '</div>'
-
-    ).join('');
-}
-
-function selectCat(id){
-
-  active = id;
-
-  renderCategories();
-  renderProducts();
-
-  document
-    .getElementById('products')
-    .scrollIntoView({behavior:'smooth'});
-}
-
-/* =========================
-   المنتجات
-========================= */
-
-function mediaOf(p){
-  return Array.isArray(p.media) ? p.media : [];
-}
-
-function first(p){
-
-  return (
-    mediaOf(p).find(x => x.type !== 'video')?.url
-    || 'logo.jpg'
-  );
-}
-
-function renderProducts(){
-
-  const q =
-    $('search').value
-      .trim()
-      .toLowerCase();
-
-  let list = products.filter(p =>
-
-    (!active ||
-      String(p.category_id) === String(active))
-
-    &&
-
-    (!q ||
-      (`${p.name} ${p.description || ''}`)
-      .toLowerCase()
-      .includes(q))
-
-  );
-
-  $('productsGrid').innerHTML =
-
-    list.length
-
-    ?
-
-    list.map(p =>
-
-      '<article class="card">' +
-
-        '<img src="' +
-          esc(first(p)) +
-          '" ' +
-          'onerror="this.src=\'logo.jpg\'">' +
-
-        '<div class="body">' +
-
-          '<h3>' +
-            esc(p.name) +
-          '</h3>' +
-
-          '<div class="price">' +
-            Number(p.price || 0)
-              .toLocaleString('ar-EG') +
-            ' جنيه' +
-          '</div>' +
-
-          '<button class="btn" ' +
-            'onclick="openProduct(' +
-            p.id +
-            ')">' +
-
-            'عرض المنتج' +
-
-          '</button>' +
-
-        '</div>' +
-
-      '</article>'
-
-    ).join('')
-
-    :
-
-    '<div class="empty">' +
-      'لا توجد منتجات في هذا القسم.' +
-    '</div>';
-}
-
-/* =========================
-   المنتج
-========================= */
-
-function openProduct(id){
-
-  current =
-    products.find(
-      p => String(p.id) === String(id)
-    );
-
-  if(!current) return;
-
-  media = mediaOf(current);
-  mi = 0;
-
-  $('mName').textContent =
-    current.name || '';
-
-  $('mPrice').textContent =
-    Number(current.price || 0)
-      .toLocaleString('ar-EG') +
-    ' جنيه';
-
-  $('mDesc').textContent =
-    current.description || '';
-
-  renderMedia();
-
-  $('modal').classList.add('open');
-
-  document.body.style.overflow = 'hidden';
-
-  $('buyBtn').onclick = () => {
-
-    const n = wa(siteWhats);
-
-    const link =
-      location.origin +
-      location.pathname +
-      '?product=' +
-      current.id;
-
-    location.href =
-      'https://wa.me/' +
-      n +
-      '?text=' +
-      encodeURIComponent(
-        'أريد شراء: ' +
-        current.name +
-        '\nالسعر: ' +
-        current.price +
-        ' جنيه' +
-        '\nرابط المنتج: ' +
-        link
-      );
-  };
-}
-
-function renderMedia(){
-
-  let m = media[mi];
-
-  $('mediaBox').innerHTML =
-
-    m
-
-    ?
-
-    (
-      m.type === 'video'
-
-      ?
-
-      '<video src="' +
-      esc(m.url) +
-      '" controls playsinline></video>'
-
-      :
-
-      '<img src="' +
-      esc(m.url) +
-      '" alt="">'
-    )
-
-    :
-
-    '<img src="logo.jpg">';
-
-  if(media.length > 1){
-
-    $('mediaBox').innerHTML +=
-
-      '<button class="arrow prev" ' +
-      'onclick="prevMedia()">›</button>' +
-
-      '<button class="arrow next" ' +
-      'onclick="nextMedia()">‹</button>';
-  }
-
-  $('dots').innerHTML =
-
-    media.map((_,i) =>
-
-      '<span class="dot ' +
-      (i === mi ? 'on' : '') +
-      '"></span>'
-
-    ).join('');
-}
-
-function prevMedia(){
-
-  if(!media.length) return;
-
-  mi =
-    (mi - 1 + media.length) %
-    media.length;
-
-  renderMedia();
-}
-
-function nextMedia(){
-
-  if(!media.length) return;
-
-  mi =
-    (mi + 1) %
-    media.length;
-
-  renderMedia();
-}
-
-function closeModal(){
-
-  $('modal').classList.remove('open');
-
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown',e => {
-
-  if(e.key === 'Escape'){
-    closeModal();
-  }
-
-});
-
-$('search').addEventListener(
-  'input',
-  renderProducts
-);
-
-/* =========================
-   حاسبة الفاتورة
-========================= */
-
-function renderInvoice(){
-
-  const box = $('invoiceRows');
-
-  if(!products.length){
-
-    box.innerHTML =
-      '<div class="empty">' +
-      'لا توجد منتجات حاليًا.' +
-      '</div>';
-
-    updateInvoiceTotal();
-
-    return;
-  }
-
-  box.innerHTML = products.map(p =>
-
-    '<div class="invoice-row">' +
-
-      '<div>' +
-        '<strong>' +
-          esc(p.name) +
-        '</strong>' +
-      '</div>' +
-
-      '<input ' +
-        'class="qty" ' +
-        'type="number" ' +
-        'min="0" ' +
-        'step="1" ' +
-        'value="0" ' +
-        'data-id="' +
-        p.id +
-        '" ' +
-        'oninput="updateInvoiceTotal()">' +
-
-      '<div class="unit-price">' +
-        Number(p.price || 0)
-          .toLocaleString('ar-EG') +
-        ' جنيه' +
-      '</div>' +
-
-      '<div ' +
-        'class="line-total" ' +
-        'data-total-id="' +
-        p.id +
-        '">' +
-
-        '0 جنيه' +
-
-      '</div>' +
-
-    '</div>'
-
-  ).join('');
-
-  updateInvoiceTotal();
-}
-
-function updateInvoiceTotal(){
-
-  let grand = 0;
-
-  document
-    .querySelectorAll('.invoice-row')
-    .forEach(row => {
-
-      const input =
-        row.querySelector('.qty');
-
-      const id =
-        input?.dataset.id;
-
-      const product =
-        products.find(
-          p => String(p.id) === String(id)
-        );
-
-      if(!product) return;
-
-      let qty =
-        Number(input.value || 0);
-
-      if(qty < 0) qty = 0;
-
-      const total =
-        qty * Number(product.price || 0);
-
-      const line =
-        row.querySelector(
-          '[data-total-id="' +
-          id +
-          '"]'
-        );
-
-      if(line){
-
-        line.textContent =
-          total.toLocaleString('ar-EG') +
-          ' جنيه';
-      }
-
-      grand += total;
+      return matchesCategory && matchesSearch;
     });
 
-  $('invoiceGrandTotal').textContent =
-    grand.toLocaleString('ar-EG');
-}
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <p style="text-align:center; width:100%; padding:30px;">
+          لا توجد منتجات.
+        </p>
+      `;
+      return;
+    }
 
-/* =========================
-   السنة
-========================= */
+    container.innerHTML = filtered.map(product => {
 
-$('footerYear').textContent =
-  new Date().getFullYear();
+      const media = Array.isArray(product.media)
+        ? product.media
+        : [];
 
-/* تشغيل الموقع */
+      const firstImage =
+        media.find(m => m.type === "image");
 
-load().then(() => {
+      const imageUrl =
+        firstImage?.url || "https://via.placeholder.com/500x400?text=Product";
 
-  const id =
-    new URLSearchParams(
-      location.search
-    ).get('product');
+      const categoryName =
+        product.categories?.name || "أخرى";
 
-  if(id){
-    openProduct(id);
+      return `
+        <div
+          class="product-card"
+          onclick="openProduct(${product.id})"
+        >
+
+          <img
+            class="product-image"
+            src="${imageUrl}"
+            alt="${escapeHtml(product.name)}"
+          >
+
+          <div class="product-info">
+
+            <h3>
+              ${escapeHtml(product.name)}
+            </h3>
+
+            <div class="category-name">
+              ${categoryEmoji(product.categories)} ${escapeHtml(categoryName)}
+            </div>
+
+            <div class="price">
+              ${formatPrice(product.price)} جنيه
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
   }
 
-});
+  /*
+    ================================
+    احسب فاتورتك
+    ================================
+  */
+
+  function renderInvoice() {
+
+    const container =
+      document.getElementById("invoiceProducts");
+
+    if (!products.length) {
+      container.innerHTML = `
+        <p style="text-align:center; padding:25px;">
+          لا توجد منتجات حاليًا.
+        </p>
+      `;
+
+      document.getElementById("grandTotal").textContent = "0";
+
+      return;
+    }
+
+    container.innerHTML = products.map(product => {
+
+      return `
+        <div
+          class="invoice-row"
+          data-product-id="${product.id}"
+        >
+
+          <!-- اسم المنتج -->
+          <div class="invoice-product">
+            ${escapeHtml(product.name)}
+          </div>
+
+          <!-- سعر الوحدة -->
+          <div class="invoice-price">
+            ${formatPrice(product.price)} جنيه
+          </div>
+
+          <!-- العدد -->
+          <div class="quantity-box">
+
+            <div class="quantity-label">
+              عدد
+            </div>
+
+            <input
+              type="number"
+              min="0"
+              value="0"
+              class="quantity-input"
+              data-id="${product.id}"
+              onchange="updateInvoice()"
+              oninput="updateInvoice()"
+            >
+
+          </div>
+
+          <!-- إجمالي المنتج -->
+          <div class="invoice-total" id="total-${product.id}">
+            0 جنيه
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+    updateInvoice();
+  }
+
+  function updateInvoice() {
+
+    let grandTotal = 0;
+
+    products.forEach(product => {
+
+      const input =
+        document.querySelector(
+          `.quantity-input[data-id="${product.id}"]`
+        );
+
+      if (!input) return;
+
+      let quantity =
+        parseFloat(input.value) || 0;
+
+      if (quantity < 0) {
+        quantity = 0;
+        input.value = 0;
+      }
+
+      const total =
+        quantity * Number(product.price);
+
+      grandTotal += total;
+
+      const totalElement =
+        document.getElementById(`total-${product.id}`);
+
+      if (totalElement) {
+        totalElement.textContent =
+          `${formatPrice(total)} جنيه`;
+      }
+
+    });
+
+    document.getElementById("grandTotal").textContent =
+      formatPrice(grandTotal);
+  }
+
+  /*
+    ================================
+    Product Modal
+    ================================
+  */
+
+  function openProduct(id) {
+
+    const product =
+      products.find(p => p.id === id);
+
+    if (!product) return;
+
+    currentProduct = product;
+    currentMediaIndex = 0;
+
+    document.getElementById("modalName").textContent =
+      product.name;
+
+    document.getElementById("modalPrice").textContent =
+      `${formatPrice(product.price)} جنيه`;
+
+    document.getElementById("modalDescription").textContent =
+      product.description || "لا يوجد وصف للمنتج.";
+
+    const phone =
+      "201028420413";
+
+    const message =
+      `السلام عليكم، أريد شراء منتج: ${product.name}`;
+
+    document.getElementById("buyBtn").href =
+      `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    renderModalMedia();
+
+    document.getElementById("productModal").style.display =
+      "block";
+  }
+
+  function renderModalMedia() {
+
+    const container =
+      document.getElementById("modalMediaContainer");
+
+    const controls =
+      document.getElementById("mediaControls");
+
+    const media =
+      Array.isArray(currentProduct?.media)
+        ? currentProduct.media
+        : [];
+
+    controls.innerHTML = "";
+
+    if (!media.length) {
+
+      container.innerHTML = `
+        <img
+          class="modal-media"
+          src="https://via.placeholder.com/700x500?text=No+Media"
+          alt="لا توجد صورة"
+        >
+      `;
+
+      return;
+    }
+
+    const item =
+      media[currentMediaIndex];
+
+    if (item.type === "video") {
+
+      container.innerHTML = `
+        <video
+          class="modal-media"
+          controls
+          src="${item.url}"
+        ></video>
+      `;
+
+    } else {
+
+      container.innerHTML = `
+        <img
+          class="modal-media"
+          src="${item.url}"
+          alt="${escapeHtml(currentProduct.name)}"
+        >
+      `;
+    }
+
+    if (media.length > 1) {
+
+      controls.innerHTML = `
+        <button onclick="previousMedia()">
+          السابق
+        </button>
+
+        <span style="padding:10px;">
+          ${currentMediaIndex + 1} / ${media.length}
+        </span>
+
+        <button onclick="nextMedia()">
+          التالي
+        </button>
+      `;
+    }
+  }
+
+  function nextMedia() {
+
+    const media =
+      Array.isArray(currentProduct?.media)
+        ? currentProduct.media
+        : [];
+
+    if (!media.length) return;
+
+    currentMediaIndex =
+      (currentMediaIndex + 1) % media.length;
+
+    renderModalMedia();
+  }
+
+  function previousMedia() {
+
+    const media =
+      Array.isArray(currentProduct?.media)
+        ? currentProduct.media
+        : [];
+
+    if (!media.length) return;
+
+    currentMediaIndex =
+      (currentMediaIndex - 1 + media.length) %
+      media.length;
+
+    renderModalMedia();
+  }
+
+  function closeModal() {
+    document.getElementById("productModal").style.display =
+      "none";
+  }
+
+  window.onclick = function(event) {
+
+    const modal =
+      document.getElementById("productModal");
+
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
+
+  /*
+    ================================
+    Helpers
+    ================================
+  */
+
+  function formatPrice(value) {
+    return Number(value || 0).toLocaleString("ar-EG");
+  }
+
+  function escapeHtml(text) {
+
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  /*
+    تحميل اسم المحل واللوجو من الإعدادات
+  */
+
+  async function loadSettings() {
+
+    const { data, error } =
+      await supabaseClient
+        .from("settings")
+        .select("*")
+        .eq("id", 1)
+        .maybeSingle();
+
+    if (error || !data) return;
+
+    if (data.shop_name) {
+      document.getElementById("shopName").textContent =
+        data.shop_name;
+    }
+
+    if (data.logo_url) {
+      document.getElementById("shopLogo").src =
+        data.logo_url;
+    }
+  }
+
+  /*
+    تشغيل الموقع
+  */
+
+  async function init() {
+    await loadSettings();
+    await loadData();
+  }
+
+  init();
 
 </script>
 
 </body>
-</html>
+  </html>

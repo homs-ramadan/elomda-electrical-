@@ -15,9 +15,29 @@
       font-family: Arial, Tahoma, sans-serif;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: #fffaf0;
+      background-color: #fffaf0;
       color: #222;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* لوجو خلفية الموقع */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("logo.jpg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 430px;
+      opacity: 0.13;
+      pointer-events: none;
+      z-index: -1;
     }
 
     header {
@@ -111,6 +131,7 @@
       text-align: center;
       background: linear-gradient(135deg, #fff3cd, #ffe0a3);
       border-radius: 18px;
+      position: relative;
     }
 
     .hero h2 {
@@ -145,7 +166,7 @@
 
     .category-btn {
       border: 2px solid #ff9800;
-      background: white;
+      background: rgba(255, 255, 255, 0.94);
       padding: 12px 18px;
       border-radius: 12px;
       cursor: pointer;
@@ -166,7 +187,7 @@
     }
 
     .product-card {
-      background: white;
+      background: rgba(255, 255, 255, 0.96);
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 4px 15px #0002;
@@ -211,7 +232,7 @@
     ========================= */
 
     .invoice-box {
-      background: white;
+      background: rgba(255, 255, 255, 0.97);
       border-radius: 18px;
       padding: 20px;
       box-shadow: 0 4px 15px #0002;
@@ -274,6 +295,11 @@
       outline: none;
     }
 
+    .quantity-input:focus {
+      border-color: #e65100;
+      box-shadow: 0 0 5px #ff980055;
+    }
+
     .invoice-grand-total {
       margin-top: 20px;
       background: #fff3cd;
@@ -316,6 +342,7 @@
       font-size: 30px;
       cursor: pointer;
       color: #e65100;
+      z-index: 5;
     }
 
     .modal-media {
@@ -330,6 +357,7 @@
     .media-controls {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 10px;
       margin-bottom: 15px;
     }
@@ -341,6 +369,10 @@
       padding: 9px 15px;
       border-radius: 8px;
       cursor: pointer;
+    }
+
+    .media-controls button:hover {
+      background: #e65100;
     }
 
     .buy-btn {
@@ -355,6 +387,10 @@
       font-size: 18px;
       font-weight: bold;
       margin-top: 15px;
+    }
+
+    .buy-btn:hover {
+      background: #1ebe5d;
     }
 
     /* =========================
@@ -421,6 +457,7 @@
     }
 
     @media (max-width: 700px) {
+
       .header-inner {
         flex-wrap: wrap;
       }
@@ -449,6 +486,10 @@
       .product-info h3 {
         font-size: 16px;
       }
+
+      .invoice-box {
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -456,89 +497,202 @@
 <body>
 
 <header>
+
   <div class="header-inner">
-    <img id="shopLogo" class="logo" src="logo.jpg" alt="شعار العمدة">
+
+    <img
+      id="shopLogo"
+      class="logo"
+      src="logo.jpg"
+      alt="شعار العمدة"
+    >
 
     <div class="shop-title">
-      <h1 id="shopName">العمدة للأدوات الكهربائية</h1>
-      <p>كل ما تحتاجه من الأدوات الكهربائية</p>
+
+      <h1 id="shopName">
+        العمدة للأدوات الكهربائية
+      </h1>
+
+      <p>
+        كل ما تحتاجه من الأدوات الكهربائية
+      </p>
+
     </div>
+
   </div>
 
   <div class="search">
+
     <input
       type="text"
       id="searchInput"
       placeholder="ابحث عن منتج..."
       oninput="renderProducts()"
     >
+
   </div>
+
 </header>
 
 <nav>
+
   <div class="nav-inner">
-    <button onclick="scrollToSection('productsSection')">المنتجات</button>
-    <button onclick="scrollToSection('categoriesSection')">الأقسام</button>
-    <button onclick="scrollToSection('invoice')">احسب فاتورتك</button>
+
+    <button onclick="scrollToSection('productsSection')">
+      المنتجات
+    </button>
+
+    <button onclick="scrollToSection('categoriesSection')">
+      الأقسام
+    </button>
+
+    <button onclick="scrollToSection('invoice')">
+      احسب فاتورتك
+    </button>
+
   </div>
+
 </nav>
 
 <section class="hero">
-  <h2>مرحبًا بكم في العمدة للأدوات الكهربائية</h2>
-  <p>اختار المنتج وشوف التفاصيل والسعر وتواصل معنا مباشرة على واتساب</p>
+
+  <h2>
+    مرحبًا بكم في العمدة للأدوات الكهربائية
+  </h2>
+
+  <p>
+    اختار المنتج وشوف التفاصيل والسعر وتواصل معنا مباشرة على واتساب
+  </p>
+
 </section>
 
-<section class="section" id="categoriesSection">
-  <h2 class="section-title">الأقسام</h2>
-  <div class="categories" id="categories"></div>
+<section
+  class="section"
+  id="categoriesSection"
+>
+
+  <h2 class="section-title">
+    الأقسام
+  </h2>
+
+  <div
+    class="categories"
+    id="categories"
+  ></div>
+
 </section>
 
-<section class="section" id="productsSection">
-  <h2 class="section-title">المنتجات</h2>
-  <div class="products" id="products"></div>
+<section
+  class="section"
+  id="productsSection"
+>
+
+  <h2 class="section-title">
+    المنتجات
+  </h2>
+
+  <div
+    class="products"
+    id="products"
+  ></div>
+
 </section>
 
-<section class="section" id="invoice">
-  <h2 class="section-title">🧾 احسب فاتورتك</h2>
+<!-- =========================
+     احسب فاتورتك
+========================= -->
+
+<section
+  class="section"
+  id="invoice"
+>
+
+  <h2 class="section-title">
+    🧾 احسب فاتورتك
+  </h2>
 
   <div class="invoice-box">
 
-    <!-- العناوين -->
+    <!-- عناوين الجدول -->
+
     <div class="invoice-header">
-      <div>المنتج</div>
-      <div>سعر الوحدة</div>
-      <div>عدد</div>
-      <div>الإجمالي</div>
+
+      <div>
+        المنتج
+      </div>
+
+      <div>
+        سعر الوحدة
+      </div>
+
+      <div>
+        عدد
+      </div>
+
+      <div>
+        الإجمالي
+      </div>
+
     </div>
 
     <!-- المنتجات -->
+
     <div id="invoiceProducts"></div>
 
     <!-- الإجمالي النهائي -->
+
     <div class="invoice-grand-total">
+
       إجمالي الفاتورة:
-      <span id="grandTotal">0</span>
+
+      <span id="grandTotal">
+        0
+      </span>
+
       جنيه
+
     </div>
 
   </div>
+
 </section>
 
-<!-- Product Modal -->
-<div class="modal" id="productModal">
+<!-- =========================
+     Product Modal
+========================= -->
+
+<div
+  class="modal"
+  id="productModal"
+>
+
   <div class="modal-content">
 
-    <span class="close" onclick="closeModal()">×</span>
+    <span
+      class="close"
+      onclick="closeModal()"
+    >
+      ×
+    </span>
 
     <div id="modalMediaContainer"></div>
 
-    <div class="media-controls" id="mediaControls"></div>
+    <div
+      class="media-controls"
+      id="mediaControls"
+    ></div>
 
     <h2 id="modalName"></h2>
 
-    <div class="price" id="modalPrice"></div>
+    <div
+      class="price"
+      id="modalPrice"
+    ></div>
 
-    <p id="modalDescription" style="line-height:1.8; margin-top:10px;"></p>
+    <p
+      id="modalDescription"
+      style="line-height:1.8; margin-top:10px;"
+    ></p>
 
     <a
       id="buyBtn"
@@ -550,9 +704,15 @@
     </a>
 
   </div>
+
 </div>
 
+<!-- =========================
+     Footer
+========================= -->
+
 <footer>
+
   <div class="footer-inner">
 
     <div class="footer-title">
@@ -560,7 +720,8 @@
     </div>
 
     <div class="footer-address">
-      الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/ محل العمده للأدوات الكهربائيه
+      الفيوم/ وسط البلد/ بجوار الغرفه التجاريه/
+      محل العمده للأدوات الكهربائيه
     </div>
 
     <div>
@@ -570,17 +731,23 @@
 
     <div class="socials">
 
+      <!-- Facebook -->
+
       <a
         class="social-link"
         href="https://www.facebook.com/share/19S1r3XwpS/?mibextid=wwXIfr"
         target="_blank"
         title="Facebook"
       >
+
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
           alt="Facebook"
         >
+
       </a>
+
+      <!-- TikTok -->
 
       <a
         class="social-link"
@@ -588,11 +755,15 @@
         target="_blank"
         title="TikTok"
       >
+
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg"
           alt="TikTok"
         >
+
       </a>
+
+      <!-- WhatsApp -->
 
       <a
         class="social-link"
@@ -600,10 +771,12 @@
         target="_blank"
         title="WhatsApp"
       >
+
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
           alt="WhatsApp"
         >
+
       </a>
 
     </div>
@@ -613,65 +786,129 @@
     </div>
 
   </div>
+
 </footer>
 
 <script>
-  const SUPABASE_URL = "https://kiiumhhgncvondiemebj.supabase.co";
-  const SUPABASE_KEY = "sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7";
 
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const SUPABASE_URL =
+    "https://kiiumhhgncvondiemebj.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable__Q_pIdZCReBJ_Pbpyz7sEQ_utrTIi_7";
+
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
   let products = [];
+
   let categories = [];
+
   let selectedCategory = null;
 
   let currentProduct = null;
+
   let currentMediaIndex = 0;
 
+
+  /* =========================
+     الانتقال للأقسام
+  ========================= */
+
   function scrollToSection(id) {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth"
-    });
+
+    document
+      .getElementById(id)
+      ?.scrollIntoView({
+        behavior: "smooth"
+      });
+
   }
 
+
+  /* =========================
+     إيموجي الأقسام
+  ========================= */
+
   function categoryEmoji(category) {
-    if (category?.emoji) return category.emoji;
 
-    const name = category?.name || "";
+    if (category?.emoji) {
+      return category.emoji;
+    }
 
-    if (name.includes("إضاءة") || name.includes("لمب") || name.includes("كشاف"))
+    const name =
+      category?.name || "";
+
+    if (
+      name.includes("إضاءة") ||
+      name.includes("لمب") ||
+      name.includes("كشاف")
+    ) {
       return "💡";
+    }
 
-    if (name.includes("سلك") || name.includes("كابل"))
+    if (
+      name.includes("سلك") ||
+      name.includes("كابل")
+    ) {
       return "🧵";
+    }
 
-    if (name.includes("مفتاح") || name.includes("فيش"))
+    if (
+      name.includes("مفتاح") ||
+      name.includes("فيش")
+    ) {
       return "🔌";
+    }
 
-    if (name.includes("قاطع") || name.includes("لوح"))
+    if (
+      name.includes("قاطع") ||
+      name.includes("لوح")
+    ) {
       return "🎛️";
+    }
 
-    if (name.includes("أداة") || name.includes("عدة"))
+    if (
+      name.includes("أداة") ||
+      name.includes("عدة")
+    ) {
       return "🔧";
+    }
 
     return "📦";
   }
 
+
+  /* =========================
+     تحميل البيانات
+  ========================= */
+
   async function loadData() {
-    const { data: categoryData, error: categoryError } =
+
+    const {
+      data: categoryData,
+      error: categoryError
+    } =
       await supabaseClient
         .from("categories")
         .select("*")
         .order("id");
 
     if (!categoryError) {
-      categories = categoryData || [];
+
+      categories =
+        categoryData || [];
+
     }
 
-    const { data: productData, error: productError } =
+
+    const {
+      data: productData,
+      error: productError
+    } =
       await supabaseClient
         .from("products")
         .select(`
@@ -682,206 +919,356 @@
             emoji
           )
         `)
-        .order("id", { ascending: false });
+        .order("id", {
+          ascending: false
+        });
 
     if (!productError) {
-      products = productData || [];
+
+      products =
+        productData || [];
+
     }
 
+
     renderCategories();
+
     renderProducts();
+
     renderInvoice();
+
   }
 
+
+  /* =========================
+     عرض الأقسام
+  ========================= */
+
   function renderCategories() {
-    const container = document.getElementById("categories");
+
+    const container =
+      document.getElementById(
+        "categories"
+      );
 
     container.innerHTML = `
+
       <button
-        class="category-btn ${selectedCategory === null ? "active" : ""}"
+        class="category-btn ${
+          selectedCategory === null
+            ? "active"
+            : ""
+        }"
         onclick="selectCategory(null)"
       >
         🛒 الكل
       </button>
+
     `;
 
+
     categories.forEach(category => {
-      const button = document.createElement("button");
+
+      const button =
+        document.createElement(
+          "button"
+        );
 
       button.className =
         "category-btn " +
-        (selectedCategory === category.id ? "active" : "");
+        (
+          selectedCategory === category.id
+            ? "active"
+            : ""
+        );
 
       button.innerHTML =
-        `${categoryEmoji(category)} ${escapeHtml(category.name)}`;
+        `${categoryEmoji(category)}
+         ${escapeHtml(category.name)}`;
 
-      button.onclick = () => selectCategory(category.id);
+      button.onclick =
+        () =>
+          selectCategory(
+            category.id
+          );
 
-      container.appendChild(button);
+      container.appendChild(
+        button
+      );
+
     });
+
   }
+
 
   function selectCategory(id) {
+
     selectedCategory = id;
+
     renderCategories();
+
     renderProducts();
+
   }
 
+
+  /* =========================
+     عرض المنتجات
+  ========================= */
+
   function renderProducts() {
-    const container = document.getElementById("products");
+
+    const container =
+      document.getElementById(
+        "products"
+      );
 
     const search =
-      document.getElementById("searchInput").value
+      document
+        .getElementById(
+          "searchInput"
+        )
+        .value
         .trim()
         .toLowerCase();
 
-    let filtered = products.filter(product => {
 
-      const matchesCategory =
-        selectedCategory === null ||
-        product.category_id === selectedCategory;
+    const filtered =
+      products.filter(product => {
 
-      const matchesSearch =
-        !search ||
-        product.name.toLowerCase().includes(search) ||
-        (product.description || "").toLowerCase().includes(search);
+        const matchesCategory =
+          selectedCategory === null ||
+          product.category_id ===
+            selectedCategory;
 
-      return matchesCategory && matchesSearch;
-    });
 
-    if (filtered.length === 0) {
+        const matchesSearch =
+          !search ||
+          product.name
+            .toLowerCase()
+            .includes(search) ||
+          (
+            product.description ||
+            ""
+          )
+            .toLowerCase()
+            .includes(search);
+
+
+        return (
+          matchesCategory &&
+          matchesSearch
+        );
+
+      });
+
+
+    if (!filtered.length) {
+
       container.innerHTML = `
-        <p style="text-align:center; width:100%; padding:30px;">
+
+        <p
+          style="
+            text-align:center;
+            width:100%;
+            padding:30px;
+          "
+        >
           لا توجد منتجات.
         </p>
+
       `;
+
       return;
     }
 
-    container.innerHTML = filtered.map(product => {
 
-      const media = Array.isArray(product.media)
-        ? product.media
-        : [];
+    container.innerHTML =
+      filtered.map(product => {
 
-      const firstImage =
-        media.find(m => m.type === "image");
+        const media =
+          Array.isArray(product.media)
+            ? product.media
+            : [];
 
-      const imageUrl =
-        firstImage?.url || "https://via.placeholder.com/500x400?text=Product";
 
-      const categoryName =
-        product.categories?.name || "أخرى";
+        const firstImage =
+          media.find(
+            m => m.type === "image"
+          );
 
-      return `
-        <div
-          class="product-card"
-          onclick="openProduct(${product.id})"
-        >
 
-          <img
-            class="product-image"
-            src="${imageUrl}"
-            alt="${escapeHtml(product.name)}"
+        const imageUrl =
+          firstImage?.url ||
+          "https://via.placeholder.com/500x400?text=Product";
+
+
+        const categoryName =
+          product.categories?.name ||
+          "أخرى";
+
+
+        return `
+
+          <div
+            class="product-card"
+            onclick="openProduct(${product.id})"
           >
 
-          <div class="product-info">
+            <img
+              class="product-image"
+              src="${imageUrl}"
+              alt="${escapeHtml(product.name)}"
+            >
 
-            <h3>
-              ${escapeHtml(product.name)}
-            </h3>
+            <div class="product-info">
 
-            <div class="category-name">
-              ${categoryEmoji(product.categories)} ${escapeHtml(categoryName)}
-            </div>
+              <h3>
+                ${escapeHtml(product.name)}
+              </h3>
 
-            <div class="price">
-              ${formatPrice(product.price)} جنيه
+              <div class="category-name">
+                ${categoryEmoji(product.categories)}
+                ${escapeHtml(categoryName)}
+              </div>
+
+              <div class="price">
+                ${formatPrice(product.price)}
+                جنيه
+              </div>
+
             </div>
 
           </div>
 
-        </div>
-      `;
-    }).join("");
+        `;
+
+      }).join("");
+
   }
 
-  /*
-    ================================
-    احسب فاتورتك
-    ================================
-  */
+
+  /* =========================
+     احسب فاتورتك
+  ========================= */
 
   function renderInvoice() {
 
     const container =
-      document.getElementById("invoiceProducts");
+      document.getElementById(
+        "invoiceProducts"
+      );
+
 
     if (!products.length) {
+
       container.innerHTML = `
-        <p style="text-align:center; padding:25px;">
+
+        <p
+          style="
+            text-align:center;
+            padding:25px;
+          "
+        >
           لا توجد منتجات حاليًا.
         </p>
+
       `;
 
-      document.getElementById("grandTotal").textContent = "0";
+      document
+        .getElementById(
+          "grandTotal"
+        )
+        .textContent = "0";
 
       return;
     }
 
-    container.innerHTML = products.map(product => {
 
-      return `
-        <div
-          class="invoice-row"
-          data-product-id="${product.id}"
-        >
+    container.innerHTML =
+      products.map(product => {
 
-          <!-- اسم المنتج -->
-          <div class="invoice-product">
-            ${escapeHtml(product.name)}
-          </div>
+        return `
 
-          <!-- سعر الوحدة -->
-          <div class="invoice-price">
-            ${formatPrice(product.price)} جنيه
-          </div>
+          <div
+            class="invoice-row"
+            data-product-id="${product.id}"
+          >
 
-          <!-- العدد -->
-          <div class="quantity-box">
+            <!-- اسم المنتج -->
 
-            <div class="quantity-label">
-              عدد
+            <div class="invoice-product">
+
+              ${escapeHtml(
+                product.name
+              )}
+
             </div>
 
-            <input
-              type="number"
-              min="0"
-              value="0"
-              class="quantity-input"
-              data-id="${product.id}"
-              onchange="updateInvoice()"
-              oninput="updateInvoice()"
+
+            <!-- سعر الوحدة -->
+
+            <div class="invoice-price">
+
+              ${formatPrice(
+                product.price
+              )}
+
+              جنيه
+
+            </div>
+
+
+            <!-- العدد -->
+
+            <div class="quantity-box">
+
+              <div class="quantity-label">
+                عدد
+              </div>
+
+              <input
+                type="number"
+                min="0"
+                value="0"
+                class="quantity-input"
+                data-id="${product.id}"
+                onchange="updateInvoice()"
+                oninput="updateInvoice()"
+              >
+
+            </div>
+
+
+            <!-- إجمالي المنتج -->
+
+            <div
+              class="invoice-total"
+              id="total-${product.id}"
             >
+              0 جنيه
+            </div>
 
           </div>
 
-          <!-- إجمالي المنتج -->
-          <div class="invoice-total" id="total-${product.id}">
-            0 جنيه
-          </div>
+        `;
 
-        </div>
-      `;
+      }).join("");
 
-    }).join("");
 
     updateInvoice();
+
   }
+
+
+  /* =========================
+     حساب الفاتورة
+  ========================= */
 
   function updateInvoice() {
 
     let grandTotal = 0;
+
 
     products.forEach(product => {
 
@@ -890,249 +1277,447 @@
           `.quantity-input[data-id="${product.id}"]`
         );
 
-      if (!input) return;
 
-      let quantity =
-        parseFloat(input.value) || 0;
-
-      if (quantity < 0) {
-        quantity = 0;
-        input.value = 0;
+      if (!input) {
+        return;
       }
 
+
+      let quantity =
+        parseFloat(
+          input.value
+        ) || 0;
+
+
+      if (quantity < 0) {
+
+        quantity = 0;
+
+        input.value = 0;
+
+      }
+
+
       const total =
-        quantity * Number(product.price);
+        quantity *
+        Number(product.price);
+
 
       grandTotal += total;
 
+
       const totalElement =
-        document.getElementById(`total-${product.id}`);
+        document.getElementById(
+          `total-${product.id}`
+        );
+
 
       if (totalElement) {
+
         totalElement.textContent =
           `${formatPrice(total)} جنيه`;
+
       }
 
     });
 
-    document.getElementById("grandTotal").textContent =
-      formatPrice(grandTotal);
+
+    document
+      .getElementById(
+        "grandTotal"
+      )
+      .textContent =
+      formatPrice(
+        grandTotal
+      );
+
   }
 
-  /*
-    ================================
-    Product Modal
-    ================================
-  */
+
+  /* =========================
+     فتح المنتج
+  ========================= */
 
   function openProduct(id) {
 
     const product =
-      products.find(p => p.id === id);
+      products.find(
+        p => p.id === id
+      );
 
-    if (!product) return;
 
-    currentProduct = product;
-    currentMediaIndex = 0;
+    if (!product) {
+      return;
+    }
 
-    document.getElementById("modalName").textContent =
+
+    currentProduct =
+      product;
+
+    currentMediaIndex =
+      0;
+
+
+    document
+      .getElementById(
+        "modalName"
+      )
+      .textContent =
       product.name;
 
-    document.getElementById("modalPrice").textContent =
+
+    document
+      .getElementById(
+        "modalPrice"
+      )
+      .textContent =
       `${formatPrice(product.price)} جنيه`;
 
-    document.getElementById("modalDescription").textContent =
-      product.description || "لا يوجد وصف للمنتج.";
+
+    document
+      .getElementById(
+        "modalDescription"
+      )
+      .textContent =
+      product.description ||
+      "لا يوجد وصف للمنتج.";
+
 
     const phone =
       "201028420413";
 
+
     const message =
       `السلام عليكم، أريد شراء منتج: ${product.name}`;
 
-    document.getElementById("buyBtn").href =
+
+    document
+      .getElementById(
+        "buyBtn"
+      )
+      .href =
       `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
 
     renderModalMedia();
 
-    document.getElementById("productModal").style.display =
+
+    document
+      .getElementById(
+        "productModal"
+      )
+      .style.display =
       "block";
+
   }
+
+
+  /* =========================
+     صور وفيديوهات المنتج
+  ========================= */
 
   function renderModalMedia() {
 
     const container =
-      document.getElementById("modalMediaContainer");
+      document.getElementById(
+        "modalMediaContainer"
+      );
+
 
     const controls =
-      document.getElementById("mediaControls");
+      document.getElementById(
+        "mediaControls"
+      );
+
 
     const media =
-      Array.isArray(currentProduct?.media)
+      Array.isArray(
+        currentProduct?.media
+      )
         ? currentProduct.media
         : [];
 
+
     controls.innerHTML = "";
+
 
     if (!media.length) {
 
       container.innerHTML = `
+
         <img
           class="modal-media"
           src="https://via.placeholder.com/700x500?text=No+Media"
           alt="لا توجد صورة"
         >
+
       `;
 
       return;
     }
 
+
     const item =
       media[currentMediaIndex];
+
 
     if (item.type === "video") {
 
       container.innerHTML = `
+
         <video
           class="modal-media"
           controls
           src="${item.url}"
         ></video>
+
       `;
 
     } else {
 
       container.innerHTML = `
+
         <img
           class="modal-media"
           src="${item.url}"
           alt="${escapeHtml(currentProduct.name)}"
         >
+
       `;
+
     }
+
 
     if (media.length > 1) {
 
       controls.innerHTML = `
-        <button onclick="previousMedia()">
+
+        <button
+          onclick="previousMedia()"
+        >
           السابق
         </button>
 
-        <span style="padding:10px;">
-          ${currentMediaIndex + 1} / ${media.length}
+        <span
+          style="padding:10px;"
+        >
+          ${currentMediaIndex + 1}
+          /
+          ${media.length}
         </span>
 
-        <button onclick="nextMedia()">
+        <button
+          onclick="nextMedia()"
+        >
           التالي
         </button>
+
       `;
+
     }
+
   }
+
 
   function nextMedia() {
 
     const media =
-      Array.isArray(currentProduct?.media)
+      Array.isArray(
+        currentProduct?.media
+      )
         ? currentProduct.media
         : [];
 
-    if (!media.length) return;
+
+    if (!media.length) {
+      return;
+    }
+
 
     currentMediaIndex =
-      (currentMediaIndex + 1) % media.length;
+      (
+        currentMediaIndex + 1
+      ) %
+      media.length;
+
 
     renderModalMedia();
+
   }
+
 
   function previousMedia() {
 
     const media =
-      Array.isArray(currentProduct?.media)
+      Array.isArray(
+        currentProduct?.media
+      )
         ? currentProduct.media
         : [];
 
-    if (!media.length) return;
+
+    if (!media.length) {
+      return;
+    }
+
 
     currentMediaIndex =
-      (currentMediaIndex - 1 + media.length) %
+      (
+        currentMediaIndex -
+        1 +
+        media.length
+      ) %
       media.length;
 
+
     renderModalMedia();
+
   }
+
 
   function closeModal() {
-    document.getElementById("productModal").style.display =
+
+    document
+      .getElementById(
+        "productModal"
+      )
+      .style.display =
       "none";
+
   }
 
-  window.onclick = function(event) {
 
-    const modal =
-      document.getElementById("productModal");
+  window.onclick =
+    function(event) {
 
-    if (event.target === modal) {
-      closeModal();
-    }
-  };
+      const modal =
+        document.getElementById(
+          "productModal"
+        );
 
-  /*
-    ================================
-    Helpers
-    ================================
-  */
+
+      if (
+        event.target === modal
+      ) {
+
+        closeModal();
+
+      }
+
+    };
+
+
+  /* =========================
+     أدوات مساعدة
+  ========================= */
 
   function formatPrice(value) {
-    return Number(value || 0).toLocaleString("ar-EG");
+
+    return Number(
+      value || 0
+    ).toLocaleString(
+      "ar-EG"
+    );
+
   }
+
 
   function escapeHtml(text) {
 
-    return String(text || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    return String(
+      text || ""
+    )
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
   }
 
-  /*
-    تحميل اسم المحل واللوجو من الإعدادات
-  */
+
+  /* =========================
+     إعدادات المحل
+  ========================= */
 
   async function loadSettings() {
 
-    const { data, error } =
+    const {
+      data,
+      error
+    } =
       await supabaseClient
         .from("settings")
         .select("*")
         .eq("id", 1)
         .maybeSingle();
 
-    if (error || !data) return;
+
+    if (
+      error ||
+      !data
+    ) {
+      return;
+    }
+
 
     if (data.shop_name) {
-      document.getElementById("shopName").textContent =
+
+      document
+        .getElementById(
+          "shopName"
+        )
+        .textContent =
         data.shop_name;
+
     }
+
 
     if (data.logo_url) {
-      document.getElementById("shopLogo").src =
+
+      document
+        .getElementById(
+          "shopLogo"
+        )
+        .src =
         data.logo_url;
+
     }
+
   }
 
-  /*
-    تشغيل الموقع
-  */
+
+  /* =========================
+     تشغيل الموقع
+  ========================= */
 
   async function init() {
+
     await loadSettings();
+
     await loadData();
+
   }
+
 
   init();
 
 </script>
 
 </body>
-  </html>
+      </html>
